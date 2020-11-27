@@ -9,14 +9,14 @@ version="1.16.4-0.0.1-alpha" #mandatory
 displayName="Ore Expansion" #mandatory
 updateJSONURL="http://myurl.me/" #optional
 displayURL="http://example.com/" #optional
-logoFile="examplemod.png" #optional
+logoFile="oreexpansion.png" #optional
 credits="Thanks for this Ore Expansion mode goes to Agent M for his awesome textures!" #optional
 authors="<Gl33p_0r4ange>, Agent M" #optional
 description='''
 Expands vanilla ores.
 '''
 
-[[dependencies.examplemod]] #optional
+[[dependencies.oreexpansion]] #optional
     # the modid of the dependency
     modId="forge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
@@ -28,7 +28,7 @@ Expands vanilla ores.
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
 
-[[dependencies.examplemod]]
+[[dependencies.oreexpansion]]
     modId="minecraft"
     mandatory=true
     # This version range declares a minimum of the current minecraft version up to but not including the next major version

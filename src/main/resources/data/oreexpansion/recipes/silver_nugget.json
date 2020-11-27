@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "oreexpansion:silver_ingot"
+    }
+  ],
+  "result":
+  {
+    "item": "oreexpansion:silver_nugget",
+    "count": 9
+  }
+}

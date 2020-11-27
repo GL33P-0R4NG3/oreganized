@@ -1,6 +1,7 @@
 package me.gleep.oreexpansion;
 
 import me.gleep.oreexpansion.util.RegistryHandler;
+import me.gleep.oreexpansion.world.gen.CustomOreGen;
 import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -20,11 +21,11 @@ public class OreExpansion {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
         RegistryHandler.init();
-
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
+        CustomOreGen.registerOres();
+        MinecraftForge.EVENT_BUS.register(this);
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
     }

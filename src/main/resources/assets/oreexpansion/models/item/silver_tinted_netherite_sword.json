@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "oreexpansion:items/silver_tinted_netherite_sword"
+  }
+}

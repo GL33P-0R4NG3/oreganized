@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "silver_ingot",
+  "pattern":
+  [
+    "xxx",
+    "xxx",
+    "xxx"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "oreexpansion:silver_nugget"
+    }
+  },
+  "result":
+  {
+    "item": "oreexpansion:silver_ingot",
+    "count": 1
+  }
+}

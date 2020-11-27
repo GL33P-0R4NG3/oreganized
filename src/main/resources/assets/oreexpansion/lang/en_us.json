@@ -2,5 +2,8 @@
   "item.oreexpansion.silver_ingot": "Silver Ingot",
   "item.oreexpansion.silver_nugget": "Silver Nugget",
   "block.oreexpansion.silver_block": "Block of Silver",
-  "block.oreexpansion.silver_ore": "Silver Ore"
+  "block.oreexpansion.silver_ore": "Silver Ore",
+  "item.oreexpansion.silver_tinted_diamond_sword" : "Diamond Sword",
+  "item.oreexpansion.silver_tinted_golden_sword" : "Golden Sword",
+  "item.oreexpansion.silver_tinted_netherite_sword" : "Netherite Sword"
 }
