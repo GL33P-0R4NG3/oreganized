@@ -11,3 +11,7 @@ Ore Epansion mod which as it say expands ore in vanilla minecraft
     - Drop itself
   - Ingot
   - Nugget
+  - Tinted Sword
+    - Diamond
+    - Golden
+    - Netherite
