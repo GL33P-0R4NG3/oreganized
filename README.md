@@ -10,7 +10,7 @@ Ore Epansion mod which as it say expands ore in vanilla minecraft
     - Can be mined with iron pickaxe or higher
     - Craftable as normal blocks (9 silver ingots)
   - Ingot
-    - Obtained when smelted in furnace or blast furnace
+    - Obtained when smelted silver ore in furnace or blast furnace
     - Craftable from 9 silver nuggets or block (1 silver block => 9 silver ingots)
   - Nugget
     - Craftable from silver nugget (1 silver ingot => 9 silver nuggets)
