@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "lead_ingot",
+  "pattern":
+  [
+    "xxx",
+    "xxx",
+    "xxx"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "oreexpansion:lead_nugget"
+    }
+  },
+  "result":
+  {
+    "item": "oreexpansion:lead_ingot",
+    "count": 1
+  }
+}

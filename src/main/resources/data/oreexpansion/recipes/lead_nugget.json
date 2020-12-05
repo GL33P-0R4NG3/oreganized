@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "oreexpansion:lead_ingot"
+    }
+  ],
+  "result":
+  {
+    "item": "oreexpansion:lead_nugget",
+    "count": 9
+  }
+}

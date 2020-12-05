@@ -7,6 +7,8 @@ import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,7 +23,7 @@ public class CustomOreGen {
     //private static final ArrayList<ConfiguredFeature<?, ?>> netherOres = new ArrayList<ConfiguredFeature<?, ?>>();
     //private static final ArrayList<ConfiguredFeature<?, ?>> endOres = new ArrayList<ConfiguredFeature<?, ?>>();
 
-    public static void registerOres(){
+    public static void registerOres() {
         //BASE_STONE_OVERWORLD is for generating in stone, granite, diorite, and andesite
         //NETHERRACK is for generating in netherrack
         //BASE_STONE_NETHER is for generating in netherrack, basalt and blackstone
@@ -29,10 +31,15 @@ public class CustomOreGen {
         //Overworld Ore Register
         overworldOres.add(register("silver_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(
                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, RegistryHandler.SILVER_ORE.get().getDefaultState(), 3)) //Vein Size
-                //.withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(30, 45, 50)))
+                .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(30, 0, 40)))
                 .square()
-                .range(60)
                 .func_242731_b(4)));
+
+        overworldOres.add(register("lead_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(
+                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, RegistryHandler.LEAD_ORE.get().getDefaultState(), 12)) //Vein Size
+                .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(50, 0, 70)))
+                .square()
+                .func_242731_b(1)));
 
         //Nether Ore Register
         /*netherOres.add(register("flame_crystal_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(

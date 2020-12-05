@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "oreexpansion:blocks/silver_ore"
+    "all": "oreexpansion:block/silver_ore"
   }
 }

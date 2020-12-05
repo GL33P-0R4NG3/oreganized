@@ -1,0 +1,59 @@
+{
+  "parent": "oreexpansion:story/mine_silver_ore",
+  "display": {
+    "icon": {
+      "item": "oreexpansion:silver_tinted_netherite_sword",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.story.kill_undead_mob.title"
+    },
+    "description": {
+      "translate": "advancements.story.kill_undead_mob.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "killed_undead_mob": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "tag": "oreexpansion:undead_entities"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_swords"
+              }
+            }
+          }
+        }
+      }
+    },
+    "has_silver_tinted_diamond_sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreexpansion:silver_tinted_diamond_sword"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "killed_undead_mob"
+    ]
+  ]
+}

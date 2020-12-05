@@ -1,0 +1,88 @@
+{
+  "parent": "oreexpansion:story/mine_silver_ore",
+  "display": {
+    "icon": {
+      "item": "oreexpansion:silver_tinted_golden_chestplate",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.story.no_protection.title"
+    },
+    "description": {
+      "translate": "advancements.story.no_protection.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "silver_tinted_golden_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreexpansion:silver_tinted_golden_helmet"
+          }
+        ]
+      }
+    },
+    "silver_tinted_golden_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreexpansion:silver_tinted_golden_chestplate"
+          }
+        ]
+      }
+    },
+    "silver_tinted_golden_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreexpansion:silver_tinted_golden_leggings"
+          }
+        ]
+      }
+    },
+    "silver_tinted_golden_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreexpansion:silver_tinted_golden_boots"
+          }
+        ]
+      }
+    },
+    "silver_tinted_golden_sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreexpansion:silver_tinted_golden_sword"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "silver_tinted_golden_helmet"
+    ],
+    [
+      "silver_tinted_golden_chestplate"
+    ],
+    [
+      "silver_tinted_golden_leggings"
+    ],
+    [
+      "silver_tinted_golden_boots"
+    ],
+    [
+      "silver_tinted_golden_sword"
+    ]
+  ]
+}

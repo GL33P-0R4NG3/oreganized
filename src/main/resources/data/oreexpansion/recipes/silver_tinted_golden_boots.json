@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "minecraft:golden_boots"
+  },
+  "addition": {
+    "item": "oreexpansion:silver_ingot"
+  },
+  "result": {
+    "item": "oreexpansion:silver_tinted_golden_boots"
+  }
+}

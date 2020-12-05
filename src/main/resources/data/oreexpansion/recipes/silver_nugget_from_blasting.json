@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "group": "silver_nugget",
+  "ingredient": {
+    "tag": "oreexpansion:silver_tinted_items"
+  },
+  "result": "oreexpansion:silver_nugget",
+  "count": 9,
+  "experience": 0.1,
+  "cookingtime": 100
+}

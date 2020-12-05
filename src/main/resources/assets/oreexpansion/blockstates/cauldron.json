@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "oreexpasnion:cauldron"
+    },
+    "level=1": {
+      "model": "oreexpansion:cauldron_lead_level1"
+    },
+    "level=2": {
+      "model": "oreexpansion:cauldron_lead_level2"
+    },
+    "level=3": {
+      "model": "oreexpansion:cauldron_lead_level3"
+    }
+  }
+}
