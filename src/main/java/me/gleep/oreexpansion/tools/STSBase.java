@@ -28,8 +28,7 @@ public class STSBase extends SwordItem {
 
     @Override
     public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        ResourceLocation resourceLocation = new ResourceLocation(OreExpansion.MOD_ID, "undead_entities");
-        if (EntityTypeTags.getCollection().getTagByID(resourceLocation).contains(target.getType())) {
+        if (target.isEntityUndead()) {
             ExperienceOrbEntity xp = new ExperienceOrbEntity(EntityType.EXPERIENCE_ORB, target.getEntityWorld());
             xp.setPosition(target.getPosX(), target.getPosY(), target.getPosZ());
             xp.setMotion(random.nextDouble() * ((random.nextInt() % 2) > 0 ? -0.06D: 0.06D), 0.2D, random.nextDouble() * ((random.nextInt() % 2) > 0 ? -0.06D: 0.06D));

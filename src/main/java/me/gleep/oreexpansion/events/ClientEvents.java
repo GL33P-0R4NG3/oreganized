@@ -1,42 +1,18 @@
 package me.gleep.oreexpansion.events;
 
 import me.gleep.oreexpansion.OreExpansion;
-import me.gleep.oreexpansion.items.ItemBase;
 import me.gleep.oreexpansion.util.RegistryHandler;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.BlockStateProvider;
-import net.minecraft.data.EntityTypeTagsProvider;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.INBTType;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.fixes.MinecartEntityTypes;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-
-import java.io.DataOutput;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = OreExpansion.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClientEvents {
@@ -61,24 +37,28 @@ public class ClientEvents {
             return;
         }
 
-        /*ListNBT newEnch = item.getEnchantmentTagList();
-        newEnch.addAll(ench);*/
-        //item.setTag(ench.getCompound());
-
         item.setTag(sword.getTag());
         item.setDamage(sword.getMaxDamage());
         pl.dropItem(item, false);
     }
 
-    /*@SubscribeEvent
-    public static void onPlayeRightClick (BlockEvent.EntityPlaceEvent event) {
-        BlockState block = event.getPlacedBlock();
-        if (block.equals(Blocks.CAULDRON.getDefaultState())) {
-            if (!event.getWorld().isRemote()) {
-                event.getWorld().removeBlock(event.getPos(), false);
-                event.getWorld().setBlockState(event.getPos(), RegistryHandler.CAULDRON.get().getDefaultState(), 2);
-            }
-        }
-    }*/
+    @SubscribeEvent
+    public static void onPlayerRightClick(PlayerInteractEvent.RightClickBlock event) {
+        ItemStack item = event.getItemStack();
+        BlockPos pos = event.getPos();
+        World world = event.getWorld();
 
+        if (world.getBlockState(pos).equals(Blocks.CAULDRON.getDefaultState()) && item.getItem().equals(RegistryHandler.LEAD_BLOCK_ITEM.get())) {
+            if (!world.isRemote()) {
+                world.removeBlock(pos, false);
+                world.setBlockState(pos, RegistryHandler.CAULDRON.get().getDefaultState());
+                if(!event.getPlayer().isCreative()) item.shrink(1);
+            }
+            if (event.isCancelable()) {
+                event.setCancellationResult(ActionResultType.func_233537_a_(world.isRemote()));
+                event.setCanceled(true);
+            }
+            world.playSound((PlayerEntity)null, pos, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        }
+    }
 }

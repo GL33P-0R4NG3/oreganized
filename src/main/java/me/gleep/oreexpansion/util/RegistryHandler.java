@@ -5,10 +5,13 @@ import me.gleep.oreexpansion.armors.STAMaterial;
 import me.gleep.oreexpansion.armors.ArmorBase;
 import me.gleep.oreexpansion.blocks.*;
 import me.gleep.oreexpansion.blocks.tileentities.SilverBlockTileEntity;
+import me.gleep.oreexpansion.fluids.LeadFluid;
 import me.gleep.oreexpansion.items.ItemBase;
+import me.gleep.oreexpansion.items.LeadBucket;
 import me.gleep.oreexpansion.tools.STSMaterial;
 import me.gleep.oreexpansion.tools.STSBase;
 import net.minecraft.block.Block;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntityType;
@@ -21,14 +24,14 @@ public class RegistryHandler {
     //Mod
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, OreExpansion.MOD_ID);
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, OreExpansion.MOD_ID);
-    //private static final DeferredRegister<Fluid> FLUDIS = DeferredRegister.create(ForgeRegistries.FLUIDS, OreExpansion.MOD_ID);
+    private static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, OreExpansion.MOD_ID);
     private static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, OreExpansion.MOD_ID);
     //private static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, OreExpansion.MOD_ID);
 
     public static void init() {
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //FLUDIS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         TILE_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
@@ -39,7 +42,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> SILVER_NUGGET = ITEMS.register("silver_nugget", ItemBase::new);
     public static final RegistryObject<Item> LEAD_NUGGET = ITEMS.register("lead_nugget", ItemBase::new);
     public static final RegistryObject<Item> NETHERITE_NUGGET = ITEMS.register("netherite_nugget", () -> new ItemBase(true));
-    //public static final RegistryObject<Item> LEAD_BUCKET = ITEMS.register("lead_bucket", LeadBucket::new);
+    public static final RegistryObject<Item> LEAD_BUCKET = ITEMS.register("lead_bucket", LeadBucket::new);
 
 
     //Blocks
@@ -47,7 +50,7 @@ public class RegistryHandler {
     public static final RegistryObject<Block> LEAD_BLOCK = BLOCKS.register("lead_block", LeadBlock::new);
     public static final RegistryObject<Block> SILVER_ORE = BLOCKS.register("silver_ore", SilverOre::new);
     public static final RegistryObject<Block> LEAD_ORE = BLOCKS.register("lead_ore", LeadOre::new);
-    //public static final RegistryObject<Block> CAULDRON = BLOCKS.register("cauldron", Cauldron::new);
+    public static final RegistryObject<Block> CAULDRON = BLOCKS.register("cauldron", Cauldron::new);
 
     //Block Item
     public static final RegistryObject<Item> SILVER_BLOCK_ITEM = ITEMS.register("silver_block", () -> new BlockItemBase(SILVER_BLOCK.get()));
@@ -57,7 +60,7 @@ public class RegistryHandler {
 
 
     //Fluids
-    //public static final RegistryObject<FlowingFluidBlock> LEAD_FLUID = FLUDIS.register("lead_fluid", ();
+    public static final RegistryObject<Fluid> LEAD_FLUID = FLUIDS.register("lead_fluid", LeadFluid::new);
 
 
     //Tile Entities
@@ -75,31 +78,31 @@ public class RegistryHandler {
 
 
     //Armors
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_GOLDEN_HELMET = ITEMS.register("silver_tinted_golden_helmet", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_HELMET = ITEMS.register("silver_tinted_golden_helmet", () ->
             new ArmorBase(STAMaterial.STGA, EquipmentSlotType.HEAD));
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_GOLDEN_CHESTPLATE = ITEMS.register("silver_tinted_golden_chestplate", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_CHESTPLATE = ITEMS.register("silver_tinted_golden_chestplate", () ->
             new ArmorBase(STAMaterial.STGA, EquipmentSlotType.CHEST));
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_GOLDEN_LEGGINGS = ITEMS.register("silver_tinted_golden_leggings", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_LEGGINGS = ITEMS.register("silver_tinted_golden_leggings", () ->
             new ArmorBase(STAMaterial.STGA, EquipmentSlotType.LEGS));
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_GOLDEN_BOOTS = ITEMS.register("silver_tinted_golden_boots", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_BOOTS = ITEMS.register("silver_tinted_golden_boots", () ->
             new ArmorBase(STAMaterial.STGA, EquipmentSlotType.FEET));
 
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_DIAMOND_HELMET = ITEMS.register("silver_tinted_diamond_helmet", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_HELMET = ITEMS.register("silver_tinted_diamond_helmet", () ->
             new ArmorBase(STAMaterial.STDA, EquipmentSlotType.HEAD));
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_DIAMOND_CHESTPLATE = ITEMS.register("silver_tinted_diamond_chestplate", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_CHESTPLATE = ITEMS.register("silver_tinted_diamond_chestplate", () ->
             new ArmorBase(STAMaterial.STDA, EquipmentSlotType.CHEST));
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_DIAMOND_LEGGINGS = ITEMS.register("silver_tinted_diamond_leggings", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_LEGGINGS = ITEMS.register("silver_tinted_diamond_leggings", () ->
             new ArmorBase(STAMaterial.STDA, EquipmentSlotType.LEGS));
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_DIAMOND_BOOTS = ITEMS.register("silver_tinted_diamond_boots", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_BOOTS = ITEMS.register("silver_tinted_diamond_boots", () ->
             new ArmorBase(STAMaterial.STDA, EquipmentSlotType.FEET));
 
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_NETHERITE_HELMET = ITEMS.register("silver_tinted_netherite_helmet", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_HELMET = ITEMS.register("silver_tinted_netherite_helmet", () ->
             new ArmorBase(STAMaterial.STNA, EquipmentSlotType.HEAD, true));
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_NETHERITE_CHESTPLATE = ITEMS.register("silver_tinted_netherite_chestplate", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_CHESTPLATE = ITEMS.register("silver_tinted_netherite_chestplate", () ->
             new ArmorBase(STAMaterial.STNA, EquipmentSlotType.CHEST, true));
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_NETHERITE_LEGGINGS = ITEMS.register("silver_tinted_netherite_leggings", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_LEGGINGS = ITEMS.register("silver_tinted_netherite_leggings", () ->
             new ArmorBase(STAMaterial.STNA, EquipmentSlotType.LEGS, true));
-    public static final RegistryObject<ArmorItem> SILVER_TITNTED_NETHERITE_BOOTS = ITEMS.register("silver_tinted_netherite_boots", () ->
+    public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_BOOTS = ITEMS.register("silver_tinted_netherite_boots", () ->
             new ArmorBase(STAMaterial.STNA, EquipmentSlotType.FEET, true));
 
 }

@@ -6,7 +6,7 @@
         "bottom": "block/cauldron_bottom",
         "side": "block/cauldron_side",
         "inside": "block/cauldron_inner",
-        "lead": "block/lead_block2"
+        "lead": "oreexpansion:block/lead_block2"
     },
     "elements": [
         {

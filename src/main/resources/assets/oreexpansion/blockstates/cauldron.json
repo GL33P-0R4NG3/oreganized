@@ -1,16 +1,16 @@
 {
   "variants": {
     "level=0": {
-      "model": "oreexpasnion:cauldron"
+      "model": "oreexpansion:block/cauldron"
     },
     "level=1": {
-      "model": "oreexpansion:cauldron_lead_level1"
+      "model": "oreexpansion:block/cauldron_lead_level1"
     },
     "level=2": {
-      "model": "oreexpansion:cauldron_lead_level2"
+      "model": "oreexpansion:block/cauldron_lead_level2"
     },
     "level=3": {
-      "model": "oreexpansion:cauldron_lead_level3"
+      "model": "oreexpansion:block/cauldron_lead_level3"
     }
   }
 }

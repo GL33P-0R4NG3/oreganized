@@ -27,7 +27,7 @@ issueTrackerURL="http://my.issue.tracker/" #optional
 
 [[mods]] #mandatory
 modId="oreexpansion" #mandatory
-version="1.16.4-0.0.1-alpha" #mandatory
+version="1.16.4-0.2.2-beta" #mandatory
 displayName="Ore Expansion" #mandatory
 updateJSONURL="http://myurl.me/" #optional
 displayURL="http://example.com/" #optional

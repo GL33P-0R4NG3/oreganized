@@ -17,14 +17,14 @@
     "hidden": false
   },
   "criteria": {
-    "killed_undead_mob": {
+    "killed_drowned": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "tag": "oreexpansion:undead_entities"
+              "type": "minecraft:drowned"
             },
             "entity": "this"
           }
@@ -33,27 +33,281 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_swords"
+                "tag": "oreexpansion:silver_tinted_items"
               }
             }
           }
         }
       }
     },
-    "has_silver_tinted_diamond_sword": {
-      "trigger": "minecraft:inventory_changed",
+    "killed_husk": {
+      "trigger": "minecraft:player_killed_entity",
       "conditions": {
-        "items": [
+        "entity": [
           {
-            "item": "oreexpansion:silver_tinted_diamond_sword"
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:husk"
+            },
+            "entity": "this"
           }
-        ]
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
+      }
+    },
+    "killed_phantom": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:phantom"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
+      }
+    },
+    "killed_skeleton": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:skeleton"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
+      }
+    },
+    "killed_skeleton_horse": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:skeleton_horse"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
+      }
+    },
+    "killed_stray": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:stray"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
+      }
+    },
+    "killed_wither": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:wither"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
+      }
+    },
+    "killed_wither_skeleton": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:wither_skeleton"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
+      }
+    },
+    "killed_zoglin": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:zoglin"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
+      }
+    },
+    "killed_zombie": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:zombie"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
+      }
+    },
+    "killed_zombie_villager": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:zombie_villager"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
+      }
+    },
+    "killed_zombified_piglin": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:zombified_piglin"
+            },
+            "entity": "this"
+          }
+        ],
+        "killing_blow": {
+          "direct_entity": {
+            "equipment": {
+              "mainhand": {
+                "tag": "oreexpansion:silver_tinted_items"
+              }
+            }
+          }
+        }
       }
     }
   },
   "requirements": [
     [
-      "killed_undead_mob"
+      "killed_drowned",
+      "killed_husk",
+      "killed_phantom",
+      "killed_skeleton",
+      "killed_skeleton_horse",
+      "killed_stray",
+      "killed_wither",
+      "killed_wither_skeleton",
+      "killed_zoglin",
+      "killed_zombie",
+      "killed_zombie_villager",
+      "killed_zombified_piglin"
     ]
   ]
 }

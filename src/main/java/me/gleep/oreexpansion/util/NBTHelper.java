@@ -23,6 +23,7 @@ public class NBTHelper {
         compound.putInt("y", o.y);
         compound.putInt("z", o.z);
         compound.putString("interrupt", o.entity.toString());
+        compound.putInt("distance", o.distance);
         return compound;
     }
 

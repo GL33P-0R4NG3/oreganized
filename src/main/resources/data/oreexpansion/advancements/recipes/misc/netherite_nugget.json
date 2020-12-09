@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "oreexpansion:silver_nugget_from_blasting"
+      "oreexpansion:netherite_nugget"
     ]
   },
   "criteria": {
-    "has_silver_tinted_item": {
+    "has_netherite_ingot": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "tag": "oreexpansion:silver_tinted_items"
+            "item": "minecraft:netherite_ingot"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "oreexpansion:silver_tinted_nugget_from_blasting"
+        "recipe": "oreexpansion:netherite_nugget"
       }
     }
   },
   "requirements": [
     [
-      "has_silver_tinted_item",
+      "has_netherite_ingot",
       "has_the_recipe"
     ]
   ]

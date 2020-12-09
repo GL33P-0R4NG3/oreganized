@@ -33,10 +33,6 @@ public class SilverBlockTileEntity extends TileEntity implements ITickableTileEn
     public void tick() {
         if (!init) init();
         tick++;
-        if (tick == 50) {
-            tick = 0;
-            execute();
-        }
     }
 
     private void execute() {
@@ -59,6 +55,7 @@ public class SilverBlockTileEntity extends TileEntity implements ITickableTileEn
             this.x = initValues.getInt("x");
             this.y = initValues.getInt("y");
             this.z = initValues.getInt("z");
+            this.distance = initValues.getInt("distance");
             this.tick = 0;
             init = true;
         } else init();
