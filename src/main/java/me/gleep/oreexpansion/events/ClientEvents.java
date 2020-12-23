@@ -39,7 +39,9 @@ public class ClientEvents {
 
         item.setTag(sword.getTag());
         item.setDamage(sword.getMaxDamage());
-        pl.dropItem(item, false);
+        if (!pl.inventory.addItemStackToInventory(item)) {
+            pl.dropItem(item, false);
+        }
     }
 
     @SubscribeEvent

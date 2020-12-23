@@ -31,13 +31,13 @@ public class CustomOreGen {
         //Overworld Ore Register
         overworldOres.add(register("silver_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(
                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, RegistryHandler.SILVER_ORE.get().getDefaultState(), 3)) //Vein Size
-                .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(30, 0, 40)))
+                .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(30, 0, 20)))
                 .square()
                 .func_242731_b(4)));
 
         overworldOres.add(register("lead_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(
                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, RegistryHandler.LEAD_ORE.get().getDefaultState(), 12)) //Vein Size
-                .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(50, 0, 70)))
+                .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(50, 0, 20)))
                 .square()
                 .func_242731_b(1)));
 

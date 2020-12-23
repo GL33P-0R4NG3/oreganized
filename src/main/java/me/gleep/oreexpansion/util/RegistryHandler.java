@@ -5,7 +5,7 @@ import me.gleep.oreexpansion.armors.STAMaterial;
 import me.gleep.oreexpansion.armors.ArmorBase;
 import me.gleep.oreexpansion.blocks.*;
 import me.gleep.oreexpansion.blocks.tileentities.SilverBlockTileEntity;
-import me.gleep.oreexpansion.fluids.LeadFluid;
+import me.gleep.oreexpansion.blocks.LeadFluid;
 import me.gleep.oreexpansion.items.ItemBase;
 import me.gleep.oreexpansion.items.LeadBucket;
 import me.gleep.oreexpansion.tools.STSMaterial;
@@ -60,7 +60,7 @@ public class RegistryHandler {
 
 
     //Fluids
-    public static final RegistryObject<Fluid> LEAD_FLUID = FLUIDS.register("lead_fluid", LeadFluid::new);
+    public static final RegistryObject<Block> LEAD_FLUID = BLOCKS.register("lead_fluid", LeadFluid::new);
 
 
     //Tile Entities

@@ -88,19 +88,18 @@ public class Cauldron extends Block {
                 return ActionResultType.func_233537_a_(worldIn.isRemote);*/
             } else if (item == Items.BUCKET) {
                 if (i == 3 && !worldIn.isRemote) {
-                    return ActionResultType.PASS;
-                    /*if (!player.abilities.isCreativeMode) {
+                    if (!player.abilities.isCreativeMode) {
                         itemstack.shrink(1);
                         if (itemstack.isEmpty()) {
-                            player.setHeldItem(handIn, new ItemStack(Items.WATER_BUCKET));
-                        } else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.WATER_BUCKET))) {
-                            player.dropItem(new ItemStack(Items.WATER_BUCKET), false);
+                            player.setHeldItem(handIn, new ItemStack(RegistryHandler.LEAD_BUCKET.get()));
+                        } else if (!player.inventory.addItemStackToInventory(new ItemStack(RegistryHandler.LEAD_BUCKET.get()))) {
+                            player.dropItem(new ItemStack(RegistryHandler.LEAD_BUCKET.get()), false);
                         }
                     }
                     player.addStat(Stats.USE_CAULDRON);
-                    this.setInside(worldIn, pos, state, 0);
-                    this.setWaterLevel(worldIn, pos, state, 0);
-                    worldIn.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundCategory.BLOCKS, 1.0F, 1.0F);*/
+                    worldIn.removeBlock(pos, false);
+                    worldIn.setBlockState(pos, Blocks.CAULDRON.getDefaultState());
+                    worldIn.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
                 return ActionResultType.func_233537_a_(worldIn.isRemote);
 

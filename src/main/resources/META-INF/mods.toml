@@ -27,12 +27,12 @@ issueTrackerURL="http://my.issue.tracker/" #optional
 
 [[mods]] #mandatory
 modId="oreexpansion" #mandatory
-version="1.16.4-0.2.2-beta" #mandatory
+version="1.16.4-0.2.3-beta" #mandatory
 displayName="Ore Expansion" #mandatory
 updateJSONURL="http://myurl.me/" #optional
 displayURL="http://example.com/" #optional
 logoFile="oreexpansion.png" #optional
-credits="Thanks for this Ore Expansion mode goes to our active members on our discord server!" #optional
+credits="Thanks for this Ore Expansion mode goes to our active () members on our discord server!" #optional
 authors="<Gl33p_0r4ange>, Agent M" #optional
 description='''
 Expands vanilla ores.
