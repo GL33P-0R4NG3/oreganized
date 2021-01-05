@@ -5,12 +5,16 @@ import me.gleep.oreexpansion.armors.STAMaterial;
 import me.gleep.oreexpansion.armors.ArmorBase;
 import me.gleep.oreexpansion.blocks.*;
 import me.gleep.oreexpansion.blocks.tileentities.SilverBlockTileEntity;
-import me.gleep.oreexpansion.blocks.LeadFluid;
+import me.gleep.oreexpansion.fluids.LeadFluid;
 import me.gleep.oreexpansion.items.ItemBase;
 import me.gleep.oreexpansion.items.LeadBucket;
 import me.gleep.oreexpansion.tools.STSMaterial;
 import me.gleep.oreexpansion.tools.STSBase;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.block.material.Material;
+import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
@@ -42,7 +46,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> SILVER_NUGGET = ITEMS.register("silver_nugget", ItemBase::new);
     public static final RegistryObject<Item> LEAD_NUGGET = ITEMS.register("lead_nugget", ItemBase::new);
     public static final RegistryObject<Item> NETHERITE_NUGGET = ITEMS.register("netherite_nugget", () -> new ItemBase(true));
-    public static final RegistryObject<Item> LEAD_BUCKET = ITEMS.register("lead_bucket", LeadBucket::new);
+    public static final RegistryObject<Item> LEAD_BUCKET = ITEMS.register("lead_bucket", () -> new LeadBucket(RegistryHandler.LEAD_FLUID));
 
 
     //Blocks
@@ -60,7 +64,13 @@ public class RegistryHandler {
 
 
     //Fluids
-    public static final RegistryObject<Block> LEAD_FLUID = BLOCKS.register("lead_fluid", LeadFluid::new);
+    public static final RegistryObject<FlowingFluid> LEAD_FLUID = FLUIDS.register("lead_fluid", LeadFluid::new);
+
+    public static final RegistryObject<FlowingFluidBlock> LEAD_FLUID_BLOCK = BLOCKS.register("lead_fluid_block",
+            () -> new FlowingFluidBlock(RegistryHandler.LEAD_FLUID, Block.Properties.create(Material.LAVA)
+                    .doesNotBlockMovement()
+                    .hardnessAndResistance(100.0F)
+                    .noDrops()));
 
 
     //Tile Entities
