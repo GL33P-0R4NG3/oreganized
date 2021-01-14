@@ -79,7 +79,6 @@ public class ClientEvents {
         if (event.getEntity().isLiving()) {
             LivingEntity entity = event.getEntityLiving();
             if (entity.getBlockState().getBlock().equals(RegistryHandler.LEAD_FLUID_BLOCK.get())) {
-                entity.setSwimming(true);
                 if (entity.attackable()) {
                     entity.attackEntityFrom(DamageSource.MAGIC, 3F);
                 }
