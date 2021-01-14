@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "oreexpansion:block/lead_fluid" }
+    "": {
+      "model": "oreexpansion:block/lead_fluid_block"
+    }
   }
 }

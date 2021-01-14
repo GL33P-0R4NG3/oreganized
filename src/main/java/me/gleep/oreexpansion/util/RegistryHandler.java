@@ -6,6 +6,8 @@ import me.gleep.oreexpansion.armors.ArmorBase;
 import me.gleep.oreexpansion.blocks.*;
 import me.gleep.oreexpansion.blocks.tileentities.SilverBlockTileEntity;
 import me.gleep.oreexpansion.fluids.LeadFluid;
+import me.gleep.oreexpansion.fluids.LeadFluidBlock;
+import me.gleep.oreexpansion.fluids.LeadFluidFlow;
 import me.gleep.oreexpansion.items.ItemBase;
 import me.gleep.oreexpansion.items.LeadBucket;
 import me.gleep.oreexpansion.tools.STSMaterial;
@@ -19,23 +21,30 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.imageio.spi.RegisterableService;
+import java.util.function.Supplier;
+
 public class RegistryHandler {
     //Mod
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, OreExpansion.MOD_ID);
-    private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, OreExpansion.MOD_ID);
-    private static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, OreExpansion.MOD_ID);
-    private static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, OreExpansion.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, OreExpansion.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, OreExpansion.MOD_ID);
+    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, OreExpansion.MOD_ID);
+    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, OreExpansion.MOD_ID);
     //private static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, OreExpansion.MOD_ID);
 
     public static void init() {
+        FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         TILE_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
@@ -64,13 +73,10 @@ public class RegistryHandler {
 
 
     //Fluids
-    public static final RegistryObject<FlowingFluid> LEAD_FLUID = FLUIDS.register("lead_fluid", LeadFluid::new);
-
+    public static final RegistryObject<ForgeFlowingFluid> LEAD_FLUID = FLUIDS.register("lead_fluid", LeadFluid::new);
+    public static final RegistryObject<ForgeFlowingFluid> LEAD_FLUID_FLOW = FLUIDS.register("lead_fluid_flow", LeadFluidFlow::new);
     public static final RegistryObject<FlowingFluidBlock> LEAD_FLUID_BLOCK = BLOCKS.register("lead_fluid_block",
-            () -> new FlowingFluidBlock(RegistryHandler.LEAD_FLUID, Block.Properties.create(Material.LAVA)
-                    .doesNotBlockMovement()
-                    .hardnessAndResistance(100.0F)
-                    .noDrops()));
+            () -> new LeadFluidBlock(RegistryHandler.LEAD_FLUID));
 
 
     //Tile Entities

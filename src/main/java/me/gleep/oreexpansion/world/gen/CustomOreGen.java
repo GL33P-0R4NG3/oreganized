@@ -36,7 +36,7 @@ public class CustomOreGen {
                 .func_242731_b(4)));
 
         overworldOres.add(register("lead_ore", Feature.ORE.withConfiguration(new OreFeatureConfig(
-                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, RegistryHandler.LEAD_ORE.get().getDefaultState(), 12)) //Vein Size
+                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, RegistryHandler.LEAD_ORE.get().getDefaultState(), 16)) //Vein Size
                 .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(50, 0, 20)))
                 .square()
                 .func_242731_b(1)));

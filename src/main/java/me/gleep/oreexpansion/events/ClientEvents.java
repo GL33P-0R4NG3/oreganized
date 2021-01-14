@@ -3,16 +3,26 @@ package me.gleep.oreexpansion.events;
 import me.gleep.oreexpansion.OreExpansion;
 import me.gleep.oreexpansion.util.RegistryHandler;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.*;
+import net.minecraft.util.datafix.fixes.MinecartEntityTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.sql.Ref;
 
 @Mod.EventBusSubscriber(modid = OreExpansion.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClientEvents {
@@ -61,6 +71,19 @@ public class ClientEvents {
                 event.setCanceled(true);
             }
             world.playSound((PlayerEntity)null, pos, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
+        if (event.getEntity().isLiving()) {
+            LivingEntity entity = event.getEntityLiving();
+            if (entity.getBlockState().getBlock().equals(RegistryHandler.LEAD_FLUID_BLOCK.get())) {
+                entity.setSwimming(true);
+                if (entity.attackable()) {
+                    entity.attackEntityFrom(DamageSource.MAGIC, 3F);
+                }
+            }
         }
     }
 }

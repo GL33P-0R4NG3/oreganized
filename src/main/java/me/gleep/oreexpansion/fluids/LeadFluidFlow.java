@@ -1,16 +1,11 @@
 package me.gleep.oreexpansion.fluids;
 
 import me.gleep.oreexpansion.util.RegistryHandler;
-import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -18,17 +13,11 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraftforge.common.extensions.IForgeFluid;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import org.lwjgl.system.CallbackI;
 
-import java.util.Random;
-import java.util.Set;
-
-public class LeadFluid extends ForgeFlowingFluid {
-    public LeadFluid() {
+public class LeadFluidFlow extends ForgeFlowingFluid {
+    public LeadFluidFlow() {
         super(new Properties(RegistryHandler.LEAD_FLUID, RegistryHandler.LEAD_FLUID_FLOW, FluidAttributes
                     .builder(new ResourceLocation("oreexpansion:block/lead_fluid"), new ResourceLocation("oreexpansion:block/lead_fluid"))
                     .overlay(new ResourceLocation("oreexpansion:block/lead_fluid_overlay"))
@@ -42,12 +31,18 @@ public class LeadFluid extends ForgeFlowingFluid {
 
     @Override
     public boolean isSource(FluidState state) {
-        return true;
+        return false;
     }
 
     @Override
     public int getLevel(FluidState state) {
         return 8;
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Fluid, FluidState> builder) {
+        builder.add(LEVEL_1_8);
+        super.fillStateContainer(builder);
     }
 
     @Override
@@ -74,11 +69,4 @@ public class LeadFluid extends ForgeFlowingFluid {
     protected int getLevelDecreasePerBlock(IWorldReader worldIn) {
         return 8;
     }
-
-    @Override
-    public VoxelShape func_215664_b(FluidState p_215664_1_, IBlockReader p_215664_2_, BlockPos p_215664_3_) {
-        return VoxelShapes.fullCube();
-    }
-
-
 }
