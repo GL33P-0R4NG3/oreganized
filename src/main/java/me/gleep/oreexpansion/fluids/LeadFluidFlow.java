@@ -22,7 +22,7 @@ public class LeadFluidFlow extends ForgeFlowingFluid {
                     .builder(new ResourceLocation("oreexpansion:block/lead_fluid"), new ResourceLocation("oreexpansion:block/lead_fluid"))
                     .overlay(new ResourceLocation("oreexpansion:block/lead_fluid_overlay"))
                     .luminosity(5)
-                    .viscosity(5)
+                    .viscosity(2)
                     .sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA))
                 .bucket(RegistryHandler.LEAD_BUCKET)
                 .block(RegistryHandler.LEAD_FLUID_BLOCK)

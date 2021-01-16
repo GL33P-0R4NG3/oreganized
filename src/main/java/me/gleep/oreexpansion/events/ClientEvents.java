@@ -1,7 +1,9 @@
 package me.gleep.oreexpansion.events;
 
 import me.gleep.oreexpansion.OreExpansion;
+import me.gleep.oreexpansion.fluids.LeadFluid;
 import me.gleep.oreexpansion.util.RegistryHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -12,13 +14,16 @@ import net.minecraft.item.Items;
 import net.minecraft.util.*;
 import net.minecraft.util.datafix.fixes.MinecartEntityTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -85,4 +90,19 @@ public class ClientEvents {
             }
         }
     }
+
+    /*@SubscribeEvent
+    public static void onFluidFlow(BlockEvent.CreateFluidSourceEvent event) {
+        IWorldReader world = event.getWorld();
+        BlockPos pos = event.getPos();
+        BlockPos newPos = new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ());
+        BlockState blockState = event.getState();
+        IChunk chunk = world.getChunk(pos);
+
+        if (blockState.get(LeadFluid.FALLING) && chunk.getFluidState(pos).equals(RegistryHandler.LEAD_FLUID_FLOW.get().getDefaultState())) {
+            chunk.setBlockState(newPos, Blocks.AIR.getDefaultState(), false);
+            chunk.setBlockState(pos, RegistryHandler.LEAD_FLUID.get().getDefaultState().getBlockState(), true);
+        }
+    }*/
+
 }

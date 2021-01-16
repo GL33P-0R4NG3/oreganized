@@ -1,5 +1,5 @@
 {
-  "parent": "item/generated",
+  "parent": "item/handheld",
   "textures": {
     "layer0": "oreexpansion:item/silver_tinted_netherite_sword"
   }

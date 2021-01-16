@@ -1,16 +1,9 @@
 package me.gleep.oreexpansion.fluids;
 
 import me.gleep.oreexpansion.util.RegistryHandler;
-import net.minecraft.block.BlockState;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -18,22 +11,16 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraftforge.common.extensions.IForgeFluid;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import org.lwjgl.system.CallbackI;
-
-import java.util.Random;
-import java.util.Set;
 
 public class LeadFluid extends ForgeFlowingFluid {
     public LeadFluid() {
         super(new Properties(RegistryHandler.LEAD_FLUID, RegistryHandler.LEAD_FLUID_FLOW, FluidAttributes
                     .builder(new ResourceLocation("oreexpansion:block/lead_fluid"), new ResourceLocation("oreexpansion:block/lead_fluid"))
                     .overlay(new ResourceLocation("oreexpansion:block/lead_fluid_overlay"))
-                    .luminosity(5)
-                    .viscosity(5)
+                    .luminosity(50)
+                    .viscosity(20)
                     .sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA))
                 .bucket(RegistryHandler.LEAD_BUCKET)
                 .block(RegistryHandler.LEAD_FLUID_BLOCK)
@@ -58,7 +45,7 @@ public class LeadFluid extends ForgeFlowingFluid {
 
         Vector3d vector3d = new Vector3d(d0, 0.0D, d1);
         if (fluidState.get(FALLING)) {
-            for(Direction direction1 : Direction.Plane.HORIZONTAL) {
+            for (Direction direction1 : Direction.Plane.HORIZONTAL) {
                 blockpos$mutable.setAndMove(pos, direction1);
                 if (this.causesDownwardCurrent(blockReader, blockpos$mutable, direction1) || this.causesDownwardCurrent(blockReader, blockpos$mutable.up(), direction1)) {
                     vector3d = vector3d.normalize().add(0.0D, -6.0D, 0.0D);
@@ -79,6 +66,5 @@ public class LeadFluid extends ForgeFlowingFluid {
     public VoxelShape func_215664_b(FluidState p_215664_1_, IBlockReader p_215664_2_, BlockPos p_215664_3_) {
         return VoxelShapes.fullCube();
     }
-
 
 }

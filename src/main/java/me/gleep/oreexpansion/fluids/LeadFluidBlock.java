@@ -40,6 +40,6 @@ public class LeadFluidBlock extends FlowingFluidBlock {
 
     @Override
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        return 4;
+        return 8;
     }
 }
