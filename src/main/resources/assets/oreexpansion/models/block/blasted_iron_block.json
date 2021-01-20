@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "oreexpansion:block/yellow_crystal_glass"
+    "all": "oreexpansion:block/blasted_iron_block"
   }
 }

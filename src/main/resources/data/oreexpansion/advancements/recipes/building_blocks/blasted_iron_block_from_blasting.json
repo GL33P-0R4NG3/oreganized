@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "oreexpansion:blasted_cast_iron_block"
+      "oreexpansion:blasted_iron_block_from_blasting"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "oreexpansion:blasted_cast_iron_block"
+        "recipe": "oreexpansion:blasted_iron_block_from_blasting"
       }
     }
   },

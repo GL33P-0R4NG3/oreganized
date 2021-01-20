@@ -1,34 +1,46 @@
 package me.gleep.oreexpansion.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.GlassBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.stats.Stats;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
-import org.jetbrains.annotations.Nullable;
 
 public class CrystalGlassBase extends GlassBlock {
+
     public CrystalGlassBase() {
         super(Properties.create(Material.GLASS)
                 .hardnessAndResistance(0.3F)
                 .sound(SoundType.GLASS)
-                .notSolid());
+                .notSolid()
+                .setAllowsSpawn(CrystalGlassBase::neverAllowSpawn)
+                .setOpaque(CrystalGlassBase::isntSolid)
+                .setSuffocates(CrystalGlassBase::isntSolid)
+                .setBlocksVision(CrystalGlassBase::isntSolid));
+    }
+
+    private static boolean isntSolid(BlockState blockState, IBlockReader iBlockReader, BlockPos blockPos) {
+        return false;
+    }
+
+    private static boolean neverAllowSpawn(BlockState blockState, IBlockReader iBlockReader, BlockPos blockPos, EntityType<?> entityType) {
+        return (boolean)false;
     }
 
     /*@Override
     public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return 1;
+        return 0;
+    }
+
+    @Override
+    public boolean isVariableOpacity() {
+        return true;
+    }*/
+
+    /*@Override
+    public boolean isTransparent(BlockState state) {
+        return true;
     }*/
 
     /*@Override
@@ -42,4 +54,5 @@ public class CrystalGlassBase extends GlassBlock {
             }
         }
     }*/
+
 }

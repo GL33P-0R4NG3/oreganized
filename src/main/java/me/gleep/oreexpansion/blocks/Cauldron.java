@@ -64,28 +64,12 @@ public class Cauldron extends Block {
             Item item = itemstack.getItem();
             if (item == RegistryHandler.LEAD_BLOCK_ITEM.get()) {
                 if (!worldIn.isRemote) {
-                    /*if (!player.abilities.isCreativeMode) {
-                        player.setHeldItem(handIn, new ItemStack(Items.BUCKET));
-                    }*/
-
                     player.addStat(Stats.FILL_CAULDRON);
                     this.setLeadLevel(worldIn, pos, state, 1);
                     worldIn.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
 
                 return ActionResultType.func_233537_a_(worldIn.isRemote);
-            /*} else if (item == RegistryHandler.LEAD_BUCKET.get()) {
-                if (i == 0 && !worldIn.isRemote) {
-                    if (!player.abilities.isCreativeMode) {
-                        player.setHeldItem(handIn, new ItemStack(Items.BUCKET));
-                    }
-
-                    player.addStat(Stats.FILL_CAULDRON);
-                    this.setLeadLevel(worldIn, pos, state, 0);
-                    worldIn.playSound((PlayerEntity)null, pos, SoundEvents.ITEM_BUCKET_EMPTY_LAVA, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                }
-
-                return ActionResultType.func_233537_a_(worldIn.isRemote);*/
             } else if (item == Items.BUCKET) {
                 if (i == 3 && !worldIn.isRemote) {
                     if (!player.abilities.isCreativeMode) {
@@ -123,7 +107,7 @@ public class Cauldron extends Block {
             if (!worldIn.isRemote) {
                 BlockPos newPos = new BlockPos(pos.getX(), pos.getY() - 1.0D, pos.getZ());
                 BlockState block = worldIn.getBlockState(newPos);
-                ResourceLocation loc = new ResourceLocation("oreexpansion", "fire_sources");
+                ResourceLocation loc = new ResourceLocation("oreexpansion", "fire_source");
                 if (BlockTags.getCollection().getTagByID(loc).contains(block.getBlock())) {
                     this.setLeadLevel(worldIn, pos, state, state.get(LEVEL) + 1);
                 } else {

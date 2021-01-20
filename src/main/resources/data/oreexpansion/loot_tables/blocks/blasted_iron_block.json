@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "oreexpansion:blasted_cast_iron_block"
+          "name": "oreexpansion:blasted_iron_block"
         }
       ]
     }

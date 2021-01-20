@@ -2,11 +2,18 @@ package me.gleep.oreexpansion;
 
 import me.gleep.oreexpansion.util.RegistryHandler;
 import me.gleep.oreexpansion.world.gen.CustomOreGen;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -40,9 +47,28 @@ public class OreExpansion {
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+
+
+        RenderTypeLookup.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.CYAN_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.GREEN_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.GREY_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.LIGHT_BLUE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.LIGHT_GREY_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.LIME_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.MAGENTA_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.ORANGE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.PINK_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.PURPLE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.RED_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.WHITE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onRegisterItems(final RegistryEvent.Register<Item> event){
         final IForgeRegistry<Item> registry = event.getRegistry();
 
@@ -53,5 +79,5 @@ public class OreExpansion {
                 blockItem.setRegistryName(block.getRegistryName());
                 registry.register(blockItem);
         });
-    }
+    }*/
 }

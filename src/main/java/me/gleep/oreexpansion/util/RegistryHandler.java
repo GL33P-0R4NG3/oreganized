@@ -4,6 +4,7 @@ import me.gleep.oreexpansion.OreExpansion;
 import me.gleep.oreexpansion.armors.STAMaterial;
 import me.gleep.oreexpansion.armors.ArmorBase;
 import me.gleep.oreexpansion.blocks.*;
+import me.gleep.oreexpansion.blocks.tileentities.BlastedIronBlockTileEntity;
 import me.gleep.oreexpansion.blocks.tileentities.SilverBlockTileEntity;
 import me.gleep.oreexpansion.fluids.LeadFluid;
 import me.gleep.oreexpansion.fluids.LeadFluidBlock;
@@ -66,7 +67,7 @@ public class RegistryHandler {
     public static final RegistryObject<Block> LEAD_ORE = BLOCKS.register("lead_ore", LeadOre::new);
     public static final RegistryObject<Block> CAULDRON = BLOCKS.register("cauldron", Cauldron::new);
     public static final RegistryObject<Block> CAST_IRON_BLOCK = BLOCKS.register("cast_iron_block", CastIronBlock::new);
-    public static final RegistryObject<Block> BLASTED_CAST_IRON_BLOCK = BLOCKS.register("blasted_cast_iron_block", BlastedCastIronBlock::new);
+    public static final RegistryObject<Block> BLASTED_IRON_BLOCK = BLOCKS.register("blasted_iron_block", BlastedCastIronBlock::new);
 
     public static final RegistryObject<Block> BLACK_CRYSTAL_GLASS = BLOCKS.register("black_crystal_glass", CrystalGlassBase::new);
     public static final RegistryObject<Block> BLUE_CRYSTAL_GLASS = BLOCKS.register("blue_crystal_glass", CrystalGlassBase::new);
@@ -93,7 +94,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> SILVER_ORE_ITEM = ITEMS.register("silver_ore", () -> new BlockItemBase(SILVER_ORE.get()));
     public static final RegistryObject<Item> LEAD_ORE_ITEM = ITEMS.register("lead_ore", () -> new BlockItemBase(LEAD_ORE.get()));
     public static final RegistryObject<Item> CAST_IRON_BLOCK_ITEM = ITEMS.register("cast_iron_block", () -> new BlockItemBase(CAST_IRON_BLOCK.get()));
-    public static final RegistryObject<Item> BLASTED_CAST_IRON_BLOCK_ITEM = ITEMS.register("blasted_cast_iron_block", () -> new BlockItemBase(BLASTED_CAST_IRON_BLOCK.get()));
+    public static final RegistryObject<Item> BLASTED_IRON_BLOCK_ITEM = ITEMS.register("blasted_iron_block", () -> new BlockItemBase(BLASTED_IRON_BLOCK.get()));
 
     public static final RegistryObject<Item> BLACK_CRYSTAL_GLASS_ITEM = ITEMS.register("black_crystal_glass", () -> new BlockItemBase(BLACK_CRYSTAL_GLASS.get()));
     public static final RegistryObject<Item> BLUE_CRYSTAL_GLASS_ITEM = ITEMS.register("blue_crystal_glass", () -> new BlockItemBase(BLUE_CRYSTAL_GLASS.get()));
@@ -123,6 +124,8 @@ public class RegistryHandler {
     //Tile Entities
     public static final RegistryObject<TileEntityType<SilverBlockTileEntity>> SILVER_BLOCK_TE = TILE_ENTITY_TYPES.register("silver_block", () -> TileEntityType.Builder.create(
             SilverBlockTileEntity::new, SILVER_BLOCK.get()).build(null));
+    /*public static final RegistryObject<TileEntityType<BlastedIronBlockTileEntity>> BLASTED_IRON_BLOCK_TE = TILE_ENTITY_TYPES.register("blasted_iron_block", () -> TileEntityType.Builder.create(
+            BlastedIronBlockTileEntity::new, BLASTED_IRON_BLOCK.get()).build(null));*/
 
 
     //Tools
