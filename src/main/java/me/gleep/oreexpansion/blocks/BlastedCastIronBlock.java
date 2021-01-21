@@ -75,10 +75,9 @@ public class BlastedCastIronBlock extends Block {
 
     @Override
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        Direction dir = null;
         BooleanProperty PROPERTY;
-        dir = Direction.getFacingFromVector(facingPos.getX() - currentPos.getX(), facingPos.getY() - currentPos.getY(), facingPos.getZ() - currentPos.getZ());
-        switch (dir) {
+
+        switch (facing) {
             case UP:
                 PROPERTY = UP;
                 break;
@@ -102,7 +101,12 @@ public class BlastedCastIronBlock extends Block {
                 break;
         }
 
-        if (PROPERTY != null && canConnect(currentPos, worldIn, dir)) stateIn = stateIn.with(PROPERTY, true);
+        if (PROPERTY != null) {
+            if (canConnect(currentPos, worldIn, facing))
+                stateIn = stateIn.with(PROPERTY, true);
+            else if (stateIn.get(PROPERTY))
+                stateIn = stateIn.with(PROPERTY, false);
+        }
         //worldIn.setBlockState(pos, state);
         return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }

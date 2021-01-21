@@ -125,6 +125,72 @@
     },
     "down=false,east=false,north=false,south=true,up=true,west=true": {
       "model": "oreexpansion:block/blasted_iron_block_3suw"
+    },
+    "down=true,east=true,north=true,south=true,up=false,west=false": {
+      "model": "oreexpansion:block/blasted_iron_block_4dens"
+    },
+    "down=true,east=true,north=true,south=false,up=true,west=false": {
+      "model": "oreexpansion:block/blasted_iron_block_4denu"
+    },
+    "down=true,east=true,north=true,south=false,up=false,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_4denw"
+    },
+    "down=true,east=true,north=false,south=true,up=true,west=false": {
+      "model": "oreexpansion:block/blasted_iron_block_4desu"
+    },
+    "down=true,east=true,north=false,south=true,up=false,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_4desw"
+    },
+    "down=true,east=true,north=false,south=false,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_6"
+    },
+    "down=true,east=false,north=true,south=true,up=true,west=false": {
+      "model": "oreexpansion:block/blasted_iron_block_6"
+    },
+    "down=true,east=false,north=true,south=true,up=false,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_4dnsw"
+    },
+    "down=true,east=false,north=true,south=false,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_4dnuw"
+    },
+    "down=true,east=false,north=false,south=true,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_4dsuw"
+    },
+    "down=false,east=true,north=true,south=true,up=true,west=false": {
+      "model": "oreexpansion:block/blasted_iron_block_4ensu"
+    },
+    "down=false,east=true,north=true,south=true,up=false,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_6"
+    },
+    "down=false,east=true,north=true,south=false,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_4enuw"
+    },
+    "down=false,east=true,north=false,south=true,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_4esuw"
+    },
+    "down=false,east=false,north=true,south=true,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_4nsuw"
+    },
+    "down=true,east=true,north=true,south=true,up=true,west=false": {
+      "model": "oreexpansion:block/blasted_iron_block_6"
+    },
+    "down=true,east=true,north=true,south=true,up=false,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_6"
+    },
+    "down=true,east=true,north=true,south=false,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_6"
+    },
+    "down=true,east=true,north=false,south=true,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_6"
+    },
+    "down=true,east=false,north=true,south=true,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_6"
+    },
+    "down=false,east=true,north=true,south=true,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_6"
+    },
+    "down=true,east=true,north=true,south=true,up=true,west=true": {
+      "model": "oreexpansion:block/blasted_iron_block_6"
     }
   }
 }

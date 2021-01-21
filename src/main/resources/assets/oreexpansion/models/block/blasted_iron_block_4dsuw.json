@@ -1,8 +1,8 @@
 {
 	"parent": "oreexpansion",
 	"textures": {
-		"9": "oreexpansion:block/blasted_iron_block_two_side_connected1",
-		"10": "oreexpansion:block/blasted_iron_block_two_side_connected2",
+		"2": "oreexpansion:block/blasted_iron_block_one_side2",
+		"4": "oreexpansion:block/blasted_iron_block_one_side4",
 		"15": "oreexpansion:block/blasted_iron_block_without_side",
 		"particle": "oreexpansion:block/blasted_iron_block"
 	},
@@ -11,11 +11,11 @@
 			"from": [0, 0, 0],
 			"to": [16, 16, 16],
 			"faces": {
-				"north": { "texture": "#10" },
-				"east": { "texture": "#15", "cullface": "east"},
+				"north": { "texture": "#2" },
+				"east": { "texture": "#4" },
 				"south": { "texture": "#15", "cullface": "south" },
-				"west": { "texture": "#9" },
-				"up": { "texture": "#9" },
+				"west": { "texture": "#15", "cullface": "west" },
+				"up": { "texture": "#15", "cullface": "up" },
 				"down": { "texture": "#15", "cullface": "down" }
 			}
 		}
