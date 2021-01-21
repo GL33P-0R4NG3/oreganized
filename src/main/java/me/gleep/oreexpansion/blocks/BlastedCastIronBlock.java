@@ -39,7 +39,7 @@ public class BlastedCastIronBlock extends Block {
                 .sound(SoundType.METAL));
     }
 
-    @Override
+    /*@Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         Direction dir = null;
         BooleanProperty PROPERTY;
@@ -71,7 +71,7 @@ public class BlastedCastIronBlock extends Block {
         if (PROPERTY != null && canConnect(pos, worldIn, dir)) state = state.with(PROPERTY, true);
         worldIn.setBlockState(pos, state);
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
-    }
+    }*/
 
     @Override
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {

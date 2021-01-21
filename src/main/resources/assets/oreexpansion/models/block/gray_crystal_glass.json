@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "oreexpansion:block/grey_crystal_glass"
+    "all": "oreexpansion:block/gray_crystal_glass"
   }
 }

@@ -8,14 +8,14 @@
   ],
   "key": {
     "x": {
-      "item": "minecraft:grey_stained_glass"
+      "item": "minecraft:gray_stained_glass"
     },
     "#": {
       "item": "oreexpansion:lead_ingot"
     }
   },
   "result": {
-    "item": "oreexpansion:grey_crystal_glass",
+    "item": "oreexpansion:gray_crystal_glass",
     "count": 8
   }
 }

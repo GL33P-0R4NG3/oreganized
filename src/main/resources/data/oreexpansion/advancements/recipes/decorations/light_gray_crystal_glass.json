@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "oreexpansion:light_grey_crystal_glass"
+      "oreexpansion:light_gray_crystal_glass"
     ]
   },
   "criteria": {
@@ -16,12 +16,12 @@
         ]
       }
     },
-    "has_light_grey_glass": {
+    "has_light_gray_glass": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:light_grey_stained_glass"
+            "item": "minecraft:light_gray_stained_glass"
           }
         ]
       }
@@ -29,13 +29,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "oreexpansion:light_grey_crystal_glass"
+        "recipe": "oreexpansion:light_gray_crystal_glass"
       }
     }
   },
   "requirements": [
     [
-      "has_light_grey_glass",
+      "has_light_gray_glass",
       "has_the_recipe"
     ],
     [
