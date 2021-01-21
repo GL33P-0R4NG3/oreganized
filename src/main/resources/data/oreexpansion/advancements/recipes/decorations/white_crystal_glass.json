@@ -2,26 +2,26 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "oreexpansion:cast_iron_block"
+      "oreexpansion:white_crystal_glass"
     ]
   },
   "criteria": {
-    "has_iron_ingot": {
+    "has_lead_ingot": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:iron_ingot"
+            "item": "oreexpansion:lead_ingot"
           }
         ]
       }
     },
-    "has_iron_plate": {
+    "has_white_glass": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "oreexpansion:iron_plate"
+            "item": "minecraft:white_stained_glass"
           }
         ]
       }
@@ -29,17 +29,17 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "oreexpansion:cast_iron_block"
+        "recipe": "oreexpansion:white_crystal_glass"
       }
     }
   },
   "requirements": [
     [
-      "has_iron_plate",
+      "has_white_glass",
       "has_the_recipe"
     ],
     [
-      "has_iron_ingot",
+      "has_lead_ingot",
       "has_the_recipe"
     ]
   ]

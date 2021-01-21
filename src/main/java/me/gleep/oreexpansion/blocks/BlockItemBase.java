@@ -9,4 +9,5 @@ public class BlockItemBase extends BlockItem {
     public BlockItemBase(Block block) {
         super(block, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS));
     }
+    public BlockItemBase(Block block, boolean decorative) { super(block, new Item.Properties().group(ItemGroup.DECORATIONS)); }
 }

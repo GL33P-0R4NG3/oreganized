@@ -2,9 +2,8 @@ package me.gleep.oreexpansion.util;
 
 import me.gleep.oreexpansion.OreExpansion;
 import me.gleep.oreexpansion.armors.STAMaterial;
-import me.gleep.oreexpansion.armors.ArmorBase;
+import me.gleep.oreexpansion.armors.STABase;
 import me.gleep.oreexpansion.blocks.*;
-import me.gleep.oreexpansion.blocks.tileentities.BlastedIronBlockTileEntity;
 import me.gleep.oreexpansion.blocks.tileentities.SilverBlockTileEntity;
 import me.gleep.oreexpansion.fluids.LeadFluid;
 import me.gleep.oreexpansion.fluids.LeadFluidBlock;
@@ -13,26 +12,17 @@ import me.gleep.oreexpansion.items.ItemBase;
 import me.gleep.oreexpansion.items.LeadBucket;
 import me.gleep.oreexpansion.tools.STSMaterial;
 import me.gleep.oreexpansion.tools.STSBase;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
-import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.imageio.spi.RegisterableService;
-import java.util.function.Supplier;
 
 public class RegistryHandler {
     //Mod
@@ -96,23 +86,23 @@ public class RegistryHandler {
     public static final RegistryObject<Item> CAST_IRON_BLOCK_ITEM = ITEMS.register("cast_iron_block", () -> new BlockItemBase(CAST_IRON_BLOCK.get()));
     public static final RegistryObject<Item> BLASTED_IRON_BLOCK_ITEM = ITEMS.register("blasted_iron_block", () -> new BlockItemBase(BLASTED_IRON_BLOCK.get()));
 
-    public static final RegistryObject<Item> BLACK_CRYSTAL_GLASS_ITEM = ITEMS.register("black_crystal_glass", () -> new BlockItemBase(BLACK_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> BLUE_CRYSTAL_GLASS_ITEM = ITEMS.register("blue_crystal_glass", () -> new BlockItemBase(BLUE_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> BROWN_CRYSTAL_GLASS_ITEM = ITEMS.register("brown_crystal_glass", () -> new BlockItemBase(BROWN_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> CRYSTAL_GLASS_ITEM = ITEMS.register("crystal_glass", () -> new BlockItemBase(CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> CYAN_CRYSTAL_GLASS_ITEM = ITEMS.register("cyan_crystal_glass", () -> new BlockItemBase(CYAN_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> GREY_CRYSTAL_GLASS_ITEM = ITEMS.register("grey_crystal_glass", () -> new BlockItemBase(GREY_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> GREEN_CRYSTAL_GLASS_ITEM = ITEMS.register("green_crystal_glass", () -> new BlockItemBase(GREEN_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> LIGHT_BLUE_CRYSTAL_GLASS_ITEM = ITEMS.register("light_blue_crystal_glass", () -> new BlockItemBase(LIGHT_BLUE_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> LIGHT_GREY_CRYSTAL_GLASS_ITEM = ITEMS.register("light_grey_crystal_glass", () -> new BlockItemBase(LIGHT_GREY_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> LIME_CRYSTAL_GLASS_ITEM = ITEMS.register("lime_crystal_glass", () -> new BlockItemBase(LIME_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> MAGENTA_CRYSTAL_GLASS_ITEM = ITEMS.register("magenta_crystal_glass", () -> new BlockItemBase(MAGENTA_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> ORANGE_CRYSTAL_GLASS_ITEM = ITEMS.register("orange_crystal_glass", () -> new BlockItemBase(ORANGE_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> PINK_CRYSTAL_GLASS_ITEM = ITEMS.register("pink_crystal_glass", () -> new BlockItemBase(PINK_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> PURPLE_CRYSTAL_GLASS_ITEM = ITEMS.register("purple_crystal_glass", () -> new BlockItemBase(PURPLE_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> RED_CRYSTAL_GLASS_ITEM = ITEMS.register("red_crystal_glass", () -> new BlockItemBase(RED_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> WHITE_CRYSTAL_GLASS_ITEM = ITEMS.register("white_crystal_glass", () -> new BlockItemBase(WHITE_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> YELLOW_CRYSTAL_GLASS_ITEM = ITEMS.register("yellow_crystal_glass", () -> new BlockItemBase(YELLOW_CRYSTAL_GLASS.get()));
+    public static final RegistryObject<Item> BLACK_CRYSTAL_GLASS_ITEM = ITEMS.register("black_crystal_glass", () -> new BlockItemBase(BLACK_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> BLUE_CRYSTAL_GLASS_ITEM = ITEMS.register("blue_crystal_glass", () -> new BlockItemBase(BLUE_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> BROWN_CRYSTAL_GLASS_ITEM = ITEMS.register("brown_crystal_glass", () -> new BlockItemBase(BROWN_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> CRYSTAL_GLASS_ITEM = ITEMS.register("crystal_glass", () -> new BlockItemBase(CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> CYAN_CRYSTAL_GLASS_ITEM = ITEMS.register("cyan_crystal_glass", () -> new BlockItemBase(CYAN_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> GREY_CRYSTAL_GLASS_ITEM = ITEMS.register("grey_crystal_glass", () -> new BlockItemBase(GREY_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> GREEN_CRYSTAL_GLASS_ITEM = ITEMS.register("green_crystal_glass", () -> new BlockItemBase(GREEN_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> LIGHT_BLUE_CRYSTAL_GLASS_ITEM = ITEMS.register("light_blue_crystal_glass", () -> new BlockItemBase(LIGHT_BLUE_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> LIGHT_GREY_CRYSTAL_GLASS_ITEM = ITEMS.register("light_grey_crystal_glass", () -> new BlockItemBase(LIGHT_GREY_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> LIME_CRYSTAL_GLASS_ITEM = ITEMS.register("lime_crystal_glass", () -> new BlockItemBase(LIME_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> MAGENTA_CRYSTAL_GLASS_ITEM = ITEMS.register("magenta_crystal_glass", () -> new BlockItemBase(MAGENTA_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> ORANGE_CRYSTAL_GLASS_ITEM = ITEMS.register("orange_crystal_glass", () -> new BlockItemBase(ORANGE_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> PINK_CRYSTAL_GLASS_ITEM = ITEMS.register("pink_crystal_glass", () -> new BlockItemBase(PINK_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> PURPLE_CRYSTAL_GLASS_ITEM = ITEMS.register("purple_crystal_glass", () -> new BlockItemBase(PURPLE_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> RED_CRYSTAL_GLASS_ITEM = ITEMS.register("red_crystal_glass", () -> new BlockItemBase(RED_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> WHITE_CRYSTAL_GLASS_ITEM = ITEMS.register("white_crystal_glass", () -> new BlockItemBase(WHITE_CRYSTAL_GLASS.get(), true));
+    public static final RegistryObject<Item> YELLOW_CRYSTAL_GLASS_ITEM = ITEMS.register("yellow_crystal_glass", () -> new BlockItemBase(YELLOW_CRYSTAL_GLASS.get(), true));
 
     //Fluids
     public static final RegistryObject<ForgeFlowingFluid> LEAD_FLUID = FLUIDS.register("lead_fluid", LeadFluid::new);
@@ -139,30 +129,30 @@ public class RegistryHandler {
 
     //Armors
     public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_HELMET = ITEMS.register("silver_tinted_golden_helmet", () ->
-            new ArmorBase(STAMaterial.STGA, EquipmentSlotType.HEAD));
+            new STABase(STAMaterial.STGA, EquipmentSlotType.HEAD));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_CHESTPLATE = ITEMS.register("silver_tinted_golden_chestplate", () ->
-            new ArmorBase(STAMaterial.STGA, EquipmentSlotType.CHEST));
+            new STABase(STAMaterial.STGA, EquipmentSlotType.CHEST));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_LEGGINGS = ITEMS.register("silver_tinted_golden_leggings", () ->
-            new ArmorBase(STAMaterial.STGA, EquipmentSlotType.LEGS));
+            new STABase(STAMaterial.STGA, EquipmentSlotType.LEGS));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_BOOTS = ITEMS.register("silver_tinted_golden_boots", () ->
-            new ArmorBase(STAMaterial.STGA, EquipmentSlotType.FEET));
+            new STABase(STAMaterial.STGA, EquipmentSlotType.FEET));
 
     public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_HELMET = ITEMS.register("silver_tinted_diamond_helmet", () ->
-            new ArmorBase(STAMaterial.STDA, EquipmentSlotType.HEAD));
+            new STABase(STAMaterial.STDA, EquipmentSlotType.HEAD));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_CHESTPLATE = ITEMS.register("silver_tinted_diamond_chestplate", () ->
-            new ArmorBase(STAMaterial.STDA, EquipmentSlotType.CHEST));
+            new STABase(STAMaterial.STDA, EquipmentSlotType.CHEST));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_LEGGINGS = ITEMS.register("silver_tinted_diamond_leggings", () ->
-            new ArmorBase(STAMaterial.STDA, EquipmentSlotType.LEGS));
+            new STABase(STAMaterial.STDA, EquipmentSlotType.LEGS));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_BOOTS = ITEMS.register("silver_tinted_diamond_boots", () ->
-            new ArmorBase(STAMaterial.STDA, EquipmentSlotType.FEET));
+            new STABase(STAMaterial.STDA, EquipmentSlotType.FEET));
 
     public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_HELMET = ITEMS.register("silver_tinted_netherite_helmet", () ->
-            new ArmorBase(STAMaterial.STNA, EquipmentSlotType.HEAD, true));
+            new STABase(STAMaterial.STNA, EquipmentSlotType.HEAD, true));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_CHESTPLATE = ITEMS.register("silver_tinted_netherite_chestplate", () ->
-            new ArmorBase(STAMaterial.STNA, EquipmentSlotType.CHEST, true));
+            new STABase(STAMaterial.STNA, EquipmentSlotType.CHEST, true));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_LEGGINGS = ITEMS.register("silver_tinted_netherite_leggings", () ->
-            new ArmorBase(STAMaterial.STNA, EquipmentSlotType.LEGS, true));
+            new STABase(STAMaterial.STNA, EquipmentSlotType.LEGS, true));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_BOOTS = ITEMS.register("silver_tinted_netherite_boots", () ->
-            new ArmorBase(STAMaterial.STNA, EquipmentSlotType.FEET, true));
+            new STABase(STAMaterial.STNA, EquipmentSlotType.FEET, true));
 
 }

@@ -17,12 +17,12 @@ public class STSBase extends SwordItem {
     private final boolean immuneToFire;
 
     public STSBase(IItemTier tier, int attackDamageIn, float attackSpeedIn) {
-        super(tier, attackDamageIn, attackSpeedIn, new Item.Properties().group(ItemGroup.COMBAT));
+        super(tier, attackDamageIn, attackSpeedIn, new Item.Properties().group(ItemGroup.COMBAT).setNoRepair());
         this.immuneToFire = false;
     }
 
     public STSBase(IItemTier tier, int attackDamageIn, float attackSpeedIn, boolean immuneToFire) {
-        super(tier, attackDamageIn, attackSpeedIn, new Item.Properties().group(ItemGroup.COMBAT));
+        super(tier, attackDamageIn, attackSpeedIn, new Item.Properties().group(ItemGroup.COMBAT).setNoRepair());
         this.immuneToFire = immuneToFire;
     }
 

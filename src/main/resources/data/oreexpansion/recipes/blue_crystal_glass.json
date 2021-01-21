@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "crystal_glass",
+  "pattern": [
+    "xxx",
+    "x#x",
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:blue_stained_glass"
+    },
+    "#": {
+      "item": "oreexpansion:lead_ingot"
+    }
+  },
+  "result": {
+    "item": "oreexpansion:blue_crystal_glass",
+    "count": 8
+  }
+}

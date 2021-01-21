@@ -5,15 +5,15 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 
-public class ArmorBase extends ArmorItem {
+public class STABase extends ArmorItem {
     private final boolean immuneToFire;
-    public ArmorBase(IArmorMaterial materialIn, EquipmentSlotType slot, boolean immuneToFire) {
-        super(materialIn, slot, new Properties().group(ItemGroup.COMBAT));
+    public STABase(IArmorMaterial materialIn, EquipmentSlotType slot, boolean immuneToFire) {
+        super(materialIn, slot, new Properties().group(ItemGroup.COMBAT).setNoRepair());
         this.immuneToFire = immuneToFire;
     }
 
-    public ArmorBase(IArmorMaterial materialIn, EquipmentSlotType slot) {
-        super(materialIn, slot, new Properties().group(ItemGroup.COMBAT));
+    public STABase(IArmorMaterial materialIn, EquipmentSlotType slot) {
+        super(materialIn, slot, new Properties().group(ItemGroup.COMBAT).setNoRepair());
         this.immuneToFire = false;
     }
 
