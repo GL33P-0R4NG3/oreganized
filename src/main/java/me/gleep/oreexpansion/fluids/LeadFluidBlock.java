@@ -12,8 +12,12 @@ import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -24,8 +28,10 @@ public class LeadFluidBlock extends FlowingFluidBlock {
                 .doesNotBlockMovement()
                 .hardnessAndResistance(100.0F)
                 .noDrops()
-                .notSolid());
+                .notSolid()
+                .speedFactor(0.3f));
     }
+
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
@@ -42,4 +48,12 @@ public class LeadFluidBlock extends FlowingFluidBlock {
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         return 8;
     }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public Vector3d getFogColor(BlockState state, IWorldReader world, BlockPos pos, Entity entity, Vector3d originalColor, float partialTicks) {
+        return new Vector3d(0.2F, 0.0F, 0.6F);
+    }
+
+
 }

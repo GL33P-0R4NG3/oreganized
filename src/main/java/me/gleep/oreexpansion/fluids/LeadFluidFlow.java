@@ -21,8 +21,9 @@ public class LeadFluidFlow extends ForgeFlowingFluid {
         super(new Properties(RegistryHandler.LEAD_FLUID, RegistryHandler.LEAD_FLUID_FLOW, FluidAttributes
                     .builder(new ResourceLocation("oreexpansion:block/lead_fluid"), new ResourceLocation("oreexpansion:block/lead_fluid"))
                     .overlay(new ResourceLocation("oreexpansion:block/lead_fluid_overlay"))
-                    .luminosity(5)
-                    .viscosity(2)
+                    .luminosity(8)
+                    .viscosity(10000)
+                    .density(5000)
                     .sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA))
                 .bucket(RegistryHandler.LEAD_BUCKET)
                 .block(RegistryHandler.LEAD_FLUID_BLOCK)
@@ -52,7 +53,7 @@ public class LeadFluidFlow extends ForgeFlowingFluid {
         BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
         Vector3d vector3d = new Vector3d(d0, 0.0D, d1);
-        if (fluidState.get(FALLING)) {
+        /*if (fluidState.get(FALLING)) {
             for(Direction direction1 : Direction.Plane.HORIZONTAL) {
                 blockpos$mutable.setAndMove(pos, direction1);
                 if (this.causesDownwardCurrent(blockReader, blockpos$mutable, direction1) || this.causesDownwardCurrent(blockReader, blockpos$mutable.up(), direction1)) {
@@ -60,7 +61,7 @@ public class LeadFluidFlow extends ForgeFlowingFluid {
                     break;
                 }
             }
-        }
+        }*/
 
         return vector3d.normalize();
     }

@@ -27,7 +27,7 @@ issueTrackerURL="https://github.com/GL33P-0R4NG3/oreexpansion/issues/" #optional
 
 [[mods]] #mandatory
 modId="oreexpansion" #mandatory
-version="1.16.4-0.2.4-beta" #mandatory
+version="1.16.4-0.3.0-beta" #mandatory
 displayName="Ore Expansion" #mandatory
 updateJSONURL="http://myurl.me/" #optional
 displayURL="http://example.com/" #optional

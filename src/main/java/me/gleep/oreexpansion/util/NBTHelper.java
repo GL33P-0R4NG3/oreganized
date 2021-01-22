@@ -2,6 +2,7 @@ package me.gleep.oreexpansion.util;
 
 import me.gleep.oreexpansion.blocks.tileentities.BlastedIronBlockTileEntity;
 import me.gleep.oreexpansion.blocks.tileentities.SilverBlockTileEntity;
+import me.gleep.oreexpansion.items.SilverMirror;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 
@@ -15,14 +16,14 @@ public class NBTHelper {
             return writeSilverBlock((SilverBlockTileEntity)o);
         }
 
-        if (o instanceof BlastedIronBlockTileEntity){
-            return writeBlastedIronBlock((BlastedIronBlockTileEntity)o);
+        if (o instanceof SilverMirror){
+            return writeSilverMirror((SilverMirror)o);
         }
 
         return null;
     }
 
-    private static CompoundNBT writeBlastedIronBlock(BlastedIronBlockTileEntity o) {
+    private static CompoundNBT writeSilverMirror(SilverMirror o) {
         CompoundNBT compound = new CompoundNBT();
         return compound;
     }

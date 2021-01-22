@@ -10,6 +10,7 @@ import me.gleep.oreexpansion.fluids.LeadFluidBlock;
 import me.gleep.oreexpansion.fluids.LeadFluidFlow;
 import me.gleep.oreexpansion.items.ItemBase;
 import me.gleep.oreexpansion.items.LeadBucket;
+import me.gleep.oreexpansion.items.SilverMirror;
 import me.gleep.oreexpansion.tools.STSMaterial;
 import me.gleep.oreexpansion.tools.STSBase;
 import net.minecraft.block.Block;
@@ -40,6 +41,13 @@ public class RegistryHandler {
     }
 
 
+    //Fluids
+    public static final RegistryObject<ForgeFlowingFluid> LEAD_FLUID = FLUIDS.register("lead_fluid", LeadFluid::new);
+    public static final RegistryObject<ForgeFlowingFluid> LEAD_FLUID_FLOW = FLUIDS.register("lead_fluid_flow", LeadFluidFlow::new);
+    public static final RegistryObject<FlowingFluidBlock> LEAD_FLUID_BLOCK = BLOCKS.register("lead_fluid_block",
+            () -> new LeadFluidBlock(RegistryHandler.LEAD_FLUID));
+
+
     //Items
     public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", ItemBase::new);
     public static final RegistryObject<Item> LEAD_INGOT = ITEMS.register("lead_ingot", ItemBase::new);
@@ -48,6 +56,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> NETHERITE_NUGGET = ITEMS.register("netherite_nugget", () -> new ItemBase(true));
     public static final RegistryObject<Item> LEAD_BUCKET = ITEMS.register("lead_bucket", () -> new LeadBucket(RegistryHandler.LEAD_FLUID));
     public static final RegistryObject<Item> IRON_PLATE = ITEMS.register("iron_plate", ItemBase::new);
+    public static final RegistryObject<Item> SILVER_MIRROR = ITEMS.register("silver_mirror", SilverMirror::new);
 
 
     //Blocks
@@ -103,12 +112,6 @@ public class RegistryHandler {
     public static final RegistryObject<Item> RED_CRYSTAL_GLASS_ITEM = ITEMS.register("red_crystal_glass", () -> new BlockItemBase(RED_CRYSTAL_GLASS.get(), true));
     public static final RegistryObject<Item> WHITE_CRYSTAL_GLASS_ITEM = ITEMS.register("white_crystal_glass", () -> new BlockItemBase(WHITE_CRYSTAL_GLASS.get(), true));
     public static final RegistryObject<Item> YELLOW_CRYSTAL_GLASS_ITEM = ITEMS.register("yellow_crystal_glass", () -> new BlockItemBase(YELLOW_CRYSTAL_GLASS.get(), true));
-
-    //Fluids
-    public static final RegistryObject<ForgeFlowingFluid> LEAD_FLUID = FLUIDS.register("lead_fluid", LeadFluid::new);
-    public static final RegistryObject<ForgeFlowingFluid> LEAD_FLUID_FLOW = FLUIDS.register("lead_fluid_flow", LeadFluidFlow::new);
-    public static final RegistryObject<FlowingFluidBlock> LEAD_FLUID_BLOCK = BLOCKS.register("lead_fluid_block",
-            () -> new LeadFluidBlock(RegistryHandler.LEAD_FLUID));
 
 
     //Tile Entities

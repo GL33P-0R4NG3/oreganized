@@ -11,9 +11,9 @@
   "block.oreexpansion.crystal_glass": "Crystal Glass",
   "block.oreexpansion.cyan_crystal_glass": "Cyan Crystal Glass",
   "block.oreexpansion.green_crystal_glass": "Green Crystal Glass",
-  "block.oreexpansion.grey_crystal_glass": "Grey Crystal Glass",
+  "block.oreexpansion.gray_crystal_glass": "Gray Crystal Glass",
   "block.oreexpansion.light_blue_crystal_glass": "Light Blue Crystal Glass",
-  "block.oreexpansion.light_grey_crystal_glass": "Light Grey Crystal Glass",
+  "block.oreexpansion.light_gray_crystal_glass": "Light Gray Crystal Glass",
   "block.oreexpansion.lime_crystal_glass": "Lime Crystal Glass",
   "block.oreexpansion.magenta_crystal_glass": "Magenta Crystal Glass",
   "block.oreexpansion.orange_crystal_glass": "Orange Crystal Glass",
@@ -34,6 +34,7 @@
   "item.oreexpansion.lead_nugget": "Olověný nuget",
   "item.oreexpansion.netherite_nugget": "Netheritový nuget",
   "item.oreexpansion.silver_ingot": "Stříbrný ingot",
+  "item.oreexpansion.silver_mirror": "Silver Mirror",
   "item.oreexpansion.silver_nugget": "Stříbrný nuget",
   "item.oreexpansion.silver_tinted_diamond_boots": "Postříbřené diamantové boty",
   "item.oreexpansion.silver_tinted_diamond_chestplate": "Postříbřené diamantové brnění",
@@ -49,5 +50,5 @@
   "item.oreexpansion.silver_tinted_netherite_chestplate": "Postříbřené netheritové brnění",
   "item.oreexpansion.silver_tinted_netherite_helmet": "Postříbřená netheritová helma",
   "item.oreexpansion.silver_tinted_netherite_leggings": "Postříbřené netheritové kalhoty",
-  "item.oreexpansion.silver_tinted_netherite_sword": "Postříbřený netheritový meč"
+  "item.oreexpansion.silver_tinted_netherite_sword": "Postříbřený netheritový meč",
 }
