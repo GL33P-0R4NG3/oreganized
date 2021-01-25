@@ -1,22 +1,18 @@
 package me.gleep.oreexpansion.blocks;
 
-import me.gleep.oreexpansion.util.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.command.CommandSource;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
@@ -39,40 +35,7 @@ public class BlastedCastIronBlock extends Block {
                 .sound(SoundType.METAL));
     }
 
-    /*@Override
-    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-        Direction dir = null;
-        BooleanProperty PROPERTY;
-        dir = Direction.getFacingFromVector(fromPos.getX() - pos.getX(), fromPos.getY() - pos.getY(), fromPos.getZ() - pos.getZ());
-        switch (dir) {
-            case UP:
-                PROPERTY = UP;
-                break;
-            case DOWN:
-                PROPERTY = DOWN;
-                break;
-            case EAST:
-                PROPERTY = EAST;
-                break;
-            case WEST:
-                PROPERTY = WEST;
-                break;
-            case NORTH:
-                PROPERTY = NORTH;
-                break;
-            case SOUTH:
-                PROPERTY = SOUTH;
-                break;
-            default:
-                PROPERTY = null;
-                break;
-        }
-
-        if (PROPERTY != null && canConnect(pos, worldIn, dir)) state = state.with(PROPERTY, true);
-        worldIn.setBlockState(pos, state);
-        super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
-    }*/
-
+    @NotNull
     @Override
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
         BooleanProperty PROPERTY;
@@ -107,7 +70,6 @@ public class BlastedCastIronBlock extends Block {
             else if (stateIn.get(PROPERTY))
                 stateIn = stateIn.with(PROPERTY, false);
         }
-        //worldIn.setBlockState(pos, state);
         return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
