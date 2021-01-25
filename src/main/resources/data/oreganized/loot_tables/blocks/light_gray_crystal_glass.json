@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "oreganized:light_grey_crystal_glass"
+          "name": "oreganized:light_gray_crystal_glass"
         }
       ],
       "conditions": [

@@ -123,10 +123,10 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "oreganized",
+            "Specification-Title": "oreganizedmod",
             "Specification-Vendor": "oreganizedsareus",
             "Specification-Version": "${version}", // We are version 1 of ourselves
-            "Implementation-Title": "lel",
+            "Implementation-Title": "Oreganized Mod",
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"oreganizedsareus",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
