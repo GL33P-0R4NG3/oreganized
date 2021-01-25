@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:story/iron_tools",
+  "display": {
+    "icon": {
+      "item": "oreganized:silver_ore"
+    },
+    "title": {
+      "translate": "advancements.story.mine_silver_ore.title"
+    },
+    "description": {
+      "translate": "advancements.story.mine_silver_ore.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "silver_ore": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_ore"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "silver_ore"
+    ]
+  ]
+}

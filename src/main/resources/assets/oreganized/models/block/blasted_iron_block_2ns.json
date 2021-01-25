@@ -1,0 +1,23 @@
+{
+	"parent": "oreganized",
+	"textures": {
+		"13": "oreganized:block/blasted_iron_block_two_side_opposite1",
+		"14": "oreganized:block/blasted_iron_block_two_side_opposite2",
+		"15": "oreganized:block/blasted_iron_block_without_side",
+		"particle": "oreganized:block/blasted_iron_block"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": { "texture": "#15", "cullface": "north"},
+				"east": { "texture": "#13" },
+				"south": { "texture": "#15", "cullface": "south"},
+				"west": { "texture": "#13" },
+				"up": { "texture": "#14" },
+				"down": { "texture": "#14" }
+			}
+		}
+	]
+}

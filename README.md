@@ -1,5 +1,5 @@
-# oreexpansion
-Ore Epansion mod which as it say expands ores and other items in vanilla minecraft
+# oreganized
+Oreganized Mod which expands ores and other items in vanilla minecraft
 
 **Currently added**
 - Silver Ore

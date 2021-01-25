@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "oreganized:item/silver_tinted_diamond_sword"
+  }
+}

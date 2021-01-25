@@ -1,0 +1,11 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "oreganized:item/silver_mirror"
+  },
+  "overrides": [
+    { "predicate": { "custom_model_data": 3 }, "model": "oreganized:item/silver_mirror_level_3" },
+    { "predicate": { "custom_model_data": { "tag": { "dist": 2 } } }, "model": "oreganized:item/silver_mirror_level_2" },
+    { "predicate": { "tag": { "dist": 1 } }, "model": "oreganized:item/silver_mirror_level_1" }
+  ]
+}

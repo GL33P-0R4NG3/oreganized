@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "oreganized:block/cauldron"
+    },
+    "level=1": {
+      "model": "oreganized:block/cauldron_lead_level1"
+    },
+    "level=2": {
+      "model": "oreganized:block/cauldron_lead_level2"
+    },
+    "level=3": {
+      "model": "oreganized:block/cauldron_lead_level3"
+    }
+  }
+}

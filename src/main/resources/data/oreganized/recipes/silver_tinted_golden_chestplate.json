@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "minecraft:golden_chestplate"
+  },
+  "addition": {
+    "item": "oreganized:silver_ingot"
+  },
+  "result": {
+    "item": "oreganized:silver_tinted_golden_chestplate"
+  }
+}

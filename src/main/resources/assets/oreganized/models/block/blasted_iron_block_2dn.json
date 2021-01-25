@@ -1,0 +1,25 @@
+{
+	"parent": "oreganized",
+	"textures": {
+		"5": "oreganized:block/blasted_iron_block_three_side1",
+		"7": "oreganized:block/blasted_iron_block_three_side3",
+		"9": "oreganized:block/blasted_iron_block_two_side_connected1",
+		"10": "oreganized:block/blasted_iron_block_two_side_connected2",
+		"15": "oreganized:block/blasted_iron_block_without_side",
+		"particle": "oreganized:block/blasted_iron_block"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": { "texture": "#15", "cullface": "north" },
+				"east": { "texture": "#9" },
+				"south": { "texture": "#7" },
+				"west": { "texture": "#10" },
+				"up": { "texture": "#5" },
+				"down": { "texture": "#15", "cullface": "down" }
+			}
+		}
+	]
+}

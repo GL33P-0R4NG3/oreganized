@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "minecraft:netherite_boots"
+  },
+  "addition": {
+    "item": "oreganized:silver_ingot"
+  },
+  "result": {
+    "item": "oreganized:silver_tinted_netherite_boots"
+  }
+}

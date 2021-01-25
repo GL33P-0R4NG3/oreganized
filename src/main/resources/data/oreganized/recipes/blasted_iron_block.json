@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "group": "lead_ingot",
+  "ingredient": {
+    "item": "oreganized:cast_iron_block"
+  },
+  "result": "oreganized:blasted_iron_block",
+  "experience": 0.2,
+  "cookingtime": 200
+}

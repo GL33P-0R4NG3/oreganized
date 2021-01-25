@@ -3,7 +3,7 @@ loaderVersion="[35,)" #mandatory This is typically bumped every Minecraft versio
 license='''
 MIT License
 
-Copyright (c) 2020 GLEEP ORANGE
+Copyright (c) 2021 GLEEP ORANGE
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -26,19 +26,19 @@ IN THE SOFTWARE.
 issueTrackerURL="https://github.com/GL33P-0R4NG3/oreexpansion/issues/" #optional
 
 [[mods]] #mandatory
-modId="oreexpansion" #mandatory
-version="1.16.4-0.3.0-beta" #mandatory
-displayName="Ore Expansion" #mandatory
+modId="oreganized" #mandatory
+version="1.16.4-0.4.0-beta" #mandatory
+displayName="Oreganized Mod" #mandatory
 updateJSONURL="http://myurl.me/" #optional
 displayURL="http://example.com/" #optional
-logoFile="oreexpansion.png" #optional
-credits="Thanks for this Ore Expansion mode goes to our active () members on our discord server!" #optional
+logoFile="oreganized.png" #optional
+credits="Thanks for this Oreganized mod goes to our active () members on our discord server!" #optional
 authors="<Gl33p_0r4ange>, Agent M" #optional
 description='''
 Expands vanilla stuff.
 '''
 
-[[dependencies.oreexpansion]] #optional
+[[dependencies.oreganized]] #optional
     # the modid of the dependency
     modId="forge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
@@ -50,7 +50,7 @@ Expands vanilla stuff.
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
 
-[[dependencies.oreexpansion]]
+[[dependencies.oreganized]]
     modId="minecraft"
     mandatory=true
     # This version range declares a minimum of the current minecraft version up to but not including the next major version

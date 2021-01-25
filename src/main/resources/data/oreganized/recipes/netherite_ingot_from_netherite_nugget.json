@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "netherite_ingot",
+  "pattern":
+  [
+    "xxx",
+    "xxx",
+    "xxx"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "oreganized:netherite_nugget"
+    }
+  },
+  "result":
+  {
+    "item": "minecraft:netherite_ingot",
+    "count": 1
+  }
+}
