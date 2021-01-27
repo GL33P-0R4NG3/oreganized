@@ -9,10 +9,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,8 +45,22 @@ public class ClientEvents {
 
         item.setTag(sword.getTag());
         item.setDamage(sword.getMaxDamage());
-        if (!pl.inventory.addItemStackToInventory(item)) {
+        if (!pl.addItemStackToInventory(item)) {
             pl.dropItem(item, false);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onTargetSet(LivingSetAttackTargetEvent event) {
+        if (event.getTarget() instanceof PlayerEntity) {
+            if (event.getEntityLiving().isEntityUndead()) {
+                PlayerEntity player = (PlayerEntity) event.getTarget();
+                for (ItemStack stack : player.inventory.armorInventory) {
+                    if (ItemTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + ":silver_tinted_items")).contains(stack.getItem())) {
+                        event.getEntityLiving().setRevengeTarget(null);
+                    }
+                }
+            }
         }
     }
 

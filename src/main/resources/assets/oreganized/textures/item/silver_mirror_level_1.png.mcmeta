@@ -1,6 +1,6 @@
 {
   "animation": {
-    "frametime": 2,
+    "frametime": 4,
     "frames": [ 2, 1, 0, 1, 2 ]
   }
 }

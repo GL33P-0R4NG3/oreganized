@@ -1,8 +1,8 @@
 {
-  "parent": "oreexpansion:story/mine_silver_ore",
+  "parent": "oreganized:story/mine_silver_ore",
   "display": {
     "icon": {
-      "item": "oreexpansion:silver_tinted_golden_chestplate",
+      "item": "oreganized:silver_tinted_golden_chestplate",
       "nbt": "{Damage:0}"
     },
     "title": {
@@ -22,7 +22,7 @@
       "conditions": {
         "items": [
           {
-            "item": "oreexpansion:silver_tinted_golden_helmet"
+            "item": "oreganized:silver_tinted_golden_helmet"
           }
         ]
       }
@@ -32,7 +32,7 @@
       "conditions": {
         "items": [
           {
-            "item": "oreexpansion:silver_tinted_golden_chestplate"
+            "item": "oreganized:silver_tinted_golden_chestplate"
           }
         ]
       }
@@ -42,7 +42,7 @@
       "conditions": {
         "items": [
           {
-            "item": "oreexpansion:silver_tinted_golden_leggings"
+            "item": "oreganized:silver_tinted_golden_leggings"
           }
         ]
       }
@@ -52,7 +52,7 @@
       "conditions": {
         "items": [
           {
-            "item": "oreexpansion:silver_tinted_golden_boots"
+            "item": "oreganized:silver_tinted_golden_boots"
           }
         ]
       }
@@ -62,7 +62,7 @@
       "conditions": {
         "items": [
           {
-            "item": "oreexpansion:silver_tinted_golden_sword"
+            "item": "oreganized:silver_tinted_golden_sword"
           }
         ]
       }

@@ -1,8 +1,8 @@
 {
-  "parent": "oreexpansion:story/mine_silver_ore",
+  "parent": "oreganized:story/mine_silver_ore",
   "display": {
     "icon": {
-      "item": "oreexpansion:silver_tinted_netherite_sword",
+      "item": "oreganized:silver_tinted_netherite_sword",
       "nbt": "{Damage:0}"
     },
     "title": {
@@ -33,7 +33,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -56,7 +56,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -79,7 +79,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -102,7 +102,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -125,7 +125,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -148,7 +148,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -171,7 +171,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -194,7 +194,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -217,7 +217,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -240,7 +240,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -263,7 +263,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
@@ -286,7 +286,7 @@
           "direct_entity": {
             "equipment": {
               "mainhand": {
-                "tag": "oreexpansion:silver_tinted_items"
+                "tag": "oreganized:silver_tinted_items"
               }
             }
           }
