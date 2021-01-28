@@ -4,9 +4,9 @@
     "layer0": "oreganized:item/silver_mirror"
   },
   "overrides": [
-    { "predicate": { "oreganized:dist": 4 }, "model": "oreganized:item/silver_mirror_level_4" },
-    { "predicate": { "oreganized:dist": 3 }, "model": "oreganized:item/silver_mirror_level_3" },
+    { "predicate": { "oreganized:dist": 1 }, "model": "oreganized:item/silver_mirror_level_1" },
     { "predicate": { "oreganized:dist": 2 }, "model": "oreganized:item/silver_mirror_level_2" },
-    { "predicate": { "oreganized:dist": 1 }, "model": "oreganized:item/silver_mirror_level_1" }
+    { "predicate": { "oreganized:dist": 3 }, "model": "oreganized:item/silver_mirror_level_3" },
+    { "predicate": { "oreganized:dist": 4 }, "model": "oreganized:item/silver_mirror_level_4" }
   ]
 }

@@ -11,10 +11,10 @@
     "description": {
       "translate": "advancements.story.no_protection.description"
     },
-    "frame": "challenge",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": true
+    "hidden": false
   },
   "criteria": {
     "silver_tinted_golden_helmet": {

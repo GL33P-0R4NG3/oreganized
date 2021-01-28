@@ -1,8 +1,10 @@
 package me.gleep.oreganized;
 
+import me.gleep.oreganized.blocks.SilverBlock;
 import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.world.gen.CustomOreGen;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.world.ClientWorld;
@@ -17,9 +19,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,7 +53,6 @@ public class Oreganized {
     private void doClientStuff(final FMLClientSetupEvent event) {
         LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
 
-
         RenderTypeLookup.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
@@ -68,20 +71,19 @@ public class Oreganized {
         RenderTypeLookup.setRenderLayer(RegistryHandler.WHITE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
 
-        ItemModelsProperties.registerProperty(RegistryHandler.SILVER_MIRROR.get(), new ResourceLocation(Oreganized.MOD_ID + ":dist"), new IItemPropertyGetter() {
-            final float RANGE = 10.0f;
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_MIRROR.get(), new ResourceLocation(Oreganized.MOD_ID + ":dist"), new IItemPropertyGetter() {
             boolean isUndeadNearby = false;
 
             @Override
             public float call(ItemStack p_call_1_, @Nullable ClientWorld p_call_2_, @Nullable LivingEntity p_call_3_) {
                 int dist = 4;
-                if (!(p_call_1_.getAttachedEntity() instanceof PlayerEntity)) return dist;
-                CompoundNBT nbt = new CompoundNBT();
-                PlayerEntity player = (PlayerEntity) p_call_3_;
+
+                if (!(p_call_3_ instanceof ClientPlayerEntity)) return dist;
+                ClientPlayerEntity player = (ClientPlayerEntity) p_call_3_;
                 BlockPos pos = player.getPosition();
                 List<Entity> list = player.getEntityWorld().getEntitiesInAABBexcluding(null,
-                        new AxisAlignedBB(pos.getX() + RANGE, pos.getY() + RANGE, pos.getZ() + RANGE,
-                                pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE),
+                        new AxisAlignedBB(pos.getX() + SilverBlock.RANGE, pos.getY() + SilverBlock.RANGE, pos.getZ() + SilverBlock.RANGE,
+                                pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE),
                         null);
 
                 isUndeadNearby = false;
@@ -90,14 +92,19 @@ public class Oreganized {
                         LivingEntity living = (LivingEntity) e;
                         if (living.isEntityUndead()) {
                             isUndeadNearby = true;
-                            if (p_call_1_.getTag() != null) nbt.merge(p_call_1_.getTag());
                             double distance = living.getDistance(player);
-                            if (distance < RANGE) {
-                                dist = (int) Math.floor(distance / (RANGE / 4));
-                                if (!(dist > 1))
+                            if (distance < SilverBlock.RANGE && ((int) Math.floor(distance / (SilverBlock.RANGE / 4))) < dist) {
+                                if (distance <= 5) {
                                     dist = 1;
-                                else if (dist > 3)
+                                } else if ((int) Math.floor(distance / (SilverBlock.RANGE / 4)) < 2) {
+                                    dist = 2;
+                                } else {
+                                    dist = (int) Math.floor(distance / (SilverBlock.RANGE / 4));
+                                }
+                                
+                                if (dist > 3) {
                                     dist = 3;
+                                }
                             }
                         }
                     }
@@ -108,7 +115,7 @@ public class Oreganized {
                 }
                 return dist;
             }
-        });
+        }));
     }
 
     /*@SubscribeEvent

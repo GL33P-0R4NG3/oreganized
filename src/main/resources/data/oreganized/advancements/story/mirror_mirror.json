@@ -1,0 +1,37 @@
+{
+  "parent": "oreganized:story/mine_silver_ore",
+  "display": {
+    "icon": {
+      "item": "oreganized:silver_mirror",
+      "nbt": "{dist:1}"
+    },
+    "title": {
+      "translate": "advancements.story.mirror_mirror.title"
+    },
+    "description": {
+      "translate": "advancements.story.mirror_mirror.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "shining_silver_mirror": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_mirror",
+            "tag": { "oreganized:dist": 1 }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "shining_silver_mirror"
+    ]
+  ]
+}

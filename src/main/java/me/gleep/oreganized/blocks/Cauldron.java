@@ -24,6 +24,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -38,16 +39,19 @@ public class Cauldron extends Block {
         this.setDefaultState(this.getStateContainer().getBaseState().with(LEVEL, Integer.valueOf(1)));
     }
 
+    @NotNull
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return SHAPE;
     }
 
+    @NotNull
     @Override
     public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return INSIDE;
     }
 
+    @NotNull
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ItemStack itemstack = player.getHeldItem(handIn);
@@ -61,7 +65,7 @@ public class Cauldron extends Block {
         } else {
             int i = state.get(LEVEL);
             Item item = itemstack.getItem();
-            if (item == RegistryHandler.LEAD_BLOCK_ITEM.get()) {
+            /*if (item == RegistryHandler.LEAD_BLOCK_ITEM.get()) {
                 if (!worldIn.isRemote) {
                     player.addStat(Stats.FILL_CAULDRON);
                     this.setLeadLevel(worldIn, pos, state, 1);
@@ -69,7 +73,7 @@ public class Cauldron extends Block {
                 }
 
                 return ActionResultType.func_233537_a_(worldIn.isRemote);
-            } else if (item == Items.BUCKET) {
+            } else */if (item == Items.BUCKET) {
                 if (i == 3 && !worldIn.isRemote) {
                     if (!player.abilities.isCreativeMode) {
                         itemstack.shrink(1);
@@ -117,7 +121,7 @@ public class Cauldron extends Block {
     }
 
     public void setLeadLevel(World worldIn, BlockPos pos, BlockState state, int level) {
-        worldIn.setBlockState(pos, state.with(LEVEL, Integer.valueOf(MathHelper.clamp(level, 0, 3))), 2);
+        worldIn.setBlockState(pos, state.with(LEVEL, MathHelper.clamp(level, 0, 3)), 2);
     }
 
     @Override
@@ -128,14 +132,5 @@ public class Cauldron extends Block {
         return false;
     }
 
-    /*@Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
 
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return RegistryHandler.CAULDRON_TE.get().create();
-    }*/
 }

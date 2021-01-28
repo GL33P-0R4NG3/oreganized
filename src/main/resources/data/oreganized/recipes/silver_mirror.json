@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xyx",
+    "x#x",
+    " x "
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:gold_ingot"
+    },
+    "y": {
+      "item": "minecraft:glass_pane"
+    },
+    "#": {
+      "item": "oreganized:silver_ingot"
+    }
+  },
+  "result": {
+    "item": "oreganized:silver_mirror",
+    "count": 1
+  }
+}

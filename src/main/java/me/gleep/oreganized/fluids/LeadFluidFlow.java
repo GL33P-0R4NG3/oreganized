@@ -1,9 +1,11 @@
 package me.gleep.oreganized.fluids;
 
 import me.gleep.oreganized.util.RegistryHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.state.StateContainer;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -20,8 +22,9 @@ public class LeadFluidFlow extends ForgeFlowingFluid {
                     .builder(new ResourceLocation("oreganized:block/lead_fluid"), new ResourceLocation("oreganized:block/lead_fluid"))
                     .overlay(new ResourceLocation("oreganized:block/lead_fluid_overlay"))
                     .luminosity(8)
-                    .viscosity(10000)
-                    .density(5000)
+                    .viscosity(5000)
+                    .density(11300)
+                    .temperature(570)
                     .sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA))
                 .bucket(RegistryHandler.LEAD_BUCKET)
                 .block(RegistryHandler.LEAD_FLUID_BLOCK)
@@ -69,5 +72,11 @@ public class LeadFluidFlow extends ForgeFlowingFluid {
     protected int getLevelDecreasePerBlock(IWorldReader worldIn) {
         return 8;
     }
+
+    @Override
+    protected boolean canFlow(IBlockReader worldIn, BlockPos fromPos, BlockState fromBlockState, Direction direction, BlockPos toPos, BlockState toBlockState, FluidState toFluidState, Fluid fluidIn) {
+        return false;
+    }
+
 
 }

@@ -1,5 +1,16 @@
 {
   "variants": {
-    "": { "model": "oreganized:block/silver_block" }
+    "level=0": {
+      "model": "oreganized:block/silver_block_level_1"
+    },
+    "level=1": {
+      "model": "oreganized:block/silver_block_level_2"
+    },
+    "level=2": {
+      "model": "oreganized:block/silver_block_level_3"
+    },
+    "level=3": {
+      "model": "oreganized:block/silver_block"
+    }
   }
 }

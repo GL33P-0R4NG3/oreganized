@@ -1,7 +1,10 @@
 package me.gleep.oreganized.fluids;
 
 import me.gleep.oreganized.util.RegistryHandler;
+import net.minecraft.block.BlockState;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -12,15 +15,18 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
+import org.jetbrains.annotations.NotNull;
 
 public class LeadFluid extends ForgeFlowingFluid {
+
     public LeadFluid() {
         super(new Properties(RegistryHandler.LEAD_FLUID, RegistryHandler.LEAD_FLUID_FLOW, FluidAttributes
                     .builder(new ResourceLocation("oreganized:block/lead_fluid"), new ResourceLocation("oreganized:block/lead_fluid"))
                     .overlay(new ResourceLocation("oreganized:block/lead_fluid_overlay"))
                     .luminosity(8)
-                    .viscosity(10000)
-                    .density(5000)
+                    .viscosity(5000)
+                    .density(11300)
+                    .temperature(570)
                     .sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA))
                 .bucket(RegistryHandler.LEAD_BUCKET)
                 .block(RegistryHandler.LEAD_FLUID_BLOCK)
@@ -62,9 +68,16 @@ public class LeadFluid extends ForgeFlowingFluid {
         return 8;
     }
 
+    @NotNull
     @Override
     public VoxelShape func_215664_b(FluidState p_215664_1_, IBlockReader p_215664_2_, BlockPos p_215664_3_) {
         return VoxelShapes.fullCube();
     }
+
+    @Override
+    protected boolean canFlow(IBlockReader worldIn, BlockPos fromPos, BlockState fromBlockState, Direction direction, BlockPos toPos, BlockState toBlockState, FluidState toFluidState, Fluid fluidIn) {
+        return false;
+    }
+
 
 }

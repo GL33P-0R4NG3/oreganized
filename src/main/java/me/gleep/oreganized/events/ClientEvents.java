@@ -57,7 +57,7 @@ public class ClientEvents {
                 PlayerEntity player = (PlayerEntity) event.getTarget();
                 for (ItemStack stack : player.inventory.armorInventory) {
                     if (ItemTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + ":silver_tinted_items")).contains(stack.getItem())) {
-                        event.getEntityLiving().setRevengeTarget(null);
+                        event.getEntityLiving().setLastAttackedEntity(null);
                     }
                 }
             }
