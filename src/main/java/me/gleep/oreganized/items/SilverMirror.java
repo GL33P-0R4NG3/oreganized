@@ -1,13 +1,77 @@
 package me.gleep.oreganized.items;
 
+import me.gleep.oreganized.blocks.SilverBlock;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.command.arguments.NBTPathArgument;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.IntNBT;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SilverMirror extends Item {
+
+    boolean isUndeadNearby = false;
 
     public SilverMirror() {
         super(new Properties().group(ItemGroup.TOOLS)
                 .maxStackSize(1));
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        int dist = 4;
+
+        if (!(entityIn instanceof PlayerEntity)) return;
+        CompoundNBT nbt = new CompoundNBT();
+        PlayerEntity player = (PlayerEntity) entityIn;
+        BlockPos pos = player.getPosition();
+        List<Entity> list = player.getEntityWorld().getEntitiesInAABBexcluding(player,
+                new AxisAlignedBB(pos.getX() + SilverBlock.RANGE, pos.getY() + SilverBlock.RANGE, pos.getZ() + SilverBlock.RANGE,
+                        pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE),
+                null);
+
+        isUndeadNearby = false;
+        for (Entity e : list) {
+            if (e.isLiving()) {
+                LivingEntity living = (LivingEntity) e;
+                if (living.isEntityUndead()) {
+                    isUndeadNearby = true;
+                    double distance = living.getDistance(player);
+                    if (distance < SilverBlock.RANGE && ((int) Math.floor(distance / (SilverBlock.RANGE / 4))) < dist) {
+                        if (distance <= 5) {
+                            dist = 1;
+                        } else if ((int) Math.floor(distance / (SilverBlock.RANGE / 4)) < 2) {
+                            dist = 2;
+                        } else {
+                            dist = (int) Math.floor(distance / (SilverBlock.RANGE / 4));
+                        }
+
+                        if (dist > 3) {
+                            dist = 3;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!isUndeadNearby) {
+            dist = 4;
+        }
+
+        nbt.putInt("Dist", dist);
+        stack.setTag(nbt);
     }
 
 }

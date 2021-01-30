@@ -3,7 +3,7 @@
   "display": {
     "icon": {
       "item": "oreganized:silver_mirror",
-      "nbt": "{dist:1}"
+      "nbt": "{Dist:1}"
     },
     "title": {
       "translate": "advancements.story.mirror_mirror.title"
@@ -23,7 +23,7 @@
         "items": [
           {
             "item": "oreganized:silver_mirror",
-            "tag": { "oreganized:dist": 1 }
+            "nbt": "{Dist:1}"
           }
         ]
       }

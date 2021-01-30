@@ -8,7 +8,6 @@ import net.minecraft.world.IBlockReader;
 
 public class CrystalGlassBase extends GlassBlock {
 
-
     public CrystalGlassBase() {
         super(Properties.create(Material.GLASS)
                 .hardnessAndResistance(0.3F)
@@ -28,31 +27,6 @@ public class CrystalGlassBase extends GlassBlock {
         return (boolean)false;
     }
 
-    /*@Override
-    public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return 0;
-    }
 
-    @Override
-    public boolean isVariableOpacity() {
-        return true;
-    }*/
-
-    /*@Override
-    public boolean isTransparent(BlockState state) {
-        return true;
-    }*/
-
-    /*@Override
-    public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
-        player.addStat(Stats.BLOCK_MINED.get(this));
-        player.addExhaustion(0.005F);
-        ListNBT nbt = stack.getEnchantmentTagList();
-        for (INBT s : nbt) {
-            if (s.getString().equals("silk_touch")) {
-                spawnDrops(state, worldIn, pos, te, player, stack);
-            }
-        }
-    }*/
 
 }

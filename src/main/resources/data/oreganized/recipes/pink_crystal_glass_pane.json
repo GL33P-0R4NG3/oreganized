@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "crystal_glass_pane",
+  "pattern": [
+    "xxx",
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "oreganized:pink_crystal_glass"
+    }
+  },
+  "result": {
+    "item": "oreganized:pink_crystal_glass_pane",
+    "count": 16
+  }
+}

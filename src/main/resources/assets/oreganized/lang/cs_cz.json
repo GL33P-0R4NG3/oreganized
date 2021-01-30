@@ -3,6 +3,8 @@
   "advancements.story.kill_undead_mob.title": "Sypat stříbro do rány",
   "advancements.story.mine_silver_ore.description": "Vytěž stříbrnou rudu",
   "advancements.story.mine_silver_ore.title": "Mluviti stříbro, mlčeti zlato.",
+  "advancements.story.mirror_mirror.description": "Najdi pomocí stříbrného zrcadla nemrtvého moba",
+  "advancements.story.mirror_mirror.title": "Zrcadlo kdo je na světě nejkrásnější",
   "advancements.story.no_protection.description": "Udělej celé postříbřené zlaté brnění a meč",
   "advancements.story.no_protection.title": "Zlatý fanda",
   "block.oreganized.black_crystal_glass": "Black Crystal Glass",
@@ -29,7 +31,7 @@
   "block.oreganized.silver_block": "Blok stříbra",
   "block.oreganized.silver_ore": "Stříbrná ruda",
   "item.oreganized.iron_plate": "Iron Plate",
-  "item.oreganized.lead_bucket": "Lead Bucket",
+  "item.oreganized.lead_bucket": "Molten Lead Bucket",
   "item.oreganized.lead_ingot": "Olověný ingot",
   "item.oreganized.lead_nugget": "Olověný nuget",
   "item.oreganized.netherite_nugget": "Netheritový nuget",
@@ -50,5 +52,5 @@
   "item.oreganized.silver_tinted_netherite_chestplate": "Postříbřené netheritové brnění",
   "item.oreganized.silver_tinted_netherite_helmet": "Postříbřená netheritová helma",
   "item.oreganized.silver_tinted_netherite_leggings": "Postříbřené netheritové kalhoty",
-  "item.oreganized.silver_tinted_netherite_sword": "Postříbřený netheritový meč",
+  "item.oreganized.silver_tinted_netherite_sword": "Postříbřený netheritový meč"
 }

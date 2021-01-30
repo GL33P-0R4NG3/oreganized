@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "oreganized:brown_crystal_glass_pane"
+    ]
+  },
+  "criteria": {
+    "has_crystal_glass": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:brown_crystal_glass"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "oreganized:brown_crystal_glass_pane"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_crystal_glass",
+      "has_the_recipe"
+    ]
+  ]
+}

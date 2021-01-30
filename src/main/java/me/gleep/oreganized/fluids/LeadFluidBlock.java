@@ -5,13 +5,10 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.fluid.FlowingFluid;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.pathfinding.PathNodeType;
@@ -21,13 +18,8 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.ModelLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -73,10 +65,10 @@ public class LeadFluidBlock extends FlowingFluidBlock {
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
         return false;
-    }
+    }*/
 
     @NotNull
     @Override
@@ -87,5 +79,10 @@ public class LeadFluidBlock extends FlowingFluidBlock {
             if (item.getItem().equals(Items.IRON_BOOTS)) return VoxelShapes.fullCube();
         }
         return VoxelShapes.empty();
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return super.getShape(state, worldIn, pos, context);
     }
 }

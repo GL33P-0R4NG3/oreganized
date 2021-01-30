@@ -4,6 +4,8 @@ import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.state.StateContainer;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
@@ -17,12 +19,12 @@ import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import org.jetbrains.annotations.NotNull;
 
-public class LeadFluid extends ForgeFlowingFluid {
+public abstract class LeadFluid extends ForgeFlowingFluid {
 
     public LeadFluid() {
         super(new Properties(RegistryHandler.LEAD_FLUID, RegistryHandler.LEAD_FLUID_FLOW, FluidAttributes
                     .builder(new ResourceLocation("oreganized:block/lead_fluid"), new ResourceLocation("oreganized:block/lead_fluid"))
-                    .overlay(new ResourceLocation("oreganized:block/lead_fluid_overlay"))
+                    //.overlay(new ResourceLocation("oreganized:block/lead_fluid_overlay"))
                     .luminosity(8)
                     .viscosity(5000)
                     .density(11300)
@@ -34,31 +36,12 @@ public class LeadFluid extends ForgeFlowingFluid {
     }
 
     @Override
-    public boolean isSource(FluidState state) {
-        return true;
-    }
-
-    @Override
-    public int getLevel(FluidState state) {
-        return 8;
-    }
-
-    @Override
     public Vector3d getFlow(IBlockReader blockReader, BlockPos pos, FluidState fluidState) {
         double d0 = 0.0D;
         double d1 = 0.0D;
         BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 
         Vector3d vector3d = new Vector3d(d0, 0.0D, d1);
-        /*if (fluidState.get(FALLING)) {
-            for (Direction direction1 : Direction.Plane.HORIZONTAL) {
-                blockpos$mutable.setAndMove(pos, direction1);
-                if (this.causesDownwardCurrent(blockReader, blockpos$mutable, direction1) || this.causesDownwardCurrent(blockReader, blockpos$mutable.up(), direction1)) {
-                    vector3d = vector3d.normalize().add(0.0D, -6.0D, 0.0D);
-                    break;
-                }
-            }
-        }*/
 
         return vector3d.normalize();
     }
@@ -68,16 +51,39 @@ public class LeadFluid extends ForgeFlowingFluid {
         return 8;
     }
 
-    @NotNull
-    @Override
-    public VoxelShape func_215664_b(FluidState p_215664_1_, IBlockReader p_215664_2_, BlockPos p_215664_3_) {
-        return VoxelShapes.fullCube();
-    }
-
     @Override
     protected boolean canFlow(IBlockReader worldIn, BlockPos fromPos, BlockState fromBlockState, Direction direction, BlockPos toPos, BlockState toBlockState, FluidState toFluidState, Fluid fluidIn) {
         return false;
     }
 
+    public static class Flowing extends LeadFluid {
+        @Override
+        protected void fillStateContainer(@NotNull StateContainer.Builder<Fluid, FluidState> builder) {
+            super.fillStateContainer(builder);
+            builder.add(LEVEL_1_8);
+        }
+
+        @Override
+        public boolean isSource(FluidState state) {
+            return false;
+        }
+
+        @Override
+        public int getLevel(FluidState state) {
+            return 8;
+        }
+    }
+
+    public static class Source extends LeadFluid {
+        @Override
+        public boolean isSource(FluidState state) {
+            return true;
+        }
+
+        @Override
+        public int getLevel(FluidState state) {
+            return 8;
+        }
+    }
 
 }

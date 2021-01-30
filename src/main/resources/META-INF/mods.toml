@@ -4,14 +4,14 @@ license='''
 MIT License
 Copyright (c) 2021 GLEEP ORANGE
 '''
-issueTrackerURL="https://github.com/GL33P-0R4NG3/oreexpansion/issues/" #optional
+issueTrackerURL="https://github.com/GL33P-0R4NG3/oreganized/issues/" #optional
 
 [[mods]] #mandatory
 modId="oreganized" #mandatory
-version="1.16.4-0.4.0-beta" #mandatory
+version="1.16.4-0.4.1-beta" #mandatory
 displayName="Oreganized Mod" #mandatory
 updateJSONURL="http://myurl.me/" #optional
-displayURL="http://example.com/" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/oreganized-mod" #optional
 logoFile="oreganized.png" #optional
 credits="Thanks for this Oreganized mod goes to our active () members on our discord server!" #optional
 authors="<Gl33p_0r4ange>, Agent M" #optional

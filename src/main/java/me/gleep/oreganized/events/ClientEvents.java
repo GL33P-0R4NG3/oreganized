@@ -4,11 +4,17 @@ import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.blocks.Cauldron;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +24,10 @@ import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Oreganized.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClientEvents {
@@ -45,23 +54,15 @@ public class ClientEvents {
 
         item.setTag(sword.getTag());
         item.setDamage(sword.getMaxDamage());
-        if (!pl.addItemStackToInventory(item)) {
-            pl.dropItem(item, false);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onTargetSet(LivingSetAttackTargetEvent event) {
-        if (event.getTarget() instanceof PlayerEntity) {
-            if (event.getEntityLiving().isEntityUndead()) {
-                PlayerEntity player = (PlayerEntity) event.getTarget();
-                for (ItemStack stack : player.inventory.armorInventory) {
-                    if (ItemTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + ":silver_tinted_items")).contains(stack.getItem())) {
-                        event.getEntityLiving().setLastAttackedEntity(null);
-                    }
-                }
+        for (int i = 0; i <= 36; ++i) {
+            ItemStack stack = pl.inventory.mainInventory.get(i);
+            if (stack == ItemStack.EMPTY && i != pl.inventory.getSlotFor(sword)) {
+                pl.inventory.setInventorySlotContents(i, item);
+                return;
             }
         }
+        pl.dropItem(item, true);
+
     }
 
     @SubscribeEvent
@@ -105,9 +106,16 @@ public class ClientEvents {
     public static void onEntityUpdate(final LivingEvent.LivingUpdateEvent event) {
         if (event.getEntity().isLiving()) {
             LivingEntity entity = event.getEntityLiving();
-            if (entity.getBlockState().getBlock().equals(RegistryHandler.LEAD_FLUID_BLOCK.get())) {
-                if (entity.attackable()) {
-                    entity.attackEntityFrom(DamageSource.MAGIC, 3F);
+            ITag<Fluid> tag = FluidTags.getCollection().get(new ResourceLocation("oreganized:lead"));
+            if (entity.isEntityInsideOpaqueBlock()) {
+
+                if (tag != null) entity.handleFluidAcceleration(tag, 1.0d);
+
+                entity.setSwimming(true);
+                entity.setFire(10);
+
+                if (entity.areEyesInFluid(tag) && entity instanceof PlayerEntity) {
+                    PlayerEntity player = (PlayerEntity) entity;
                 }
             }
         }
