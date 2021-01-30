@@ -3,6 +3,10 @@ package me.gleep.oreganized.armors;
 import me.gleep.oreganized.blocks.SilverBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.GoalSelector;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.monster.ZombieEntity;
@@ -31,7 +35,7 @@ public class STABase extends ArmorItem {
         this.immuneToFire = false;
     }
 
-    /*@Override
+    @Override
     public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
         int range = (int) SilverBlock.RANGE;
         BlockPos pos1 = player.getPosition().add(-range / 2, -range / 2, -range / 2);
@@ -42,6 +46,13 @@ public class STABase extends ArmorItem {
                 LivingEntity living = (LivingEntity) e;
                 if (living.isEntityUndead()) {
                     MonsterEntity monster = (MonsterEntity) e;
+                    GoalSelector goals = monster.targetSelector;
+                    PrioritizedGoal[] goals1 = (PrioritizedGoal[]) goals.getRunningGoals().toArray();
+                    for (PrioritizedGoal g : goals1) {
+                        if (g.getGoal() instanceof NearestAttackableTargetGoal<?>) {
+
+                        }
+                    }
                     try {
                         ServerPlayerEntity playerEntity = Objects.requireNonNull(world.getServer()).getPlayerList().getPlayerByUUID(player.getUniqueID());
                         if (playerEntity != null) monster.removeTrackingPlayer(playerEntity);
@@ -51,7 +62,7 @@ public class STABase extends ArmorItem {
                 }
             }
         }
-    }*/
+    }
 
     @Override
     public boolean isImmuneToFire() {
