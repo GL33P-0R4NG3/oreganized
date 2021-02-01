@@ -8,6 +8,11 @@
           "type": "minecraft:item",
           "name": "oreganized:silver_ore"
         }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ]
     }
   ]
