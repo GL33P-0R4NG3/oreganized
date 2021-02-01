@@ -6,10 +6,18 @@ import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.GoalSelector;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.PrioritizedGoal;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.stats.Stats;
@@ -18,19 +26,28 @@ import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(modid = Oreganized.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ClientEvents {
+public class ModEvents {
+    static final HashMap<String, ?> FIELDS = new HashMap<>();
     //@OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onToolBreakEvent(final PlayerDestroyItemEvent event) {
@@ -38,29 +55,27 @@ public class ClientEvents {
         PlayerEntity pl = event.getPlayer();
         ItemStack item;
 
-        //ListNBT ench = sword.getEnchantmentTagList();
-
-        //enchanments.put(sword.getEnchantmentTagList(), "");
-
         if (sword.getItem().equals(RegistryHandler.SILVER_TINTED_DIAMOND_SWORD.get())) {
-            item = new ItemStack(Items.DIAMOND_SWORD/*.getItem()*/);
+            item = new ItemStack(Items.DIAMOND_SWORD);
         } else if (sword.getItem().equals(RegistryHandler.SILVER_TINTED_GOLDEN_SWORD.get())) {
-            item = new ItemStack(Items.GOLDEN_SWORD/*.getItem()*/);
+            item = new ItemStack(Items.GOLDEN_SWORD);
         } else if (sword.getItem().equals(RegistryHandler.SILVER_TINTED_NETHERITE_SWORD.get())) {
-            item = new ItemStack(Items.NETHERITE_SWORD/*.getItem()*/);
+            item = new ItemStack(Items.NETHERITE_SWORD);
         } else {
             return;
         }
 
         item.setTag(sword.getTag());
+        item.getOrCreateTag().putBoolean("Tossed", true);
         item.setDamage(sword.getMaxDamage());
-        for (int i = 0; i <= 36; ++i) {
+        /*for (int i = 0; i <= 36; ++i) {
             ItemStack stack = pl.inventory.mainInventory.get(i);
             if (stack == ItemStack.EMPTY && i != pl.inventory.getSlotFor(sword)) {
                 pl.inventory.setInventorySlotContents(i, item);
                 return;
             }
-        }
+        }*/
+
         pl.dropItem(item, true);
 
     }
@@ -118,6 +133,70 @@ public class ClientEvents {
                     PlayerEntity player = (PlayerEntity) entity;
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityJoin(EntityJoinWorldEvent event) {
+        if (event.getEntity() instanceof MonsterEntity) {
+            MonsterEntity monster = (MonsterEntity) event.getEntity();
+            if (monster.isEntityUndead()) {
+                try {
+                    final Set<PrioritizedGoal> set = ObfuscationReflectionHelper.getPrivateValue(
+                            GoalSelector.class, monster.targetSelector, "goals");
+
+                    for (PrioritizedGoal g : set) {
+                        if (g.getGoal() instanceof NearestAttackableTargetGoal<?>) {
+                            NearestAttackableTargetGoal<?> goal = (NearestAttackableTargetGoal<?>) g.getGoal();
+
+                            final Class<?> targetClass = ObfuscationReflectionHelper.getPrivateValue(
+                                    NearestAttackableTargetGoal.class, goal, "targetClass");
+                            if (targetClass == PlayerEntity.class || targetClass == ServerPlayerEntity.class) {
+                                final EntityPredicate targetEntitySelector = ObfuscationReflectionHelper.getPrivateValue(
+                                        NearestAttackableTargetGoal.class, goal, "targetEntitySelector");
+
+                                final Predicate<LivingEntity> customPredicate = ObfuscationReflectionHelper.getPrivateValue(
+                                        EntityPredicate.class, targetEntitySelector, "customPredicate");
+
+                                Predicate<LivingEntity> entityPredicate =  new Predicate<LivingEntity>() {
+                                    final Predicate<LivingEntity> predicate = customPredicate;
+                                    @Override
+                                    public boolean test(LivingEntity target) {
+                                        for (ItemStack itemStack : target.getArmorInventoryList()) {
+                                            if (ItemTags.getCollection().getTagByID(
+                                                    new ResourceLocation("oreganized:silver_tinted_items"))
+                                                    .contains(itemStack.getItem())) return false;
+                                        }
+                                        return predicate == null || predicate.test(target);
+                                    }
+                                };
+
+                                targetEntitySelector.setCustomPredicate(entityPredicate);
+                            }
+                        }
+                    }
+                } catch (NullPointerException ignored) {
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onItemDrop(ItemTossEvent event) {
+        ItemStack stack = event.getEntityItem().getItem();
+        if (stack.getTag() == null) return;
+        if (stack.getTag().getBoolean("Tossed")) {
+            PlayerEntity player = event.getPlayer();
+            boolean notExist = player.inventory.getSlotFor(stack) == -1;
+            stack.getTag().remove("Tossed");
+            if (notExist) {
+                if (event.isCancelable()) {
+                    event.setCanceled(true);
+                }
+                player.setHeldItem(Hand.MAIN_HAND, stack);
+            } /*else {
+                player.sendMessage(ITextComponent.getTextComponentOrEmpty("\""+ stack.toString() + "\" already exists :/"), UUID.randomUUID());
+            }*/
         }
     }
 
