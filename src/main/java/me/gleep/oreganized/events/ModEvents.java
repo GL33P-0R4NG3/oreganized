@@ -1,10 +1,14 @@
 package me.gleep.oreganized.events;
 
+import com.mojang.util.QueueLogAppender;
+import io.netty.util.internal.shaded.org.jctools.queues.QueueProgressIndicators;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.blocks.Cauldron;
+import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.LivingEntity;
@@ -36,6 +40,7 @@ import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.common.Mod;
@@ -66,18 +71,16 @@ public class ModEvents {
         }
 
         item.setTag(sword.getTag());
-        item.getOrCreateTag().putBoolean("Tossed", true);
+        //item.getOrCreateTag().putBoolean("Tossed", true);
         item.setDamage(sword.getMaxDamage());
-        /*for (int i = 0; i <= 36; ++i) {
+        for (int i = 0; i <= 36; ++i) {
             ItemStack stack = pl.inventory.mainInventory.get(i);
             if (stack == ItemStack.EMPTY && i != pl.inventory.getSlotFor(sword)) {
                 pl.inventory.setInventorySlotContents(i, item);
                 return;
             }
-        }*/
-
-        pl.dropItem(item, true);
-
+        }
+        
     }
 
     @SubscribeEvent
@@ -121,13 +124,13 @@ public class ModEvents {
     public static void onEntityUpdate(final LivingEvent.LivingUpdateEvent event) {
         if (event.getEntity().isLiving()) {
             LivingEntity entity = event.getEntityLiving();
-            ITag<Fluid> tag = FluidTags.getCollection().get(new ResourceLocation("oreganized:lead"));
+            ITag<Fluid> tag = FluidTags.getCollection().getTagByID(new ResourceLocation("oreganized:lead"));
             if (entity.isEntityInsideOpaqueBlock()) {
 
-                if (tag != null) entity.handleFluidAcceleration(tag, 1.0d);
-
+                entity.handleFluidAcceleration(tag, 1.0d);
                 entity.setSwimming(true);
                 entity.setFire(10);
+                entity.attackEntityFrom(ModDamageSource.MOLTEN_LEAD, 3.0F);
 
                 if (entity.areEyesInFluid(tag) && entity instanceof PlayerEntity) {
                     PlayerEntity player = (PlayerEntity) entity;
@@ -190,9 +193,10 @@ public class ModEvents {
             boolean notExist = player.inventory.getSlotFor(stack) == -1;
             stack.getTag().remove("Tossed");
             if (notExist) {
-                if (event.isCancelable()) {
+                /*if (event.isCancelable()) {
+                    event.setResult(Event.Result.ALLOW);
                     event.setCanceled(true);
-                }
+                }*/
                 player.setHeldItem(Hand.MAIN_HAND, stack);
             } /*else {
                 player.sendMessage(ITextComponent.getTextComponentOrEmpty("\""+ stack.toString() + "\" already exists :/"), UUID.randomUUID());
