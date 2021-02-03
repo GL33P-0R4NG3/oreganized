@@ -31,6 +31,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -179,12 +180,15 @@ public class ModEvents {
                         }
                     }
                 } catch (NullPointerException ignored) {
+                    if (event.getWorld().getServer() != null) {
+                        event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("An error occurred during entity loading"), UUID.randomUUID());
+                    }
                 }
             }
         }
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onItemDrop(ItemTossEvent event) {
         ItemStack stack = event.getEntityItem().getItem();
         if (stack.getTag() == null) return;
@@ -193,16 +197,16 @@ public class ModEvents {
             boolean notExist = player.inventory.getSlotFor(stack) == -1;
             stack.getTag().remove("Tossed");
             if (notExist) {
-                /*if (event.isCancelable()) {
+                if (event.isCancelable()) {
                     event.setResult(Event.Result.ALLOW);
                     event.setCanceled(true);
-                }*/
+                }
                 player.setHeldItem(Hand.MAIN_HAND, stack);
-            } /*else {
+            } else {
                 player.sendMessage(ITextComponent.getTextComponentOrEmpty("\""+ stack.toString() + "\" already exists :/"), UUID.randomUUID());
-            }*/
+            }
         }
-    }
+    }*/
 
     /*@SubscribeEvent
     public static void onFluidFlow(BlockEvent.CreateFluidSourceEvent event) {
