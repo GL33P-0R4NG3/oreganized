@@ -1,5 +1,18 @@
 {
   "variants": {
-    "": { "model": "oreganized:block/green_crystal_glass"}
+    "variants": {
+      "rotated=0": {
+        "model": "oreganized:block/green_crystal_glass",
+        "z": 0
+      },
+      "rotated=1": {
+        "model": "oreganized:block/green_crystal_glass",
+        "z": 180
+      },
+      "rotated=2": {
+        "model": "oreganized:block/green_crystal_glass",
+        "x": 180
+      }
+    }
   }
 }
