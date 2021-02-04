@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -13,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class CrystalGlassBase extends GlassBlock {
 
-    public static final IntegerProperty ROTATED_0_2 = IntegerProperty.create("rotated", 0, 2);
+    public static final BooleanProperty ROTATED = BooleanProperty.create("rotated");
 
     public CrystalGlassBase() {
         super(Properties.create(Material.GLASS)
@@ -37,28 +36,19 @@ public class CrystalGlassBase extends GlassBlock {
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         super.fillStateContainer(builder);
-        builder.add(ROTATED_0_2);
+        builder.add(ROTATED);
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        int axis = 0;
+        boolean axis = false;
         if (context.getPlayer() != null) {
             if (context.getPlayer().isSneaking()) {
-                switch (context.getPlacementHorizontalFacing()) {
-                    case WEST:
-                    case EAST:
-                        axis = 1;
-                        break;
-                    case NORTH:
-                    case SOUTH:
-                        axis = 2;
-                        break;
-                }
+                axis = true;
             }
         }
-        return this.getDefaultState().with(ROTATED_0_2, axis);
+        return this.getDefaultState().with(ROTATED, axis);
     }
 
 }

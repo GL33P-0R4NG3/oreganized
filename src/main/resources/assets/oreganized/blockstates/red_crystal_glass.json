@@ -1,16 +1,10 @@
 {
   "variants": {
-    "rotated=0": {
-      "model": "oreganized:block/red_crystal_glass",
-      "z": 0
+    "rotated=false": {
+      "model": "oreganized:block/red_crystal_glass"
     },
-    "rotated=1": {
-      "model": "oreganized:block/red_crystal_glass",
-      "z": 180
-    },
-    "rotated=2": {
-      "model": "oreganized:block/red_crystal_glass",
-      "x": 180
+    "rotated=true": {
+      "model": "oreganized:block/red_crystal_glass_rot"
     }
   }
 }

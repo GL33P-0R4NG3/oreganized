@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "oreganized:block/magenta_crystal_glass_rot"
+  }
+}
