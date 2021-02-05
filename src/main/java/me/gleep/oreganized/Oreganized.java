@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 @Mod("oreganized")
 public class Oreganized {
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "oreganized";
 
     public Oreganized() {

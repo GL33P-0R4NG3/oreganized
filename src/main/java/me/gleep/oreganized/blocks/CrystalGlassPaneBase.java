@@ -9,8 +9,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class CrystalGlassPaneBase extends PaneBlock {
 
-    //public static final IntegerProperty ROTATED_0_2 = IntegerProperty.create("rotated", 0, 2);
-
     public CrystalGlassPaneBase() {
         super(Properties.create(Material.GLASS)
                 .hardnessAndResistance(0.3F)

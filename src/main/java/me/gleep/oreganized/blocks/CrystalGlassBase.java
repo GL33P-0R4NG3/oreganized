@@ -12,8 +12,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class CrystalGlassBase extends GlassBlock {
 
-    public static final BooleanProperty ROTATED = BooleanProperty.create("rotated");
-
     public CrystalGlassBase() {
         super(Properties.create(Material.GLASS)
                 .hardnessAndResistance(0.3F)
@@ -33,22 +31,6 @@ public class CrystalGlassBase extends GlassBlock {
         return (boolean)false;
     }
 
-    @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        super.fillStateContainer(builder);
-        builder.add(ROTATED);
-    }
 
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        boolean axis = false;
-        if (context.getPlayer() != null) {
-            if (context.getPlayer().isSneaking()) {
-                axis = true;
-            }
-        }
-        return this.getDefaultState().with(ROTATED, axis);
-    }
 
 }

@@ -16,6 +16,7 @@ import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluid;
@@ -146,21 +147,21 @@ public class ModEvents {
             MonsterEntity monster = (MonsterEntity) event.getEntity();
             if (monster.isEntityUndead()) {
                 try {
-                    final Set<PrioritizedGoal> set = ObfuscationReflectionHelper.getPrivateValue(
-                            GoalSelector.class, monster.targetSelector, "goals");
+                    final Set<PrioritizedGoal> goals = ObfuscationReflectionHelper.getPrivateValue(
+                            GoalSelector.class, monster.targetSelector, "field_220892_d");
 
-                    for (PrioritizedGoal g : set) {
+                    for (PrioritizedGoal g : goals) {
                         if (g.getGoal() instanceof NearestAttackableTargetGoal<?>) {
                             NearestAttackableTargetGoal<?> goal = (NearestAttackableTargetGoal<?>) g.getGoal();
 
                             final Class<?> targetClass = ObfuscationReflectionHelper.getPrivateValue(
-                                    NearestAttackableTargetGoal.class, goal, "targetClass");
+                                    NearestAttackableTargetGoal.class, goal, "field_75307_b");
                             if (targetClass == PlayerEntity.class || targetClass == ServerPlayerEntity.class) {
                                 final EntityPredicate targetEntitySelector = ObfuscationReflectionHelper.getPrivateValue(
-                                        NearestAttackableTargetGoal.class, goal, "targetEntitySelector");
+                                        NearestAttackableTargetGoal.class, goal, "field_220779_d");
 
                                 final Predicate<LivingEntity> customPredicate = ObfuscationReflectionHelper.getPrivateValue(
-                                        EntityPredicate.class, targetEntitySelector, "customPredicate");
+                                        EntityPredicate.class, targetEntitySelector, "field_221023_h");
 
                                 Predicate<LivingEntity> entityPredicate =  new Predicate<LivingEntity>() {
                                     final Predicate<LivingEntity> predicate = customPredicate;
@@ -179,10 +180,16 @@ public class ModEvents {
                             }
                         }
                     }
-                } catch (NullPointerException ignored) {
+                } catch (NullPointerException nullPointerException) {
                     if (event.getWorld().getServer() != null) {
-                        event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("An error occurred during entity loading"), UUID.randomUUID());
+                        event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("An error occurred during loading living entity\n" + nullPointerException.getMessage()), UUID.randomUUID());
                     }
+                    Oreganized.LOGGER.error("An error occurred during entity loading\n" + nullPointerException.getMessage());
+                } catch (ObfuscationReflectionHelper.UnableToAccessFieldException fieldException) {
+                    if (event.getWorld().getServer() != null) {
+                        event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("Cannot find the field\n" + fieldException.getMessage()), UUID.randomUUID());
+                    }
+                    Oreganized.LOGGER.error("Cannot find the field\n" + fieldException.getMessage());
                 }
             }
         }
