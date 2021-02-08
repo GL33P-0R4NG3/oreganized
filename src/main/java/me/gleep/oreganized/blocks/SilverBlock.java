@@ -64,14 +64,10 @@ public class SilverBlock extends Block {
                 if (living.isEntityUndead()) {
                     isUndeadNearby = true;
                     double distance = MathHelper.sqrt(living.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
-                    if (distance < RANGE && ((int) Math.floor(distance / (RANGE / 4))) < dist) {
-                        if (distance <= 5) {
+                    if (distance < RANGE && ((int) Math.ceil(distance / (RANGE / 4))) < dist) {
+                        if (distance <= 6) {
                             dist = 1;
-                        } else if ((int) Math.floor(distance / (RANGE / 4)) < 2) {
-                            dist = 2;
-                        } else {
-                            dist = (int) Math.floor(distance / (RANGE / 4));
-                        }
+                        } else dist = Math.max((int) Math.ceil(distance / (RANGE / 4)), 2);
 
                         if (dist > 3) {
                             dist = 3;

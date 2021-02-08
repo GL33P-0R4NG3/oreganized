@@ -49,14 +49,10 @@ public class SilverMirror extends Item {
                 if (living.isEntityUndead()) {
                     isUndeadNearby = true;
                     double distance = living.getDistance(player);
-                    if (distance < SilverBlock.RANGE && ((int) Math.floor(distance / (SilverBlock.RANGE / 4))) < dist) {
-                        if (distance <= 5) {
+                    if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 4))) < dist) {
+                        if (distance <= 6) {
                             dist = 1;
-                        } else if ((int) Math.floor(distance / (SilverBlock.RANGE / 4)) < 2) {
-                            dist = 2;
-                        } else {
-                            dist = (int) Math.floor(distance / (SilverBlock.RANGE / 4));
-                        }
+                        } else dist = Math.max((int) Math.ceil(distance / (SilverBlock.RANGE / 4)), 2);
 
                         if (dist > 3) {
                             dist = 3;

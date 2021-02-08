@@ -10,16 +10,13 @@ import me.gleep.oreganized.fluids.LeadFluidBlock;
 import me.gleep.oreganized.items.ItemBase;
 import me.gleep.oreganized.items.LeadBucket;
 import me.gleep.oreganized.items.SilverMirror;
-import me.gleep.oreganized.tools.STSMaterial;
 import me.gleep.oreganized.tools.STSBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
-import net.minecraft.loot.conditions.DamageSourceProperties;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.DamageSource;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -158,11 +155,11 @@ public class RegistryHandler {
 
     //Tools
     public static final RegistryObject<SwordItem> SILVER_TINTED_GOLDEN_SWORD = ITEMS.register("silver_tinted_golden_sword", () ->
-            new STSBase(STSMaterial.STGS, 3, -2.4F));
+            new STSBase(ItemTier.GOLD, 3, -2.4F));
     public static final RegistryObject<SwordItem> SILVER_TINTED_DIAMOND_SWORD = ITEMS.register("silver_tinted_diamond_sword", () ->
-            new STSBase(STSMaterial.STDS, 3, -2.4F));
+            new STSBase(ItemTier.DIAMOND, 3, -2.4F));
     public static final RegistryObject<SwordItem> SILVER_TINTED_NETHERITE_SWORD = ITEMS.register("silver_tinted_netherite_sword", () ->
-            new STSBase(STSMaterial.STNS, 3, -2.4F, true));
+            new STSBase(ItemTier.NETHERITE, 3, -2.4F, true));
 
 
     //Armors
