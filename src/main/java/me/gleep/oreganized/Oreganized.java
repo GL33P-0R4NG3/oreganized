@@ -47,10 +47,7 @@ public class Oreganized {
     private void doClientStuff(final FMLClientSetupEvent event) {
         LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
 
-        BlockTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + "crystal_glass")).getAllElements().forEach(
-                (block) -> RenderTypeLookup.setRenderLayer(block, RenderType.getTranslucent())
-        );
-        /*RenderTypeLookup.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.CRYSTAL_GLASS.get(), RenderType.getTranslucent());
@@ -83,7 +80,7 @@ public class Oreganized {
         RenderTypeLookup.setRenderLayer(RegistryHandler.PURPLE_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.RED_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.WHITE_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());*/
+        RenderTypeLookup.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID.get(), RenderType.getWaterMask());
         RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID_BLOCK.get(), RenderType.getSolid());
 
@@ -91,11 +88,51 @@ public class Oreganized {
                 new ResourceLocation(Oreganized.MOD_ID + ":dist"),
                 (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("Dist") : 4));
 
-        ItemTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + "silver_tinted_items")).getAllElements().forEach(
-                (item) -> event.enqueueWork(() -> ItemModelsProperties.registerProperty(item,
-                        new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                        (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150))
-        );
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_BOOTS.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_CHESTPLATE.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_HELMET.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_LEGGINGS.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_SWORD.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_GOLDEN_BOOTS.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_GOLDEN_CHESTPLATE.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_GOLDEN_HELMET.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_GOLDEN_LEGGINGS.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_GOLDEN_SWORD.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_NETHERITE_BOOTS.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_NETHERITE_CHESTPLATE.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_NETHERITE_HELMET.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_NETHERITE_LEGGINGS.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
+        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_NETHERITE_SWORD.get(),
+                new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
     }
 
     /*@SubscribeEvent

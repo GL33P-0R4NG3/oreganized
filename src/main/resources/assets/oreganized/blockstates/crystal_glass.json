@@ -1,5 +1,5 @@
 {
   "variants": {
-    "model": "oreganized:block/crystal_glass"
+    "": { "model": "oreganized:block/crystal_glass" }
   }
 }

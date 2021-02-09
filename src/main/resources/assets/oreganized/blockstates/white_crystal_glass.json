@@ -1,11 +1,5 @@
 {
   "variants": {
-    "rotated=false": {
-      "model": "oreganized:block/white_crystal_glass",
-      "z": 0
-    },
-    "rotated=true": {
-      "model": "oreganized:block/white_crystal_glass_rot"
-    }
+    "": { "model": "oreganized:block/white_crystal_glass" }
   }
 }
