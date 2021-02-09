@@ -28,18 +28,21 @@ public class CrystalGlassColored extends CrystalGlassBase implements IBeaconBeam
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         super.fillStateContainer(builder);
-        builder.add(ROTATED);
+        if (this.color != DyeColor.LIGHT_GRAY && this.color != DyeColor.WHITE && this.color != DyeColor.YELLOW) builder.add(ROTATED);
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        boolean axis = false;
-        if (context.getPlayer() != null) {
-            if (context.getPlayer().isSneaking()) {
-                axis = true;
+        if (this.color != DyeColor.LIGHT_GRAY && this.color != DyeColor.WHITE && this.color != DyeColor.YELLOW) {
+            boolean axis = false;
+            if (context.getPlayer() != null) {
+                if (context.getPlayer().isSneaking()) {
+                    axis = true;
+                }
             }
+            return this.getDefaultState().with(ROTATED, axis);
         }
-        return this.getDefaultState().with(ROTATED, axis);
+        return this.getDefaultState();
     }
 }

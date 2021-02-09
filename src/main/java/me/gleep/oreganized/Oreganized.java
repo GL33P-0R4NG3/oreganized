@@ -2,6 +2,7 @@ package me.gleep.oreganized;
 
 import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.world.gen.CustomOreGen;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.RenderType;
@@ -9,8 +10,11 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemPropertyGetter;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -43,7 +47,10 @@ public class Oreganized {
     private void doClientStuff(final FMLClientSetupEvent event) {
         LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
 
-        RenderTypeLookup.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        BlockTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + "crystal_glass")).getAllElements().forEach(
+                (block) -> RenderTypeLookup.setRenderLayer(block, RenderType.getTranslucent())
+        );
+        /*RenderTypeLookup.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.CRYSTAL_GLASS.get(), RenderType.getTranslucent());
@@ -76,13 +83,19 @@ public class Oreganized {
         RenderTypeLookup.setRenderLayer(RegistryHandler.PURPLE_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.RED_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.WHITE_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());*/
         RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID.get(), RenderType.getWaterMask());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID_BLOCK.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID_BLOCK.get(), RenderType.getSolid());
 
         event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_MIRROR.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":dist"),
                 (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("Dist") : 4));
+
+        ItemTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + "silver_tinted_items")).getAllElements().forEach(
+                (item) -> event.enqueueWork(() -> ItemModelsProperties.registerProperty(item,
+                        new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
+                        (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150))
+        );
     }
 
     /*@SubscribeEvent
