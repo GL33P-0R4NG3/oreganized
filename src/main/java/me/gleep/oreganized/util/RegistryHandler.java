@@ -1,7 +1,6 @@
 package me.gleep.oreganized.util;
 
 import me.gleep.oreganized.Oreganized;
-import me.gleep.oreganized.armors.STAMaterial;
 import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.blocks.*;
 import me.gleep.oreganized.blocks.tileentities.SilverBlockTileEntity;
@@ -159,35 +158,35 @@ public class RegistryHandler {
     public static final RegistryObject<SwordItem> SILVER_TINTED_DIAMOND_SWORD = ITEMS.register("silver_tinted_diamond_sword", () ->
             new STSBase(ItemTier.DIAMOND, 3, -2.4F));
     public static final RegistryObject<SwordItem> SILVER_TINTED_NETHERITE_SWORD = ITEMS.register("silver_tinted_netherite_sword", () ->
-            new STSBase(ItemTier.NETHERITE, 3, -2.4F, true));
+            new STSBase(ItemTier.NETHERITE, 3, -2.4F));
 
 
     //Armors
     public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_HELMET = ITEMS.register("silver_tinted_golden_helmet", () ->
-            new STABase(STAMaterial.STGA, EquipmentSlotType.HEAD));
+            new STABase(ArmorMaterial.GOLD, EquipmentSlotType.HEAD));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_CHESTPLATE = ITEMS.register("silver_tinted_golden_chestplate", () ->
-            new STABase(STAMaterial.STGA, EquipmentSlotType.CHEST));
+            new STABase(ArmorMaterial.GOLD, EquipmentSlotType.CHEST));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_LEGGINGS = ITEMS.register("silver_tinted_golden_leggings", () ->
-            new STABase(STAMaterial.STGA, EquipmentSlotType.LEGS));
+            new STABase(ArmorMaterial.GOLD, EquipmentSlotType.LEGS));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_GOLDEN_BOOTS = ITEMS.register("silver_tinted_golden_boots", () ->
-            new STABase(STAMaterial.STGA, EquipmentSlotType.FEET));
+            new STABase(ArmorMaterial.GOLD, EquipmentSlotType.FEET));
 
     public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_HELMET = ITEMS.register("silver_tinted_diamond_helmet", () ->
-            new STABase(STAMaterial.STDA, EquipmentSlotType.HEAD));
+            new STABase(ArmorMaterial.DIAMOND, EquipmentSlotType.HEAD));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_CHESTPLATE = ITEMS.register("silver_tinted_diamond_chestplate", () ->
-            new STABase(STAMaterial.STDA, EquipmentSlotType.CHEST));
+            new STABase(ArmorMaterial.DIAMOND, EquipmentSlotType.CHEST));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_LEGGINGS = ITEMS.register("silver_tinted_diamond_leggings", () ->
-            new STABase(STAMaterial.STDA, EquipmentSlotType.LEGS));
+            new STABase(ArmorMaterial.DIAMOND, EquipmentSlotType.LEGS));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_DIAMOND_BOOTS = ITEMS.register("silver_tinted_diamond_boots", () ->
-            new STABase(STAMaterial.STDA, EquipmentSlotType.FEET));
+            new STABase(ArmorMaterial.DIAMOND, EquipmentSlotType.FEET));
 
     public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_HELMET = ITEMS.register("silver_tinted_netherite_helmet", () ->
-            new STABase(STAMaterial.STNA, EquipmentSlotType.HEAD, true));
+            new STABase(ArmorMaterial.NETHERITE, EquipmentSlotType.HEAD));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_CHESTPLATE = ITEMS.register("silver_tinted_netherite_chestplate", () ->
-            new STABase(STAMaterial.STNA, EquipmentSlotType.CHEST, true));
+            new STABase(ArmorMaterial.NETHERITE, EquipmentSlotType.CHEST));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_LEGGINGS = ITEMS.register("silver_tinted_netherite_leggings", () ->
-            new STABase(STAMaterial.STNA, EquipmentSlotType.LEGS, true));
+            new STABase(ArmorMaterial.NETHERITE, EquipmentSlotType.LEGS));
     public static final RegistryObject<ArmorItem> SILVER_TINTED_NETHERITE_BOOTS = ITEMS.register("silver_tinted_netherite_boots", () ->
-            new STABase(STAMaterial.STNA, EquipmentSlotType.FEET, true));
+            new STABase(ArmorMaterial.NETHERITE, EquipmentSlotType.FEET));
 
 }

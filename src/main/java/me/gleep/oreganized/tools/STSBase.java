@@ -3,12 +3,12 @@ package me.gleep.oreganized.tools;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundEvents;
@@ -19,24 +19,18 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.extensions.IForgeItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class STSBase extends SwordItem {
-
-    public static final int MAX_DURABILITY = 150;
+    public static final int MAX_TINT_DURABILITY = 150;
     private final boolean immuneToFire;
+    private boolean shouldDisplayTint;
 
     public STSBase(IItemTier tier, int attackDamageIn, float attackSpeedIn) {
         super(tier, attackDamageIn, attackSpeedIn, new Item.Properties().group(ItemGroup.COMBAT).maxStackSize(1));
-        this.immuneToFire = false;
-    }
-
-    public STSBase(IItemTier tier, int attackDamageIn, float attackSpeedIn, boolean immuneToFire) {
-        super(tier, attackDamageIn, attackSpeedIn, new Item.Properties().group(ItemGroup.COMBAT).maxStackSize(1));
-        this.immuneToFire = immuneToFire;
+        this.immuneToFire = tier == ItemTier.NETHERITE;
     }
 
     @Override
@@ -65,14 +59,18 @@ public class STSBase extends SwordItem {
     }
 
     @Override
-    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-        return false;
+    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
+        if (entityIn instanceof PlayerEntity) {
+            PlayerEntity pl = (PlayerEntity) entityIn;
+            this.shouldDisplayTint = pl.isCrouching();
+        }
     }
 
     public void decreaseDurabilty(ItemStack stack, LivingEntity entityLiving) {
         int durability = stack.getOrCreateTag().getInt("TintedDamage");
         if (durability == 0) {
-            durability = MAX_DURABILITY;
+            durability = MAX_TINT_DURABILITY;
             stack.getOrCreateTag().putInt("TintedDamage", durability);
         }
 
@@ -108,7 +106,8 @@ public class STSBase extends SwordItem {
                         newSword = new ItemStack(Items.NETHERITE_SWORD, 1);
                     }
 
-                    newSword.setDamage(stack.getDamage());
+                    newSword.setTag(stack.getTag());
+                    newSword.getOrCreateTag().remove("TintedDamage");
                     stack.shrink(1);
                     entityLiving.setHeldItem(entityLiving.getActiveHand(), newSword);
                 }
@@ -121,9 +120,8 @@ public class STSBase extends SwordItem {
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        if (stack.getAttachedEntity() instanceof PlayerEntity) {
-            PlayerEntity pl = (PlayerEntity) stack.getAttachedEntity();
-            if (pl.isCrouching()) return stack.getOrCreateTag().getInt("TintedDamage") < 1 ? (double) MAX_DURABILITY : (double) stack.getOrCreateTag().getInt("TintedDamage") / (double) MAX_DURABILITY;
+        if (this.shouldDisplayTint) {
+            return stack.getOrCreateTag().getInt("TintedDamage") < 1 ? (double) MAX_TINT_DURABILITY : (double)  (MAX_TINT_DURABILITY - stack.getOrCreateTag().getInt("TintedDamage")) / (double) MAX_TINT_DURABILITY;
         }
 
         return (double) stack.getDamage() / (double) stack.getMaxDamage();
@@ -132,7 +130,9 @@ public class STSBase extends SwordItem {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(ITextComponent.getTextComponentOrEmpty("Tint Durability: " + stack.getOrCreateTag().getInt("TintedDamage") + "/" + MAX_DURABILITY));
+        if (stack.getOrCreateTag().getInt("TintedDamage") > 0) {
+            tooltip.add(2, ITextComponent.getTextComponentOrEmpty("Tint Durability: " + stack.getOrCreateTag().getInt("TintedDamage") + "/" + MAX_TINT_DURABILITY));
+        }
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }
