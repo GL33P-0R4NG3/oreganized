@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,13 +39,18 @@ public class ModEvents {
     @SubscribeEvent
     public static void onToolBreakEvent(final PlayerDestroyItemEvent event) {
         ItemStack stack = event.getOriginal();
+        PlayerEntity pl = event.getPlayer();
+        ItemStack item = ItemStack.EMPTY;
 
-        if (stack.getItem() instanceof STSBase || stack.getItem() instanceof STABase) {
-            PlayerEntity pl = event.getPlayer();
+        if (stack.getItem() instanceof STSBase) {
             int count = (int) Math.round(((double) stack.getOrCreateTag().getInt("TintedDamage") / (double) STSBase.MAX_TINT_DURABILITY) * 9D);
-            ItemStack item = new ItemStack(RegistryHandler.SILVER_NUGGET.get(), count);
-            pl.dropItem(item, true);
+            item = new ItemStack(RegistryHandler.SILVER_NUGGET.get(), count);
+        } else if (stack.getItem() instanceof STABase) {
+            int count = (int) Math.round(((double) stack.getOrCreateTag().getInt("TintedDamage") / (double) STABase.MAX_TINT_DURABILITY) * 9D);
+            item = new ItemStack(RegistryHandler.SILVER_NUGGET.get(), count);
         }
+
+        pl.dropItem(item, true);
     }
 
     @SubscribeEvent
@@ -104,7 +110,7 @@ public class ModEvents {
     }*/
 
     @SubscribeEvent
-    public static void onEntityJoin(EntityJoinWorldEvent event) {
+    public static void onEntityJoin(final EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof MonsterEntity) {
             MonsterEntity monster = (MonsterEntity) event.getEntity();
             if (monster.isEntityUndead()) {
@@ -152,6 +158,26 @@ public class ModEvents {
                         event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("Cannot find the field\n" + fieldException.getMessage()), UUID.randomUUID());
                     }
                     Oreganized.LOGGER.error("Cannot find the field\n" + fieldException.getMessage());
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingHurt(final LivingHurtEvent event) {
+        //int parts = 0;
+        if (event.getSource().getTrueSource() != null) {
+            if (event.getSource().getTrueSource().isLiving()) {
+                LivingEntity livingEntity = (LivingEntity) event.getSource().getTrueSource();
+                for (ItemStack stack : event.getEntityLiving().getArmorInventoryList()) {
+                    if (stack.getItem() instanceof STABase) {
+                        //parts++;
+                        ((STABase)stack.getItem()).decreaseDurabilty(stack, event.getEntityLiving());
+                    }
+                }
+
+                if (livingEntity.isEntityUndead()) {
+                    livingEntity.setRevengeTarget(null);
                 }
             }
         }

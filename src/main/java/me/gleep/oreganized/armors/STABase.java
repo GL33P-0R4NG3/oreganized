@@ -1,6 +1,5 @@
 package me.gleep.oreganized.armors;
 
-import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -10,7 +9,9 @@ import net.minecraft.item.*;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -19,9 +20,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.UUID;
 
 public class STABase extends ArmorItem {
-    public static final int MAX_TINT_DURABILITY = 150;
+    public static final int MAX_TINT_DURABILITY = 50;
     private final boolean immuneToFire;
     private boolean shouldDisplayTint;
 
@@ -51,16 +53,25 @@ public class STABase extends ArmorItem {
 
     @Override
     public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (this.getEquipmentSlot().equals(EquipmentSlotType.CHEST) || this.getEquipmentSlot().equals(EquipmentSlotType.FEET)
-                || this.getEquipmentSlot().equals(EquipmentSlotType.HEAD) || this.getEquipmentSlot().equals(EquipmentSlotType.LEGS)) {
-            this.decreaseDurabilty(stack, target);
-        } else {
-            this.decreaseDurabilty(stack, attacker);
-        }
+        this.decreaseDurabilty(stack, attacker);
         return super.hitEntity(stack, target, attacker);
     }
 
+    @Override
+    public void onUse(World worldIn, LivingEntity livingEntityIn, ItemStack stack, int count) {
+        super.onUse(worldIn, livingEntityIn, stack, count);
+    }
+
+    /**
+     * Decrease the Tinted durability by one also handles break event
+     *
+     * @param stack         stack that is the durability be decreased
+     * @param entityLiving  entity that is in interaction
+     */
     public void decreaseDurabilty(ItemStack stack, LivingEntity entityLiving) {
+        if (!(entityLiving instanceof PlayerEntity)) return;
+        PlayerEntity pl = (PlayerEntity) entityLiving;
+        if (pl.isCreative()) return;
         int durability = stack.getOrCreateTag().getInt("TintedDamage");
         if (durability == 0) {
             durability = MAX_TINT_DURABILITY;
@@ -68,42 +79,79 @@ public class STABase extends ArmorItem {
         }
 
         if (durability - 1 < 1) {
-            if (entityLiving instanceof PlayerEntity) {
-                PlayerEntity pl = (PlayerEntity) entityLiving;
-                if (!stack.isEmpty()) {
-                    if (!pl.isSilent()) {
-                        pl.world.playSound(pl.getPosX(), pl.getPosY(), pl.getPosZ(), SoundEvents.ENTITY_ITEM_BREAK, pl.getSoundCategory(), 0.8F, 0.8F + pl.world.rand.nextFloat() * 0.4F, false);
-                    }
-
-                    for (int i = 0; i < 5; ++i) {
-                        Vector3d vector3d = new Vector3d(((double)pl.getRNG().nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
-                        vector3d = vector3d.rotatePitch(-pl.rotationPitch * ((float)Math.PI / 180F));
-                        vector3d = vector3d.rotateYaw(-pl.rotationYaw * ((float)Math.PI / 180F));
-                        double d0 = (double)(-pl.getRNG().nextFloat()) * 0.6D - 0.3D;
-                        Vector3d vector3d1 = new Vector3d(((double)pl.getRNG().nextFloat() - 0.5D) * 0.3D, d0, 0.6D);
-                        vector3d1 = vector3d1.rotatePitch(-pl.rotationPitch * ((float)Math.PI / 180F));
-                        vector3d1 = vector3d1.rotateYaw(-pl.rotationYaw * ((float)Math.PI / 180F));
-                        vector3d1 = vector3d1.add(pl.getPosX(), pl.getPosYEye(), pl.getPosZ());
-                        if (pl.world instanceof ServerWorld) //Forge: Fix MC-2518 spawnParticle is nooped on server, need to use server specific variant
-                            ((ServerWorld)pl.world).spawnParticle(new ItemParticleData(ParticleTypes.ITEM, stack), vector3d1.x, vector3d1.y, vector3d1.z, 1, vector3d.x, vector3d.y + 0.05D, vector3d.z, 0.0D);
-                        else
-                            pl.world.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), vector3d1.x, vector3d1.y, vector3d1.z, vector3d.x, vector3d.y + 0.05D, vector3d.z);
-                    }
-
-                    ItemStack newArmorPiece = ItemStack.EMPTY;
-                    if (stack.getItem().equals(RegistryHandler.SILVER_TINTED_DIAMOND_SWORD.get())) {
-                        newArmorPiece = new ItemStack(Items.DIAMOND_SWORD, 1);
-                    } else if (stack.getItem().equals(RegistryHandler.SILVER_TINTED_GOLDEN_SWORD.get())) {
-                        newArmorPiece = new ItemStack(Items.GOLDEN_SWORD, 1);
-                    } else if (stack.getItem().equals(RegistryHandler.SILVER_TINTED_NETHERITE_SWORD.get())) {
-                        newArmorPiece = new ItemStack(Items.NETHERITE_SWORD, 1);
-                    }
-
-                    newArmorPiece.setTag(stack.getTag());
-                    newArmorPiece.getOrCreateTag().remove("TintedDamage");
-                    stack.shrink(1);
-                    entityLiving.setHeldItem(entityLiving.getActiveHand(), newArmorPiece);
+            if (!stack.isEmpty()) {
+                if (!pl.isSilent()) {
+                    pl.world.playSound(pl.getPosX(), pl.getPosY(), pl.getPosZ(), SoundEvents.ENTITY_ITEM_BREAK, pl.getSoundCategory(), 0.8F, 0.8F + pl.world.rand.nextFloat() * 0.4F, false);
                 }
+
+                for (int i = 0; i < 5; ++i) {
+                    Vector3d vector3d = new Vector3d(((double)pl.getRNG().nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+                    vector3d = vector3d.rotatePitch(-pl.rotationPitch * ((float)Math.PI / 180F));
+                    vector3d = vector3d.rotateYaw(-pl.rotationYaw * ((float)Math.PI / 180F));
+                    double d0 = (double)(-pl.getRNG().nextFloat()) * 0.6D - 0.3D;
+                    Vector3d vector3d1 = new Vector3d(((double)pl.getRNG().nextFloat() - 0.5D) * 0.3D, d0, 0.6D);
+                    vector3d1 = vector3d1.rotatePitch(-pl.rotationPitch * ((float)Math.PI / 180F));
+                    vector3d1 = vector3d1.rotateYaw(-pl.rotationYaw * ((float)Math.PI / 180F));
+                    vector3d1 = vector3d1.add(pl.getPosX(), pl.getPosYEye(), pl.getPosZ());
+                    if (pl.world instanceof ServerWorld) //Forge: Fix MC-2518 spawnParticle is nooped on server, need to use server specific variant
+                        ((ServerWorld)pl.world).spawnParticle(new ItemParticleData(ParticleTypes.ITEM, stack), vector3d1.x, vector3d1.y, vector3d1.z, 1, vector3d.x, vector3d.y + 0.05D, vector3d.z, 0.0D);
+                    else
+                        pl.world.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), vector3d1.x, vector3d1.y, vector3d1.z, vector3d.x, vector3d.y + 0.05D, vector3d.z);
+                }
+
+                ItemStack newArmorPiece = ItemStack.EMPTY;
+                ArmorItem tieredItem = (ArmorItem) stack.getItem();
+                if (tieredItem.getArmorMaterial().equals(ArmorMaterial.DIAMOND)) {
+                    switch (tieredItem.getEquipmentSlot()) {
+                        case CHEST:
+                            newArmorPiece = new ItemStack(Items.DIAMOND_CHESTPLATE, 1);
+                            break;
+                        case FEET:
+                            newArmorPiece = new ItemStack(Items.DIAMOND_BOOTS, 1);
+                            break;
+                        case HEAD:
+                            newArmorPiece = new ItemStack(Items.DIAMOND_HELMET, 1);
+                            break;
+                        case LEGS:
+                            newArmorPiece = new ItemStack(Items.DIAMOND_LEGGINGS, 1);
+                            break;
+                    }
+                } else if (tieredItem.getArmorMaterial().equals(ArmorMaterial.GOLD)) {
+                    switch (tieredItem.getEquipmentSlot()) {
+                        case CHEST:
+                            newArmorPiece = new ItemStack(Items.GOLDEN_CHESTPLATE, 1);
+                            break;
+                        case FEET:
+                            newArmorPiece = new ItemStack(Items.GOLDEN_BOOTS, 1);
+                            break;
+                        case HEAD:
+                            newArmorPiece = new ItemStack(Items.GOLDEN_HELMET, 1);
+                            break;
+                        case LEGS:
+                            newArmorPiece = new ItemStack(Items.GOLDEN_LEGGINGS, 1);
+                            break;
+                    }
+                } else if (tieredItem.getArmorMaterial().equals(ArmorMaterial.NETHERITE)) {
+                    switch (tieredItem.getEquipmentSlot()) {
+                        case CHEST:
+                            newArmorPiece = new ItemStack(Items.NETHERITE_CHESTPLATE, 1);
+                            break;
+                        case FEET:
+                            newArmorPiece = new ItemStack(Items.NETHERITE_BOOTS, 1);
+                            break;
+                        case HEAD:
+                            newArmorPiece = new ItemStack(Items.NETHERITE_HELMET, 1);
+                            break;
+                        case LEGS:
+                            newArmorPiece = new ItemStack(Items.NETHERITE_LEGGINGS, 1);
+                            break;
+                    }
+                }
+
+                newArmorPiece.setTag(stack.getTag());
+                newArmorPiece.getOrCreateTag().remove("TintedDamage");
+                //stack.shrink(1);
+                pl.setHeldItem(pl.getActiveHand(), newArmorPiece);
             }
         } else {
             durability--;
@@ -111,22 +159,54 @@ public class STABase extends ArmorItem {
         }
     }
 
+    /**
+     *
+     * @return 0.0 for 100% (no damage / full bar), 1.0 for 0% (fully damaged empty bar)
+     */
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
         if (this.shouldDisplayTint) {
-            return stack.getOrCreateTag().getInt("TintedDamage") < 1 ? (double) MAX_TINT_DURABILITY : (double)  (MAX_TINT_DURABILITY - stack.getOrCreateTag().getInt("TintedDamage")) / (double) MAX_TINT_DURABILITY;
+            return this.getSilverDurabilityForDisplay(stack);
         }
-
         return (double) stack.getDamage() / (double) stack.getMaxDamage();
+    }
+
+    public double getSilverDurabilityForDisplay(ItemStack stack) {
+        return stack.getOrCreateTag().getInt("TintedDamage") < 1 ? 0D : (double)  (MAX_TINT_DURABILITY - stack.getOrCreateTag().getInt("TintedDamage")) / (double) MAX_TINT_DURABILITY;
+    }
+
+    @Override
+    public int getRGBDurabilityForDisplay(ItemStack stack) {
+        if (this.shouldDisplayTint) {
+            return MathHelper.hsvToRGB(200F / 360F, Math.max(0.0F, (float) this.getDurabilityForDisplay(stack)), 0.94F);
+        }
+        return MathHelper.hsvToRGB(Math.max(0.0F, (float) (1.0F - this.getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (stack.getOrCreateTag().getInt("TintedDamage") > 0) {
-            tooltip.add(2, ITextComponent.getTextComponentOrEmpty("Tint Durability: " + stack.getOrCreateTag().getInt("TintedDamage") + "/" + MAX_TINT_DURABILITY));
+            ITextComponent text = ITextComponent.getTextComponentOrEmpty("Tint Durability: " + stack.getOrCreateTag().getInt("TintedDamage") + "/" + MAX_TINT_DURABILITY);
+            text.getStyle().setColor(Color.fromInt(0xE1EBF0));
+            tooltip.add(text);
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
+    @Nullable
+    @Override
+    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
+        /*switch ((ItemTier)((TieredItem)stack.getItem()).getTier()) {
+            case DIAMOND:
+                break;
+            case GOLD:
+                break;
+            case NETHERITE:
+
+            default:
+                return super.getArmorTexture(stack, entity, slot, type);
+        }*/
+        return "oreganized:textures/models/armor/silver_tinted_netherite_layer_1.png";
+    }
 }
