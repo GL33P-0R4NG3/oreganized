@@ -199,11 +199,11 @@ public class STABase extends ArmorItem {
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
         /*switch ((ItemTier)((TieredItem)stack.getItem()).getTier()) {
             case DIAMOND:
-                break;
+                return "oreganized:textures/models/armor/silver_tinted_diamond_layer_1.png";
             case GOLD:
-                break;
+                return "oreganized:textures/models/armor/silver_tinted_golden_layer_1.png";
             case NETHERITE:
-
+                return "oreganized:textures/models/armor/silver_tinted_netherite_layer_1.png";
             default:
                 return super.getArmorTexture(stack, entity, slot, type);
         }*/
