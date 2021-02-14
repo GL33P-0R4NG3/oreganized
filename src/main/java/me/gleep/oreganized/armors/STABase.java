@@ -20,7 +20,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.UUID;
 
 public class STABase extends ArmorItem {
     public static final int MAX_TINT_DURABILITY = 50;
@@ -100,9 +99,8 @@ public class STABase extends ArmorItem {
                 }
 
                 ItemStack newArmorPiece = ItemStack.EMPTY;
-                ArmorItem tieredItem = (ArmorItem) stack.getItem();
-                if (tieredItem.getArmorMaterial().equals(ArmorMaterial.DIAMOND)) {
-                    switch (tieredItem.getEquipmentSlot()) {
+                if (this.getArmorMaterial().equals(ArmorMaterial.DIAMOND)) {
+                    switch (this.getEquipmentSlot()) {
                         case CHEST:
                             newArmorPiece = new ItemStack(Items.DIAMOND_CHESTPLATE, 1);
                             break;
@@ -116,8 +114,8 @@ public class STABase extends ArmorItem {
                             newArmorPiece = new ItemStack(Items.DIAMOND_LEGGINGS, 1);
                             break;
                     }
-                } else if (tieredItem.getArmorMaterial().equals(ArmorMaterial.GOLD)) {
-                    switch (tieredItem.getEquipmentSlot()) {
+                } else if (this.getArmorMaterial().equals(ArmorMaterial.GOLD)) {
+                    switch (this.getEquipmentSlot()) {
                         case CHEST:
                             newArmorPiece = new ItemStack(Items.GOLDEN_CHESTPLATE, 1);
                             break;
@@ -131,8 +129,8 @@ public class STABase extends ArmorItem {
                             newArmorPiece = new ItemStack(Items.GOLDEN_LEGGINGS, 1);
                             break;
                     }
-                } else if (tieredItem.getArmorMaterial().equals(ArmorMaterial.NETHERITE)) {
-                    switch (tieredItem.getEquipmentSlot()) {
+                } else if (this.getArmorMaterial().equals(ArmorMaterial.NETHERITE)) {
+                    switch (this.getEquipmentSlot()) {
                         case CHEST:
                             newArmorPiece = new ItemStack(Items.NETHERITE_CHESTPLATE, 1);
                             break;
@@ -150,8 +148,11 @@ public class STABase extends ArmorItem {
 
                 newArmorPiece.setTag(stack.getTag());
                 newArmorPiece.getOrCreateTag().remove("TintedDamage");
-                //stack.shrink(1);
-                pl.setHeldItem(pl.getActiveHand(), newArmorPiece);
+                if (pl.inventory.armorInventory.contains(stack)) {
+                    pl.inventory.armorInventory.set(this.getEquipmentSlot().getIndex(), newArmorPiece);
+                } else {
+                    pl.inventory.setInventorySlotContents(pl.inventory.getSlotFor(stack), newArmorPiece);
+                }
             }
         } else {
             durability--;
@@ -161,7 +162,7 @@ public class STABase extends ArmorItem {
 
     /**
      *
-     * @return 0.0 for 100% (no damage / full bar), 1.0 for 0% (fully damaged empty bar)
+     * @return 0.0 for 100% (no damage / full bar), 1.0 for 0% (fully damaged / empty bar)
      */
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
@@ -197,16 +198,25 @@ public class STABase extends ArmorItem {
     @Nullable
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
-        /*switch ((ItemTier)((TieredItem)stack.getItem()).getTier()) {
-            case DIAMOND:
-                return "oreganized:textures/models/armor/silver_tinted_diamond_layer_1.png";
-            case GOLD:
-                return "oreganized:textures/models/armor/silver_tinted_golden_layer_1.png";
-            case NETHERITE:
-                return "oreganized:textures/models/armor/silver_tinted_netherite_layer_1.png";
-            default:
-                return super.getArmorTexture(stack, entity, slot, type);
-        }*/
-        return "oreganized:textures/models/armor/silver_tinted_netherite_layer_1.png";
+        if (slot.equals(EquipmentSlotType.LEGS)) {
+            switch ((ArmorMaterial) this.getArmorMaterial()) {
+                case DIAMOND:
+                    return "oreganized:textures/models/armor/silver_tinted_diamond_layer_2.png";
+                case GOLD:
+                    return "oreganized:textures/models/armor/silver_tinted_gold_layer_2.png";
+                case NETHERITE:
+                    return "oreganized:textures/models/armor/silver_tinted_netherite_layer_2.png";
+            }
+        } else {
+            switch ((ArmorMaterial) this.getArmorMaterial()) {
+                case DIAMOND:
+                    return "oreganized:textures/models/armor/silver_tinted_diamond_layer_1.png";
+                case GOLD:
+                    return "oreganized:textures/models/armor/silver_tinted_gold_layer_1.png";
+                case NETHERITE:
+                    return "oreganized:textures/models/armor/silver_tinted_netherite_layer_1.png";
+            }
+        }
+        return super.getArmorTexture(stack, entity, slot, type);
     }
 }

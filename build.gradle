@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '0.4.2-beta'
+version = '0.4.3-beta'
 group = 'me.gleep.oreganized' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'oreganized'
 

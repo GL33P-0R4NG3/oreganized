@@ -104,12 +104,11 @@ public class STSBase extends SwordItem {
                 }
 
                 ItemStack newSword = ItemStack.EMPTY;
-                TieredItem tieredItem = (TieredItem) stack.getItem();
-                if (tieredItem.getTier().equals(ItemTier.DIAMOND)) {
+                if (this.getTier().equals(ItemTier.DIAMOND)) {
                     newSword = new ItemStack(Items.DIAMOND_SWORD, 1);
-                } else if (tieredItem.getTier().equals(ItemTier.GOLD)) {
+                } else if (this.getTier().equals(ItemTier.GOLD)) {
                     newSword = new ItemStack(Items.GOLDEN_SWORD, 1);
-                } else if (tieredItem.getTier().equals(ItemTier.NETHERITE)) {
+                } else if (this.getTier().equals(ItemTier.NETHERITE)) {
                     newSword = new ItemStack(Items.NETHERITE_SWORD, 1);
                 }
 
@@ -125,7 +124,7 @@ public class STSBase extends SwordItem {
 
     /**
      *
-     * @return 0.0 for 100% (no damage / full bar), 1.0 for 0% (fully damaged empty bar)
+     * @return 0.0 for 100% (no damage / full bar), 1.0 for 0% (fully damaged / empty bar)
      */
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
