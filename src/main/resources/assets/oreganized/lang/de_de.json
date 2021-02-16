@@ -47,6 +47,7 @@
   "block.oreganized.lead_ore": "Bleierz",
   "block.oreganized.silver_block": "Silberblock",
   "block.oreganized.silver_ore": "Silbererz",
+  "death.attack.molten_lead": "%1$s tried to walk on Molten Lead",
   "item.oreganized.iron_plate": "Eisenplatte",
   "item.oreganized.lead_bucket": "Eimer mit geschmolzenem Blei",
   "item.oreganized.lead_ingot": "Bleibarren",

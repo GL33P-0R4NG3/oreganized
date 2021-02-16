@@ -47,6 +47,7 @@
   "block.oreganized.lead_ore": "Свинцовая руда",
   "block.oreganized.silver_block": "Серебряный блок",
   "block.oreganized.silver_ore": "Серебряная руда",
+  "death.attack.molten_lead": "%1$s tried to walk on Molten Lead",
   "item.oreganized.iron_plate": "Iron Plate",
   "item.oreganized.lead_bucket": "Molten Lead Bucket",
   "item.oreganized.lead_ingot": "Свинцовый слиток",

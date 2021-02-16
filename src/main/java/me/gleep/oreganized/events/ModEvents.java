@@ -1,28 +1,39 @@
 package me.gleep.oreganized.events;
 
+import it.unimi.dsi.fastutil.objects.Object2DoubleArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.blocks.Cauldron;
 import me.gleep.oreganized.tools.STSBase;
+import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MoverType;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -30,7 +41,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -90,14 +100,13 @@ public class ModEvents {
         }
     }
 
-    /*@SubscribeEvent
+    @SubscribeEvent
     public static void onEntityUpdate(final LivingEvent.LivingUpdateEvent event) {
         if (event.getEntity().isLiving()) {
             LivingEntity entity = event.getEntityLiving();
-            ITag<Fluid> tag = FluidTags.getCollection().getTagByID(new ResourceLocation( Oreganized.MOD_ID + ":lead"));
-            if (entity.areEyesInFluid(tag)) {
+            ITag<Fluid> tag = FluidTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + ":lead"));
 
-                entity.handleFluidAcceleration(tag, 1.0d);
+            if (entity.handleFluidAcceleration(tag, 0.009D)) {
                 entity.setSwimming(true);
                 entity.setFire(10);
                 entity.attackEntityFrom(ModDamageSource.MOLTEN_LEAD, 3.0F);
@@ -107,10 +116,36 @@ public class ModEvents {
                 }
             }
         }
-    }*/
+    }
 
     @SubscribeEvent
     public static void onEntityJoin(final EntityJoinWorldEvent event) {
+        /*if (event.getEntity() instanceof LivingEntity) {
+            LivingEntity living = (LivingEntity) event.getEntity();
+            try {
+                final Object2DoubleMap<ITag<Fluid>> eyesFluidLevel = ObfuscationReflectionHelper.getPrivateValue(
+                        LivingEntity.class, living, "field_220892_d");
+                Object2DoubleMap<ITag<Fluid>> fluid = new Object2DoubleArrayMap<>(eyesFluidLevel.size() + 1);
+
+                for (ITag<Fluid> tag : eyesFluidLevel.keySet()) {
+                    fluid.put(tag, eyesFluidLevel.getDouble(tag));
+                }
+
+                //fluid.put();
+
+            } catch (NullPointerException nullPointerException) {
+                if (event.getWorld().getServer() != null) {
+                    event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("An error occurred during loading living entity\n" + nullPointerException.getMessage()), UUID.randomUUID());
+                }
+                Oreganized.LOGGER.error("An error occurred during living entity loading\n" + nullPointerException.getMessage());
+            } catch (ObfuscationReflectionHelper.UnableToAccessFieldException fieldException) {
+                if (event.getWorld().getServer() != null) {
+                    event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("Cannot find the field\n" + fieldException.getMessage()), UUID.randomUUID());
+                }
+                Oreganized.LOGGER.error("Cannot find the field\n" + fieldException.getMessage());
+            }
+        }*/
+
         if (event.getEntity() instanceof MonsterEntity) {
             MonsterEntity monster = (MonsterEntity) event.getEntity();
             if (monster.isEntityUndead()) {
@@ -152,7 +187,7 @@ public class ModEvents {
                     if (event.getWorld().getServer() != null) {
                         event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("An error occurred during loading living entity\n" + nullPointerException.getMessage()), UUID.randomUUID());
                     }
-                    Oreganized.LOGGER.error("An error occurred during entity loading\n" + nullPointerException.getMessage());
+                    Oreganized.LOGGER.error("An error occurred during living entity loading\n" + nullPointerException.getMessage());
                 } catch (ObfuscationReflectionHelper.UnableToAccessFieldException fieldException) {
                     if (event.getWorld().getServer() != null) {
                         event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("Cannot find the field\n" + fieldException.getMessage()), UUID.randomUUID());

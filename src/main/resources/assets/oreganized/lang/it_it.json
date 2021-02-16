@@ -47,6 +47,7 @@
   "block.oreganized.lead_ore": "Piombo grezzo",
   "block.oreganized.silver_block": "Blocco d'argento",
   "block.oreganized.silver_ore": "Argento grezzo",
+  "death.attack.molten_lead": "%1$s tried to walk on Molten Lead",
   "item.oreganized.iron_plate": "Piastra di ferro",
   "item.oreganized.lead_bucket": "Secchio di piombo fuso",
   "item.oreganized.lead_ingot": "Lingotto di piombo",

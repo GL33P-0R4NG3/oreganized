@@ -47,6 +47,7 @@
   "block.oreganized.lead_ore": "Lead Ore",
   "block.oreganized.silver_block": "Block of Silver",
   "block.oreganized.silver_ore": "Silver Ore",
+  "death.attack.molten_lead": "%1$s tried to walk on Molten Lead",
   "item.oreganized.iron_plate": "Iron Plate",
   "item.oreganized.lead_bucket": "Molten Lead Bucket",
   "item.oreganized.lead_ingot": "Lead Ingot",
