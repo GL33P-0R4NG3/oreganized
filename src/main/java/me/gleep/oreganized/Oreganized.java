@@ -81,8 +81,9 @@ public class Oreganized {
         RenderTypeLookup.setRenderLayer(RegistryHandler.RED_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.WHITE_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID.get(), RenderType.getWaterMask());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID_BLOCK.get(), RenderType.getSolid());
+
+        //RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID.get(), RenderType.getWaterMask());
+        //RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID_BLOCK.get(), RenderType.getSolid());
 
         event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_MIRROR.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":dist"),

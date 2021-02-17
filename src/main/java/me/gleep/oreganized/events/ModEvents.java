@@ -9,6 +9,8 @@ import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
@@ -20,6 +22,7 @@ import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -32,6 +35,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -100,6 +107,22 @@ public class ModEvents {
         }
     }
 
+    /*@SubscribeEvent
+    public static void onLivingJump(final LivingEvent.LivingJumpEvent event) {
+        if (event.getEntity().isLiving()) {
+            LivingEntity entity = event.getEntityLiving();
+            ITag<Fluid> tag = FluidTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + ":lead"));
+
+            double d7 = entity.func_233571_b_(tag);
+            double d8 = entity.func_233579_cu_();
+
+            if (d7 > d8 && entity.handleFluidAcceleration(tag, 0.009D)) {
+                entity.setMotion(entity.getMotion().add(0.0D, (double)0.04F * entity.getAttribute(net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue(), 0.0D));
+            }
+
+        }
+    }*/
+
     @SubscribeEvent
     public static void onEntityUpdate(final LivingEvent.LivingUpdateEvent event) {
         if (event.getEntity().isLiving()) {
@@ -107,45 +130,71 @@ public class ModEvents {
             ITag<Fluid> tag = FluidTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + ":lead"));
 
             if (entity.handleFluidAcceleration(tag, 0.009D)) {
-                entity.setSwimming(true);
                 entity.setFire(10);
                 entity.attackEntityFrom(ModDamageSource.MOLTEN_LEAD, 3.0F);
 
-                if (entity.areEyesInFluid(tag) && entity instanceof PlayerEntity) {
-                    PlayerEntity player = (PlayerEntity) entity;
+                Vector3d travelVector = new Vector3d((double)entity.moveStrafing, (double)entity.moveVertical, (double)entity.moveForward);
+                double d0 = 0.08D;
+                ModifiableAttributeInstance gravity = entity.getAttribute(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get());
+                boolean flag = entity.getMotion().y <= 0.0D;
+                d0 = gravity.getValue();
+
+                double d7 = entity.getPosY();
+                entity.moveRelative(0.01F, travelVector);
+                entity.move(MoverType.SELF, entity.getMotion());
+                if (entity.func_233571_b_(tag) <= entity.func_233579_cu_()) {
+                    entity.setMotion(entity.getMotion().mul(0.4D, (double)0.6F, 0.4D));
+                    Vector3d vector3d3 = entity.func_233626_a_(d0, flag, entity.getMotion());
+                    entity.setMotion(vector3d3);
+                } else {
+                    entity.setMotion(entity.getMotion().scale(0.4D));
+                }
+
+                if (!entity.hasNoGravity()) {
+                    entity.setMotion(entity.getMotion().add(0.0D, -d0 / 4.0D, 0.0D));
+                }
+
+                Vector3d vector3d4 = entity.getMotion();
+                if (entity.collidedHorizontally && entity.isOffsetPositionInLiquid(vector3d4.x, vector3d4.y + (double)0.6F - entity.getPosY() + d7, vector3d4.z)) {
+                    entity.setMotion(vector3d4.x, (double)0.3F, vector3d4.z);
                 }
             }
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public static void getFogDensity(EntityViewRenderEvent.FogDensity event) {
+        ActiveRenderInfo info = event.getInfo();
+        FluidState fluidState = info.getFluidState();
+        if (fluidState.isEmpty())
+            return;
+        Fluid fluid = fluidState.getFluid();
+
+        if (fluid.isEquivalentTo(RegistryHandler.LEAD_FLUID.get())) {
+            event.setDensity(0.8f);
+            event.setCanceled(true);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public static void getFogColor(EntityViewRenderEvent.FogColors event) {
+        ActiveRenderInfo info = event.getInfo();
+        FluidState fluidState = info.getFluidState();
+        if (fluidState.isEmpty())
+            return;
+        Fluid fluid = fluidState.getFluid();
+
+        if (fluid.isEquivalentTo(RegistryHandler.LEAD_FLUID.get())) {
+            event.setRed(57F / 256F);
+            event.setGreen(57F / 256F);
+            event.setBlue(95F / 256F);
+        }
+    }
+
     @SubscribeEvent
     public static void onEntityJoin(final EntityJoinWorldEvent event) {
-        /*if (event.getEntity() instanceof LivingEntity) {
-            LivingEntity living = (LivingEntity) event.getEntity();
-            try {
-                final Object2DoubleMap<ITag<Fluid>> eyesFluidLevel = ObfuscationReflectionHelper.getPrivateValue(
-                        LivingEntity.class, living, "field_220892_d");
-                Object2DoubleMap<ITag<Fluid>> fluid = new Object2DoubleArrayMap<>(eyesFluidLevel.size() + 1);
-
-                for (ITag<Fluid> tag : eyesFluidLevel.keySet()) {
-                    fluid.put(tag, eyesFluidLevel.getDouble(tag));
-                }
-
-                //fluid.put();
-
-            } catch (NullPointerException nullPointerException) {
-                if (event.getWorld().getServer() != null) {
-                    event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("An error occurred during loading living entity\n" + nullPointerException.getMessage()), UUID.randomUUID());
-                }
-                Oreganized.LOGGER.error("An error occurred during living entity loading\n" + nullPointerException.getMessage());
-            } catch (ObfuscationReflectionHelper.UnableToAccessFieldException fieldException) {
-                if (event.getWorld().getServer() != null) {
-                    event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("Cannot find the field\n" + fieldException.getMessage()), UUID.randomUUID());
-                }
-                Oreganized.LOGGER.error("Cannot find the field\n" + fieldException.getMessage());
-            }
-        }*/
-
         if (event.getEntity() instanceof MonsterEntity) {
             MonsterEntity monster = (MonsterEntity) event.getEntity();
             if (monster.isEntityUndead()) {
@@ -202,8 +251,8 @@ public class ModEvents {
     public static void onLivingHurt(final LivingHurtEvent event) {
         //int parts = 0;
         if (event.getSource().getTrueSource() != null) {
-            if (event.getSource().getTrueSource().isLiving()) {
-                LivingEntity livingEntity = (LivingEntity) event.getSource().getTrueSource();
+            if (event.getSource().getTrueSource() instanceof MonsterEntity) {
+                MonsterEntity monster = (MonsterEntity) event.getSource().getTrueSource();
                 for (ItemStack stack : event.getEntityLiving().getArmorInventoryList()) {
                     if (stack.getItem() instanceof STABase) {
                         //parts++;
@@ -211,8 +260,9 @@ public class ModEvents {
                     }
                 }
 
-                if (livingEntity.isEntityUndead()) {
-                    livingEntity.setRevengeTarget(null);
+                if (monster.isEntityUndead()) {
+                    monster.setAttackTarget(null);
+                    monster.setRevengeTarget(null);
                 }
             }
         }

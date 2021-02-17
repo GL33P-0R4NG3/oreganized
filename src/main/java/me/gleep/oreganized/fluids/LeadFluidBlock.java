@@ -30,6 +30,8 @@ public class LeadFluidBlock extends FlowingFluidBlock {
         super(supplier, Block.Properties.create(Material.LAVA)
                 .doesNotBlockMovement()
                 .hardnessAndResistance(100.0F)
+                .speedFactor(0.15F)
+                //.jumpFactor(0.0F)
                 .noDrops());
     }
 
@@ -60,14 +62,9 @@ public class LeadFluidBlock extends FlowingFluidBlock {
         return false;
     }
 
-    @Override
+    /*@Override
     public boolean isVariableOpacity() {
         return true;
-    }
-
-    /*@Override
-    public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
-        return false;
     }*/
 
     @NotNull
