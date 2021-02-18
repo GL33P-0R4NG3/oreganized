@@ -143,11 +143,11 @@ public class ModEvents {
                 entity.moveRelative(0.01F, travelVector);
                 entity.move(MoverType.SELF, entity.getMotion());
                 if (entity.func_233571_b_(tag) <= entity.func_233579_cu_()) {
-                    entity.setMotion(entity.getMotion().mul(0.4D, (double)0.6F, 0.4D));
+                    entity.setMotion(entity.getMotion().mul(0.2D, (double)0.4F, 0.2D));
                     Vector3d vector3d3 = entity.func_233626_a_(d0, flag, entity.getMotion());
                     entity.setMotion(vector3d3);
                 } else {
-                    entity.setMotion(entity.getMotion().scale(0.4D));
+                    entity.setMotion(entity.getMotion().scale(0.2D));
                 }
 
                 if (!entity.hasNoGravity()) {
@@ -155,7 +155,7 @@ public class ModEvents {
                 }
 
                 Vector3d vector3d4 = entity.getMotion();
-                if (entity.collidedHorizontally && entity.isOffsetPositionInLiquid(vector3d4.x, vector3d4.y + (double)0.6F - entity.getPosY() + d7, vector3d4.z)) {
+                if (entity.collidedHorizontally && entity.isOffsetPositionInLiquid(vector3d4.x, vector3d4.y + (double)0.2F - entity.getPosY() + d7, vector3d4.z)) {
                     entity.setMotion(vector3d4.x, (double)0.3F, vector3d4.z);
                 }
             }

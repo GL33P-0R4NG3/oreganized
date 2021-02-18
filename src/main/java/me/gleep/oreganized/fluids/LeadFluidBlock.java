@@ -30,7 +30,7 @@ public class LeadFluidBlock extends FlowingFluidBlock {
         super(supplier, Block.Properties.create(Material.LAVA)
                 .doesNotBlockMovement()
                 .hardnessAndResistance(100.0F)
-                .speedFactor(0.15F)
+                .speedFactor(0.10F)
                 //.jumpFactor(0.0F)
                 .noDrops());
     }
@@ -50,11 +50,6 @@ public class LeadFluidBlock extends FlowingFluidBlock {
     @Override
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         return 8;
-    }
-
-    @Override
-    public Vector3d getFogColor(BlockState state, IWorldReader world, BlockPos pos, Entity entity, Vector3d originalColor, float partialTicks) {
-        return new Vector3d(0.2F, 0.0F, 0.6F);
     }
 
     @Override
