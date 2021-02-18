@@ -172,7 +172,7 @@ public class ModEvents {
         Fluid fluid = fluidState.getFluid();
 
         if (fluid.isEquivalentTo(RegistryHandler.LEAD_FLUID.get())) {
-            event.setDensity(0.8f);
+            event.setDensity(1.5f);
             event.setCanceled(true);
         }
     }

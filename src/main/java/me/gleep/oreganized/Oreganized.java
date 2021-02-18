@@ -88,7 +88,6 @@ public class Oreganized {
         event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_MIRROR.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":dist"),
                 (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("Dist") : 4));
-
         event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_BOOTS.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
                 (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : 150));
