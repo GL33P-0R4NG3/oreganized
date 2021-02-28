@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "oreganized:iron_plate"
+      "oreganized:cut_cast_iron_stairs_from_stonecutting"
     ]
   },
   "criteria": {
-    "has_iron_ingot": {
+    "has_cut_cast_iron": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:iron_ingot"
+            "item": "oreganized:cut_cast_iron_block"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "oreganized:iron_plate"
+        "recipe": "oreganized:cut_cast_iron_stairs_from_stonecutting"
       }
     }
   },
   "requirements": [
     [
-      "has_iron_ingot",
+      "has_cut_cast_iron",
       "has_the_recipe"
     ]
   ]

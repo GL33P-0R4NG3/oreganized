@@ -11,7 +11,7 @@ import net.minecraftforge.common.ToolType;
 public class LeadOre extends OreBlock {
     public LeadOre() {
         super(Properties.create(Material.IRON)
-                .hardnessAndResistance(3.0f, 3.0f)
+                .hardnessAndResistance(3.0F, 3.0F)
                 .harvestTool(ToolType.PICKAXE)
                 .setRequiresTool()
                 .harvestLevel(2)
@@ -19,5 +19,11 @@ public class LeadOre extends OreBlock {
     }
 
     @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) { return 0; }
+    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
+        if (silktouch > 0) return 0;
+        if (reader.getChunk(pos).getWorldForge() != null) {
+            return (reader.getChunk(pos).getWorldForge().getRandom().nextInt() % 3 + 1) * fortune;
+        }
+        return fortune + 1;
+    }
 }

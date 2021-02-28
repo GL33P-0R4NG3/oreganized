@@ -11,6 +11,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -43,9 +44,33 @@ public class STSBase extends SwordItem {
         if (target.isEntityUndead()) {
             ExperienceOrbEntity xp = new ExperienceOrbEntity(EntityType.EXPERIENCE_ORB, target.getEntityWorld());
             xp.setPosition(target.getPosX(), target.getPosY(), target.getPosZ());
-            xp.setMotion(random.nextDouble() * ((random.nextInt() % 2) > 0 ? -0.06D: 0.06D), 0.2D, random.nextDouble() * ((random.nextInt() % 2) > 0 ? -0.06D: 0.06D));
+            xp.setMotion(random.nextDouble() * ((random.nextInt() % 2) > 0 ? -0.06D : 0.06D), 0.2D, random.nextDouble() * ((random.nextInt() % 2) > 0 ? -0.06D : 0.06D));
             xp.xpValue = 1;
             target.getEntityWorld().addEntity(xp);
+
+            /*if (attacker instanceof PlayerEntity) {
+                double xSpeed = (random.nextInt() % 2) > 0 ? -0.06D : 0.06D;
+                double zSpeed = (random.nextInt() % 2) > 0 ? -0.06D : 0.06D;
+                Direction facing = attacker.getHorizontalFacing();
+                switch (facing) {
+                    case NORTH:
+                        xSpeed = -0.5D;
+                        break;
+                    case SOUTH:
+                        xSpeed = 0.5D;
+                        break;
+                    case WEST:
+                        zSpeed = -0.5D;
+                        break;
+                    case EAST:
+                        zSpeed = 0.5D;
+                        break;
+                }
+
+                for (int i = 0; i < 5; i++) {
+                    attacker.getEntityWorld().addParticle(ParticleTypes.END_ROD, attacker.getPosX() + 1D, attacker.getPosY(), attacker.getPosZ() + 1D, 0D, 0D, 0D);
+                }
+            }*/
         }
 
         this.decreaseDurabilty(stack, attacker);

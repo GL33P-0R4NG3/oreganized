@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "oreganized:cut_cast_iron_block"
+  },
+  "result": "oreganized:cut_cast_iron_stairs",
+  "count": 1
+}

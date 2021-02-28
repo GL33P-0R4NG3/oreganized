@@ -8,6 +8,11 @@
           "type": "minecraft:item",
           "name": "oreganized:lead_block"
         }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ]
     }
   ]

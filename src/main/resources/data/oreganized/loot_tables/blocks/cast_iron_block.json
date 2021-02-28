@@ -8,6 +8,11 @@
           "type": "minecraft:item",
           "name": "oreganized:cast_iron_block"
         }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ]
     }
   ]

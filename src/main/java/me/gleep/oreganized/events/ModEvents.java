@@ -26,6 +26,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
@@ -44,6 +45,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -249,6 +251,31 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onLivingHurt(final LivingHurtEvent event) {
+        /*if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+            PlayerEntity playerEntity = (PlayerEntity) event.getSource().getTrueSource();
+            if (playerEntity.getHeldItem(playerEntity.getActiveHand()).getItem() instanceof STSBase) {
+                if (playerEntity.getEntityWorld().isRemote()) {
+                    double xSpeed = (playerEntity.getRNG().nextInt() % 2) > 0 ? -0.06D : 0.06D;
+                    double zSpeed = (playerEntity.getRNG().nextInt() % 2) > 0 ? -0.06D : 0.06D;
+                    Direction facing = playerEntity.getHorizontalFacing();
+                    switch (facing) {
+                        case NORTH:
+                            zSpeed = -0.1D;
+                            break;
+                        case SOUTH:
+                            zSpeed = 0.1D;
+                            break;
+                        case WEST:
+                            xSpeed = -0.1D;
+                            break;
+                        case EAST:
+                            xSpeed = 0.1D;
+                            break;
+                    }
+                    playerEntity.getEntityWorld().addParticle(ParticleTypes.END_ROD, playerEntity.getPosX(), playerEntity.getPosY(), playerEntity.getPosZ(), xSpeed, 0.05D, zSpeed);
+                }
+            }
+        }*/
         //int parts = 0;
         if (event.getSource().getTrueSource() != null) {
             if (event.getSource().getTrueSource() instanceof MonsterEntity) {

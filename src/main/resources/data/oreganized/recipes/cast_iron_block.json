@@ -1,20 +1,9 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " x ",
-    "x#x",
-    " x "
-  ],
-  "key": {
-    "x": {
-      "item": "oreganized:iron_plate"
-    },
-    "#": {
-      "item": "minecraft:iron_ingot"
-    }
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "oreganized:lightened_iron_block"
   },
-  "result": {
-    "item": "oreganized:cast_iron_block",
-    "count": 1
-  }
+  "result": "oreganized:cast_iron_block",
+  "experience": 0.2,
+  "cookingtime": 200
 }

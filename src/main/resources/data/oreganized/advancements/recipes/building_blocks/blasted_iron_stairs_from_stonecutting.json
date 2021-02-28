@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "oreganized:blasted_iron_stairs_from_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_blasted_iron": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:blasted_iron_block"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "oreganized:blasted_iron_stairs_from_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_blasted_iron",
+      "has_the_recipe"
+    ]
+  ]
+}

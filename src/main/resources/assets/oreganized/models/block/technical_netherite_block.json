@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "oreganized:block/technical_netherite_block"
+  }
+}

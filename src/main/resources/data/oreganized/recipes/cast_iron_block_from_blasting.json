@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "oreganized:lightened_iron_block"
+  },
+  "result": "oreganized:cast_iron_block",
+  "experience": 0.2,
+  "cookingtime": 100
+}

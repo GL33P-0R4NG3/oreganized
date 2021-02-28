@@ -6,22 +6,12 @@
     ]
   },
   "criteria": {
-    "has_iron_ingot": {
+    "has_lightened_iron": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:iron_ingot"
-          }
-        ]
-      }
-    },
-    "has_iron_plate": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "oreganized:iron_plate"
+            "item": "oreganized:lightened_iron_block"
           }
         ]
       }
@@ -35,11 +25,7 @@
   },
   "requirements": [
     [
-      "has_iron_plate",
-      "has_the_recipe"
-    ],
-    [
-      "has_iron_ingot",
+      "has_lightened_iron",
       "has_the_recipe"
     ]
   ]

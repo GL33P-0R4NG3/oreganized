@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "oreganized:block/blasted_iron_block",
+    "side": "oreganized:block/blasted_iron_slab"
+  }
+}
