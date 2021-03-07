@@ -1,4 +1,5 @@
-﻿{
+﻿
+{
   "block.oreganized.technical_netherite_block": "Technical Netherite Block",
   "block.oreganized.technical_netherite_slab": "Technical Netherite Slab",
   "block.oreganized.technical_netherite_stairs": "Technical Netherite Stairs",
@@ -81,5 +82,12 @@
   "item.oreganized.silver_tinted_netherite_helmet": "Postříbřená netheritová helma",
   "item.oreganized.silver_tinted_netherite_leggings": "Postříbřené netheritové kalhoty",
   "item.oreganized.silver_tinted_netherite_sword": "Postříbřený netheritový meč",
-  "block.oreganized.cast_iron_stairs": "Cast Iron Stairs"
+  "block.oreganized.cast_iron_stairs": "Cast Iron Stairs",
+  "block.oreganized.cut_lightened_iron_block": "Cut Lightened Iron Block",
+  "block.oreganized.cut_lightened_iron_slab": "Cut Lightened Iron Slab",
+  "block.oreganized.cut_lightened_iron_stairs": "Cut Lightened Iron Stairs",
+  "block.oreganized.cut_technical_netherite_block": "Cut Technical Netherite Block",
+  "block.oreganized.cut_technical_netherite_slab": "Cut Technical Netherite Slab",
+  "block.oreganized.cut_technical_netherite_stairs": "Cut Technical Netherite Stairs",
+  "block.oreganized.lightened_iron_slab": "Lightened Iron Slab"
 }

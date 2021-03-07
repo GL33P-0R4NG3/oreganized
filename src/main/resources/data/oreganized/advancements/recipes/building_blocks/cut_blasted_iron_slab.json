@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "oreganized:cut_blasted_iron_slab"
+    ]
+  },
+  "criteria": {
+    "has_blasted_iron": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:blasted_iron_block"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "oreganized:cut_blasted_iron_slab"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_blasted_iron",
+      "has_the_recipe"
+    ]
+  ]
+}

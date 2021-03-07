@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "oreganized:lightened_iron_block"
+  },
+  "result": "oreganized:lightened_iron_slab",
+  "count": 2
+}

@@ -7,11 +7,11 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:cobblestone"
+      "item": "oreganized:technical_netherite_block"
     }
   },
   "result": {
-    "item": "minecraft:cobblestone_stairs",
+    "item": "oreganized:technical_netherite_stairs",
     "count": 4
   }
 }

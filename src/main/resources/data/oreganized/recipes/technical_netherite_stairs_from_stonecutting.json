@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "oreganized:technical_netherite_block"
+  },
+  "result": "oreganized:technical_netherite_stairs",
+  "count": 1
+}

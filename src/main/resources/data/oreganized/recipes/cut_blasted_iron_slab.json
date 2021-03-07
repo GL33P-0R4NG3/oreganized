@@ -5,11 +5,11 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:cobblestone"
+      "item": "oreganized:cut_blasted_iron_block"
     }
   },
   "result": {
-    "item": "minecraft:cobblestone_slab",
+    "item": "oreganized:cut_blasted_iron_slab",
     "count": 6
   }
 }

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "oreganized:block/cut_blasted_iron_slab"
+    },
+    "type=double": {
+      "model": "oreganized:block/cut_blasted_iron_block"
+    },
+    "type=top": {
+      "model": "oreganized:block/cut_blasted_iron_slab_top"
+    }
+  }
+}

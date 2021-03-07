@@ -1,10 +1,10 @@
 package me.gleep.oreganized.blocks;
 
-import me.gleep.oreganized.util.RegistryHandler;
+import net.minecraft.block.Block;
 
 public class TechnicalNetheriteBlockItem extends BlockItemBase {
-    public TechnicalNetheriteBlockItem () {
-        super(RegistryHandler.TECHNICAL_NETHERITE_BLOCK.get());
+    public TechnicalNetheriteBlockItem (Block block) {
+        super(block);
     }
 
     @Override

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "oreganized:lightened_iron_slab"
+    ]
+  },
+  "criteria": {
+    "has_lightened_iron": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:lightened_iron_block"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "oreganized:lightened_iron_slab"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_lightened_iron",
+      "has_the_recipe"
+    ]
+  ]
+}

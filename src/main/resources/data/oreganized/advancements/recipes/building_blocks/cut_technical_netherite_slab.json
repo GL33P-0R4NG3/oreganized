@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "oreganized:cut_technical_netherite_slab"
+    ]
+  },
+  "criteria": {
+    "has_technical_netherite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:technical_netherite_block"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "oreganized:cut_technical_netherite_slab"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_technical_netherite",
+      "has_the_recipe"
+    ]
+  ]
+}

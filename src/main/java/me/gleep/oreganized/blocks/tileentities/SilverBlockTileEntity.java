@@ -15,9 +15,10 @@ public class SilverBlockTileEntity extends TileEntity implements ITickableTileEn
     public LivingEntity entity;
     boolean init = false;
 
-    public SilverBlockTileEntity() {
-        this(RegistryHandler.SILVER_BLOCK_TE.get());
-    }
+    /*public SilverBlockTileEntity() {
+        super();
+        //this(RegistryHandler.SILVER_BLOCK_TE.get());
+    }*/
 
     private SilverBlockTileEntity(final TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);

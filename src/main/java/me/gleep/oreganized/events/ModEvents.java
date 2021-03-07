@@ -1,5 +1,6 @@
 package me.gleep.oreganized.events;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import it.unimi.dsi.fastutil.objects.Object2DoubleArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import me.gleep.oreganized.Oreganized;
@@ -169,12 +170,12 @@ public class ModEvents {
     public static void getFogDensity(EntityViewRenderEvent.FogDensity event) {
         ActiveRenderInfo info = event.getInfo();
         FluidState fluidState = info.getFluidState();
-        if (fluidState.isEmpty())
-            return;
+        if (fluidState.isEmpty()) return;
         Fluid fluid = fluidState.getFluid();
 
         if (fluid.isEquivalentTo(RegistryHandler.LEAD_FLUID.get())) {
-            event.setDensity(1.5f);
+            RenderSystem.disableCull();
+            event.setDensity(1.4F);
             event.setCanceled(true);
         }
     }

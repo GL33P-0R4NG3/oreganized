@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "oreganized:block/cut_technical_netherite_slab"
+    },
+    "type=double": {
+      "model": "oreganized:block/cut_technical_netherite_block"
+    },
+    "type=top": {
+      "model": "oreganized:block/cut_technical_netherite_slab_top"
+    }
+  }
+}
