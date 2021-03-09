@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "oreganized:pink_crystal_glass"
+      "oreganized:exposer"
     ]
   },
   "criteria": {
-    "has_lead_ingot": {
+    "has_silver_ingot": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "oreganized:lead_ingot"
+            "item": "oreganized:silver_ingot"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "oreganized:pink_crystal_glass"
+        "recipe": "oreganized:exposer"
       }
     }
   },
   "requirements": [
     [
-      "has_lead_ingot",
+      "has_silver_ingot",
       "has_the_recipe"
     ]
   ]
