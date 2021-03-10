@@ -1,4 +1,4 @@
-package me.gleep.oreganized.blocks;
+package me.gleep.oreganized.items;
 
 import net.minecraft.block.Block;
 

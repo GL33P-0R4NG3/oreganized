@@ -136,6 +136,7 @@ public class RegistryHandler {
     public static final RegistryObject<Block> YELLOW_CRYSTAL_GLASS_PANE = BLOCKS.register("yellow_crystal_glass_pane", () -> new CrystalGlassPaneColored(DyeColor.YELLOW));
     //Redstone Components
     public static final RegistryObject<Block> EXPOSER = BLOCKS.register("exposer", ExposerBlock::new);
+    public static final RegistryObject<Block> SHRAPNEL_TNT = BLOCKS.register("shrapnel_tnt", ShrapnelTNT::new);
 
 
     /*//////////////////////////////////            BLOCK ITEMS            //////////////////////////////////*/
@@ -204,6 +205,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> YELLOW_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("yellow_crystal_glass_pane", () -> new BlockItemBase(YELLOW_CRYSTAL_GLASS_PANE.get(), 1));
     //Redstone Components
     public static final RegistryObject<Item> EXPOSER_ITEM = ITEMS.register("exposer", () -> new BlockItemBase(EXPOSER.get(), 2));
+    public static final RegistryObject<Item> SHRAPNEL_TNT_ITEM = ITEMS.register("shrapnel_tnt", () -> new BlockItemBase(SHRAPNEL_TNT.get(), 2));
 
 
     /*//////////////////////////////////            TILE ENTITIES            //////////////////////////////////*/

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_glass_pane_post",
+  "textures": {
+    "pane": "oreganized:block/light_blue_crystal_glass_rot",
+    "edge": "minecraft:block/light_blue_stained_glass_pane_top"
+  }
+}

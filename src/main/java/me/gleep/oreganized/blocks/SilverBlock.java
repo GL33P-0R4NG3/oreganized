@@ -55,23 +55,21 @@ public class SilverBlock extends Block {
 
         List<Entity> list = worldIn.getEntitiesInAABBexcluding(null,
                 new AxisAlignedBB(pos.getX() + RANGE, pos.getY() + RANGE, pos.getZ() + RANGE,
-                        pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE),
-                        null);
+                        pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE), Entity::isLiving
+        );
 
         for (Entity e : list) {
-            if (e.isLiving()) {
-                LivingEntity living = (LivingEntity) e;
-                if (living.isEntityUndead()) {
-                    isUndeadNearby = true;
-                    double distance = MathHelper.sqrt(living.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
-                    if (distance < RANGE && ((int) Math.ceil(distance / (RANGE / 4))) < dist) {
-                        if (distance <= 6) {
-                            dist = 1;
-                        } else dist = Math.max((int) Math.ceil(distance / (RANGE / 4)), 2);
+            LivingEntity living = (LivingEntity) e;
+            if (living.isEntityUndead()) {
+                isUndeadNearby = true;
+                double distance = MathHelper.sqrt(living.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
+                if (distance < RANGE && ((int) Math.ceil(distance / (RANGE / 4))) < dist) {
+                    if (distance <= 6) {
+                        dist = 1;
+                    } else dist = Math.max((int) Math.ceil(distance / (RANGE / 4)), 2);
 
-                        if (dist > 3) {
-                            dist = 3;
-                        }
+                    if (dist > 3) {
+                        dist = 3;
                     }
                 }
             }

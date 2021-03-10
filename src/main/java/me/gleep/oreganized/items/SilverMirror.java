@@ -39,24 +39,22 @@ public class SilverMirror extends Item {
         BlockPos pos = player.getPosition();
         List<Entity> list = player.getEntityWorld().getEntitiesInAABBexcluding(player,
                 new AxisAlignedBB(pos.getX() + SilverBlock.RANGE, pos.getY() + SilverBlock.RANGE, pos.getZ() + SilverBlock.RANGE,
-                        pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE),
-                null);
+                        pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE), Entity::isLiving
+        );
 
         isUndeadNearby = false;
         for (Entity e : list) {
-            if (e.isLiving()) {
-                LivingEntity living = (LivingEntity) e;
-                if (living.isEntityUndead()) {
-                    isUndeadNearby = true;
-                    double distance = living.getDistance(player);
-                    if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 4))) < dist) {
-                        if (distance <= 6) {
-                            dist = 1;
-                        } else dist = Math.max((int) Math.ceil(distance / (SilverBlock.RANGE / 4)), 2);
+            LivingEntity living = (LivingEntity) e;
+            if (living.isEntityUndead()) {
+                isUndeadNearby = true;
+                double distance = living.getDistance(player);
+                if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 4))) < dist) {
+                    if (distance <= 6) {
+                        dist = 1;
+                    } else dist = Math.max((int) Math.ceil(distance / (SilverBlock.RANGE / 4)), 2);
 
-                        if (dist > 3) {
-                            dist = 3;
-                        }
+                    if (dist > 3) {
+                        dist = 3;
                     }
                 }
             }

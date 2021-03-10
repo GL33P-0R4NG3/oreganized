@@ -2,6 +2,6 @@
   "parent": "minecraft:block/template_glass_pane_post",
   "textures": {
     "pane": "oreganized:block/red_crystal_glass",
-    "edge": "minecraft:block/glass_pane_top"
+    "edge": "minecraft:block/red_stained_glass_pane_top"
   }
 }

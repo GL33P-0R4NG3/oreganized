@@ -1,4 +1,4 @@
-package me.gleep.oreganized.blocks;
+package me.gleep.oreganized.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -13,7 +13,7 @@ public class BlockItemBase extends BlockItem {
      * @param block
      * Parent Block for Item Base
      */
-    public BlockItemBase(Block block) { this(block, 1); }
+    public BlockItemBase(Block block) { this(block, 0); }
 
     /**
      * @param block

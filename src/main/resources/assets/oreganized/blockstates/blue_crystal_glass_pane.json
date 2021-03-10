@@ -7,7 +7,8 @@
     },
     {
       "when": {
-        "north": "true"
+        "north": "true",
+        "rotated": "false"
       },
       "apply": {
         "model": "oreganized:block/blue_crystal_glass_pane_side"
@@ -15,7 +16,8 @@
     },
     {
       "when": {
-        "east": "true"
+        "east": "true",
+        "rotated": "false"
       },
       "apply": {
         "model": "oreganized:block/blue_crystal_glass_pane_side",
@@ -24,7 +26,8 @@
     },
     {
       "when": {
-        "south": "true"
+        "south": "true",
+        "rotated": "false"
       },
       "apply": {
         "model": "oreganized:block/blue_crystal_glass_pane_side_alt"
@@ -32,7 +35,8 @@
     },
     {
       "when": {
-        "west": "true"
+        "west": "true",
+        "rotated": "false"
       },
       "apply": {
         "model": "oreganized:block/blue_crystal_glass_pane_side_alt",
@@ -41,7 +45,8 @@
     },
     {
       "when": {
-        "north": "false"
+        "north": "false",
+        "rotated": "false"
       },
       "apply": {
         "model": "oreganized:block/blue_crystal_glass_pane_noside"
@@ -49,7 +54,8 @@
     },
     {
       "when": {
-        "east": "false"
+        "east": "false",
+        "rotated": "false"
       },
       "apply": {
         "model": "oreganized:block/blue_crystal_glass_pane_noside_alt"
@@ -57,7 +63,8 @@
     },
     {
       "when": {
-        "south": "false"
+        "south": "false",
+        "rotated": "false"
       },
       "apply": {
         "model": "oreganized:block/blue_crystal_glass_pane_noside_alt",
@@ -66,10 +73,87 @@
     },
     {
       "when": {
-        "west": "false"
+        "west": "false",
+        "rotated": "false"
       },
       "apply": {
         "model": "oreganized:block/blue_crystal_glass_pane_noside",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "rotated": "true"
+      },
+      "apply": {
+        "model": "oreganized:block/blue_crystal_glass_pane_side_rot"
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "rotated": "true"
+      },
+      "apply": {
+        "model": "oreganized:block/blue_crystal_glass_pane_side_rot",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "rotated": "true"
+      },
+      "apply": {
+        "model": "oreganized:block/blue_crystal_glass_pane_side_alt_rot"
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "rotated": "true"
+      },
+      "apply": {
+        "model": "oreganized:block/blue_crystal_glass_pane_side_alt_rot",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "rotated": "true"
+      },
+      "apply": {
+        "model": "oreganized:block/blue_crystal_glass_pane_noside_rot"
+      }
+    },
+    {
+      "when": {
+        "east": "false",
+        "rotated": "true"
+      },
+      "apply": {
+        "model": "oreganized:block/blue_crystal_glass_pane_noside_alt_rot"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "rotated": "true"
+      },
+      "apply": {
+        "model": "oreganized:block/blue_crystal_glass_pane_noside_alt_rot",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "west": "false",
+        "rotated": "true"
+      },
+      "apply": {
+        "model": "oreganized:block/blue_crystal_glass_pane_noside_rot",
         "y": 270
       }
     }

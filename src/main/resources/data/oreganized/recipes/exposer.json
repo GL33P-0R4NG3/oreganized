@@ -2,15 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "xxx",
-    "qrs",
+    "rrs",
     "xxx"
   ],
   "key": {
     "x": {
       "item": "minecraft:cobblestone"
-    },
-    "q": {
-      "item": "minecraft:quartz"
     },
     "r": {
       "item": "minecraft:redstone"

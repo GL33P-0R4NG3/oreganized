@@ -1,13 +1,17 @@
 package me.gleep.oreganized.blocks;
 
+import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -26,6 +30,7 @@ import java.util.Random;
 
 public class ExposerBlock extends DirectionalBlock {
     public static final IntegerProperty LEVEL = BlockStateProperties.LEVEL_0_3;
+    public static final int[] POWER_STATES = new int[] {0, 1, 2, 3};
     boolean isUndeadNearby = false;
 
     public ExposerBlock() {
@@ -51,6 +56,17 @@ public class ExposerBlock extends DirectionalBlock {
     }
 
     @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return RegistryHandler.EXPOSER_TE.get().create();
+    }
+
+    @Override
     public boolean canProvidePower(BlockState state) {
         return true;
     }
@@ -62,18 +78,7 @@ public class ExposerBlock extends DirectionalBlock {
 
     @Override
     public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
-        switch (blockState.get(LEVEL)) {
-            case 0:
-                return 0;
-            case 1:
-                return 1;
-            case 2:
-                return 2;
-            case 3:
-                return 3;
-        }
-
-        return blockState.get(LEVEL);
+        return POWER_STATES[blockState.get(LEVEL)];
     }
 
     @NotNull
@@ -92,28 +97,27 @@ public class ExposerBlock extends DirectionalBlock {
         }
     }
 
-    public void tick(BlockState state, World worldIn, BlockPos pos, Random rand) {
+    @Override
+    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
         int dist = 4;
 
         List<Entity> list = worldIn.getEntitiesInAABBexcluding(null,
                 new AxisAlignedBB(pos.getX() + SilverBlock.RANGE, pos.getY() + SilverBlock.RANGE, pos.getZ() + SilverBlock.RANGE,
-                        pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE),
-                null);
+                        pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE), Entity::isLiving
+        );
 
         for (Entity e : list) {
-            if (e.isLiving()) {
-                LivingEntity living = (LivingEntity) e;
-                if (living.isEntityUndead()) {
-                    isUndeadNearby = true;
-                    double distance = MathHelper.sqrt(living.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
-                    if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 4))) < dist) {
-                        if (distance <= 6) {
-                            dist = 1;
-                        } else dist = Math.max((int) Math.ceil(distance / (SilverBlock.RANGE / 4)), 2);
+            LivingEntity living = (LivingEntity) e;
+            if (living.isEntityUndead()) {
+                isUndeadNearby = true;
+                double distance = MathHelper.sqrt(living.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
+                if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 4))) < dist) {
+                    if (distance <= 6) {
+                        dist = 1;
+                    } else dist = Math.max((int) Math.ceil(distance / (SilverBlock.RANGE / 4)), 2);
 
-                        if (dist > 3) {
-                            dist = 3;
-                        }
+                    if (dist > 3) {
+                        dist = 3;
                     }
                 }
             }

@@ -16,32 +16,4 @@ public class CrystalGlassPaneBase extends PaneBlock {
                 .notSolid());
     }
 
-    /*@Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        super.fillStateContainer(builder);
-        builder.add(ROTATED_0_2);
-    }
-
-
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        int axis = 0;
-        if (context.getPlayer() != null) {
-            if (context.getPlayer().isSneaking()) {
-                switch (context.getPlacementHorizontalFacing()) {
-                    case WEST:
-                    case EAST:
-                        axis = 1;
-                        break;
-                    case NORTH:
-                    case SOUTH:
-                        axis = 2;
-                        break;
-                }
-            }
-        }
-        return this.getDefaultState().with(ROTATED_0_2, axis);
-    }*/
-
 }

@@ -18,6 +18,9 @@ public class CrystalGlassColored extends CrystalGlassBase implements IBeaconBeam
     public CrystalGlassColored(DyeColor color) {
         super();
         this.color = color;
+        if (this.color != DyeColor.LIGHT_GRAY && this.color != DyeColor.WHITE && this.color != DyeColor.YELLOW) {
+            this.setDefaultState(this.getDefaultState().with(ROTATED, false));
+        }
     }
 
     @Override

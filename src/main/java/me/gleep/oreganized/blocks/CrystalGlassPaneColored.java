@@ -5,16 +5,21 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IBeaconBeamColorProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import org.jetbrains.annotations.NotNull;
 
 public class CrystalGlassPaneColored extends CrystalGlassPaneBase implements IBeaconBeamColorProvider {
 
-    //public static final BooleanProperty ROTATED = BooleanProperty.create("rotated");
+    public static final BooleanProperty ROTATED = BooleanProperty.create("rotated");
     final DyeColor color;
 
     public CrystalGlassPaneColored(DyeColor color) {
+        super();
         this.color = color;
+        if (this.color != DyeColor.LIGHT_GRAY && this.color != DyeColor.WHITE && this.color != DyeColor.YELLOW) {
+            this.setDefaultState(this.getDefaultState().with(ROTATED, false));
+        }
     }
 
     @NotNull
@@ -23,29 +28,23 @@ public class CrystalGlassPaneColored extends CrystalGlassPaneBase implements IBe
         return this.color;
     }
 
-    /*@Override
+    @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         super.fillStateContainer(builder);
         builder.add(ROTATED);
-    }*/
+    }
 
-    /*@Override
+    @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        int axis = 0;
-        if (context.getPlayer() != null) {
-            if (context.getPlayer().isSneaking()) {
-                switch (context.getPlacementHorizontalFacing()) {
-                    case WEST:
-                    case EAST:
-                        axis = 1;
-                        break;
-                    case NORTH:
-                    case SOUTH:
-                        axis = 2;
-                        break;
+        if (this.color != DyeColor.LIGHT_GRAY && this.color != DyeColor.WHITE && this.color != DyeColor.YELLOW) {
+            boolean axis = false;
+            if (context.getPlayer() != null) {
+                if (context.getPlayer().isSneaking()) {
+                    axis = true;
                 }
             }
+            return this.getDefaultState().with(ROTATED, axis);
         }
-        return super.getStateForPlacement(context).with(ROTATED, axis);
-    }*/
+        return this.getDefaultState();
+    }
 }
