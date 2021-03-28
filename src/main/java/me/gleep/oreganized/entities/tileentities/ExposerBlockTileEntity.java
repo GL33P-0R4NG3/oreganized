@@ -1,4 +1,4 @@
-package me.gleep.oreganized.blocks.tileentities;
+package me.gleep.oreganized.entities.tileentities;
 
 import me.gleep.oreganized.blocks.ExposerBlock;
 import me.gleep.oreganized.util.RegistryHandler;

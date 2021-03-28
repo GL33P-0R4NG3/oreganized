@@ -1,7 +1,6 @@
-package me.gleep.oreganized.blocks.tileentities;
+package me.gleep.oreganized.entities.tileentities;
 
 import me.gleep.oreganized.util.NBTHelper;
-import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;

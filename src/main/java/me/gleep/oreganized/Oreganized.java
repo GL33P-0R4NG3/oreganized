@@ -1,6 +1,9 @@
 package me.gleep.oreganized;
 
 import me.gleep.oreganized.armors.STABase;
+import me.gleep.oreganized.entities.ShrapnelTNTEntity;
+import me.gleep.oreganized.entities.entityrenderer.LeadNuggetRenderer;
+import me.gleep.oreganized.entities.entityrenderer.ShrapnelTNTRenderer;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.world.gen.CustomOreGen;
@@ -9,6 +12,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemPropertyGetter;
@@ -19,6 +24,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -48,6 +55,9 @@ public class Oreganized {
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+
+        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.SHRAPNEL_TNT_ENTITY.get(), ShrapnelTNTRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.LEAD_NUGGET_ENTITY.get(), LeadNuggetRenderer::new);
 
         RenderTypeLookup.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
         RenderTypeLookup.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());

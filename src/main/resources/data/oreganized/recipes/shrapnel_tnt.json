@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " x ",
+    "x#x",
+    " x "
+  ],
+  "key": {
+    "x": {
+      "item": "oreganized:lead_ingot"
+    },
+    "#": {
+      "item": "minecraft:tnt"
+    }
+  },
+  "result": {
+    "item": "oreganized:shrapnel_tnt",
+    "count": 2
+  }
+}

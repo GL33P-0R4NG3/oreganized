@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "oreganized:shrapnel_tnt"
+    ]
+  },
+  "criteria": {
+    "has_lead_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:lead_ingot"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "oreganized:shrapnel"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_lead_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

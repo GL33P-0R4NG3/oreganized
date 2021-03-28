@@ -1,6 +1,6 @@
 package me.gleep.oreganized.util;
 
-import me.gleep.oreganized.blocks.tileentities.SilverBlockTileEntity;
+import me.gleep.oreganized.entities.tileentities.SilverBlockTileEntity;
 import me.gleep.oreganized.items.SilverMirror;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;

@@ -3,13 +3,17 @@ package me.gleep.oreganized.util;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.*;
 import me.gleep.oreganized.blocks.*;
-import me.gleep.oreganized.blocks.tileentities.ExposerBlockTileEntity;
+import me.gleep.oreganized.entities.LeadNuggetEntity;
+import me.gleep.oreganized.entities.ShrapnelTNTEntity;
+import me.gleep.oreganized.entities.tileentities.ExposerBlockTileEntity;
 import me.gleep.oreganized.effects.*;
 import me.gleep.oreganized.fluids.*;
 import me.gleep.oreganized.items.*;
 import me.gleep.oreganized.tools.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
@@ -24,6 +28,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class RegistryHandler {
     //Mod
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Oreganized.MOD_ID);
     public static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, Oreganized.MOD_ID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Oreganized.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Oreganized.MOD_ID);
@@ -34,6 +39,7 @@ public class RegistryHandler {
     public static void init() {
         FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         TILE_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -51,6 +57,19 @@ public class RegistryHandler {
 
     /*//////////////////////////////////            EFFECTS            //////////////////////////////////*/
     public static final RegistryObject<Effect> HEAVY_METAL_POISONING = EFFECTS.register("heavy_metal_poisoning", HeavyMetalPoisoning::new);
+
+
+    /*//////////////////////////////////            ENTITIES            //////////////////////////////////*/
+    public static final RegistryObject<EntityType<ShrapnelTNTEntity>> SHRAPNEL_TNT_ENTITY = ENTITIES.register("shrapnel_tnt", () ->
+            EntityType.Builder.<ShrapnelTNTEntity>create(
+                ShrapnelTNTEntity::new, EntityClassification.MISC
+            ).immuneToFire().size(0.98F, 0.98F).trackingRange(10).func_233608_b_(10).build("shrapnel_tnt")
+    );
+    public static final RegistryObject<EntityType<LeadNuggetEntity>> LEAD_NUGGET_ENTITY = ENTITIES.register("lead_nugget", () ->
+            EntityType.Builder.<LeadNuggetEntity>create(
+                LeadNuggetEntity::new, EntityClassification.MISC
+            ).immuneToFire().size(0.5F, 0.5F).trackingRange(4).func_233608_b_(20).build("lead_nugget")
+    );
 
 
     /*//////////////////////////////////            ITEMS            //////////////////////////////////*/
