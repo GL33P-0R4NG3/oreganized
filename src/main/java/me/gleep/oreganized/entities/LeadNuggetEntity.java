@@ -1,5 +1,6 @@
 package me.gleep.oreganized.entities;
 
+import me.gleep.oreganized.effects.HeavyMetalPoisoning;
 import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.BlockState;
