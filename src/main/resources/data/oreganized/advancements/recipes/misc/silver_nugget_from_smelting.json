@@ -1,0 +1,186 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "oreganized:silver_nugget_from_smelting"
+    ]
+  },
+  "criteria": {
+    "has_silver_tinted_diamond_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_diamond_boots"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_diamond_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_diamond_chestplate"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_diamond_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_diamond_helmet"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_diamond_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_diamond_leggings"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_diamond_sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_diamond_sword"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_golden_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_golden_boots"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_golden_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_golden_chestplate"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_golden_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_golden_helmet"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_golden_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_golden_leggings"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_golden_sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_golden_sword"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_netherite_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_netherite_boots"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_netherite_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_netherite_chestplate"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_netherite_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_netherite_helmet"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_netherite_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_netherite_leggings"
+          }
+        ]
+      }
+    },
+    "has_silver_tinted_netherite_sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:silver_tinted_netherite_sword"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "oreganized:silver_tinted_nugget_from_smelting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_silver_tinted_diamond_boots",
+      "has_silver_tinted_diamond_chestplate",
+      "has_silver_tinted_diamond_helmet",
+      "has_silver_tinted_diamond_leggings",
+      "has_silver_tinted_diamond_sword",
+      "has_silver_tinted_golden_boots",
+      "has_silver_tinted_golden_chestplate",
+      "has_silver_tinted_golden_helmet",
+      "has_silver_tinted_golden_leggings",
+      "has_silver_tinted_golden_sword",
+      "has_silver_tinted_netherite_boots",
+      "has_silver_tinted_netherite_chestplate",
+      "has_silver_tinted_netherite_helmet",
+      "has_silver_tinted_netherite_leggings",
+      "has_silver_tinted_netherite_sword",
+      "has_the_recipe"
+    ]
+  ]
+}

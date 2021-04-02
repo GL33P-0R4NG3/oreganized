@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "oreganized:silver_nugget_from_blasting"
+    ]
+  },
+  "criteria": {
+    "has_silver_tinted_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "oreganized:silver_tinted_items"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "oreganized:silver_tinted_nugget_from_blasting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_silver_tinted_item",
+      "has_the_recipe"
+    ]
+  ]
+}
