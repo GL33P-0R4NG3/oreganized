@@ -58,7 +58,7 @@ import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(modid = Oreganized.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onToolBreakEvent(final PlayerDestroyItemEvent event) {
         ItemStack stack = event.getOriginal();
         PlayerEntity pl = event.getPlayer();
@@ -73,7 +73,7 @@ public class ModEvents {
         }
 
         pl.dropItem(item, true);
-    }
+    }*/
 
     @SubscribeEvent
     public static void onPlayerRightClick(final PlayerInteractEvent.RightClickBlock event) {

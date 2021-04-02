@@ -16,7 +16,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import org.jetbrains.annotations.NotNull;
 
 public class LeadNuggetRenderer extends EntityRenderer<LeadNuggetEntity> {
-    public static final ResourceLocation LEAD_NUGGET = new ResourceLocation("textures/item/lead_nugget.png");
+    public static final ResourceLocation LEAD_NUGGET = new ResourceLocation("oreganized:textures/item/lead_nugget.png");
 
     public LeadNuggetRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn);
@@ -32,9 +32,6 @@ public class LeadNuggetRenderer extends EntityRenderer<LeadNuggetEntity> {
             float f10 = -MathHelper.sin(f9 * 3.0F) * f9;
             matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(f10));
         }
-
-        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(45.0F));
-        matrixStackIn.scale(0.05625F, 0.05625F, 0.05625F);
 
         matrixStackIn.pop();
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

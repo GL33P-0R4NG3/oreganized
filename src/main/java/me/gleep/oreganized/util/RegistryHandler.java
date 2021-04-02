@@ -75,7 +75,7 @@ public class RegistryHandler {
     /*//////////////////////////////////            ITEMS            //////////////////////////////////*/
     public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", ItemBase::new);
     public static final RegistryObject<Item> LEAD_INGOT = ITEMS.register("lead_ingot", ItemBase::new);
-    public static final RegistryObject<Item> SILVER_NUGGET = ITEMS.register("silver_nugget", ItemBase::new);
+    // public static final RegistryObject<Item> SILVER_NUGGET = ITEMS.register("silver_nugget", ItemBase::new);
     public static final RegistryObject<Item> LEAD_NUGGET = ITEMS.register("lead_nugget", ItemBase::new);
     public static final RegistryObject<Item> NETHERITE_NUGGET = ITEMS.register("netherite_nugget", () -> new ItemBase(true));
     public static final RegistryObject<Item> LEAD_BUCKET = ITEMS.register("lead_bucket", () -> new LeadBucket(RegistryHandler.LEAD_FLUID));

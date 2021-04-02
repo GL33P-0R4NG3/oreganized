@@ -46,13 +46,32 @@ public class HeavyMetalPoisoning extends Effect {
         if (entityLivingBaseIn.getActivePotionEffect(this) != null) {
             int duration = entityLivingBaseIn.getActivePotionEffect(this).getDuration();
 
-            EffectInstance poison = new EffectInstance(Effects.POISON, duration, Math.round((float) Math.sqrt(amplifier)), false, false);
-            EffectInstance nausea = new EffectInstance(Effects.NAUSEA, duration, amplifier, false, false);
+            EffectInstance poison = null;
+            EffectInstance nausea = null;
+            int poisonAmp = Math.round((float) Math.sqrt(amplifier));
 
-            entityLivingBaseIn.addPotionEffect(poison);
-            entityLivingBaseIn.addPotionEffect(nausea);
+            if (entityLivingBaseIn.getActivePotionEffect(Effects.POISON) != null) {
+                if (entityLivingBaseIn.getActivePotionEffect(Effects.POISON).getAmplifier() < poisonAmp) {
+                    poison = new EffectInstance(Effects.POISON, duration, poisonAmp, false, false);
+                }
+            } else {
+                poison = new EffectInstance(Effects.POISON, duration, poisonAmp, false, false);
+            }
 
-            this.init = true;
+            if (entityLivingBaseIn.getActivePotionEffect(Effects.NAUSEA) != null) {
+                if (entityLivingBaseIn.getActivePotionEffect(Effects.NAUSEA).getAmplifier() < amplifier) {
+                    nausea = new EffectInstance(Effects.NAUSEA, duration, amplifier, false, false);
+                }
+            } else {
+                nausea = new EffectInstance(Effects.NAUSEA, duration, amplifier, false, false);
+            }
+
+            if (poison != null) {
+                entityLivingBaseIn.addPotionEffect(poison);
+            }
+            if (nausea != null) {
+                entityLivingBaseIn.addPotionEffect(nausea);
+            }
         }
     }
 
