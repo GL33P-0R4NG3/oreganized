@@ -107,7 +107,7 @@ public class ShrapnelTNTEntity extends Entity {
     private LeadNuggetEntity createProjectile(boolean x, boolean y) {
         float xVect = rand.nextFloat() / 2;
         float yVect = rand.nextFloat() / 2;
-        LeadNuggetEntity nugget = new LeadNuggetEntity(this.getPosX() + (x ? xVect : -xVect), this.getPosY() , this.getPosZ() + (y ? yVect : -yVect), this.world);
+        LeadNuggetEntity nugget = new LeadNuggetEntity(this.world, this.getPosX() + (x ? xVect : -xVect), this.getPosY(), this.getPosZ() + (y ? yVect : -yVect));
         return nugget;
     }
 

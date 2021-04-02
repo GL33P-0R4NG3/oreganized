@@ -7,6 +7,7 @@ import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.blocks.Cauldron;
 import me.gleep.oreganized.blocks.ExposerBlock;
+import me.gleep.oreganized.entities.LeadNuggetEntity;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
@@ -44,6 +45,7 @@ import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
@@ -58,7 +60,7 @@ import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(modid = Oreganized.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
-    /*@SubscribeEvent
+    @SubscribeEvent
     public static void onToolBreakEvent(final PlayerDestroyItemEvent event) {
         ItemStack stack = event.getOriginal();
         PlayerEntity pl = event.getPlayer();
@@ -73,7 +75,7 @@ public class ModEvents {
         }
 
         pl.dropItem(item, true);
-    }*/
+    }
 
     @SubscribeEvent
     public static void onPlayerRightClick(final PlayerInteractEvent.RightClickBlock event) {
@@ -166,6 +168,13 @@ public class ModEvents {
             }
         }
     }
+
+    /*@SubscribeEvent
+    public static void onLeadNuggetImpact(ProjectileImpactEvent event) {
+        if (event.getEntity() instanceof LeadNuggetEntity) {
+            event.setCanceled(true);
+        }
+    }*/
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent

@@ -3,9 +3,7 @@ package me.gleep.oreganized.blocks;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
@@ -100,22 +98,24 @@ public class ExposerBlock extends DirectionalBlock {
     public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
         int dist = 4;
 
-        List<ChickenEntity> list = worldIn.getEntitiesWithinAABB(EntityType.CHICKEN,
+        List<Entity> list = worldIn.getEntitiesInAABBexcluding(null,
                 new AxisAlignedBB(pos.getX() + SilverBlock.RANGE, pos.getY() + SilverBlock.RANGE, pos.getZ() + SilverBlock.RANGE,
-                        pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE), (x) -> true
+                        pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE), Entity::isLiving
         );
 
-        isUndeadNearby = false;
         for (Entity e : list) {
-            isUndeadNearby = true;
-            double distance = MathHelper.sqrt(e.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
-            if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 4))) < dist) {
-                if (distance <= 6) {
-                    dist = 1;
-                } else dist = Math.max((int) Math.ceil(distance / (SilverBlock.RANGE / 4)), 2);
+            LivingEntity living = (LivingEntity) e;
+            if (living.isEntityUndead()) {
+                isUndeadNearby = true;
+                double distance = MathHelper.sqrt(living.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()));
+                if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 4))) < dist) {
+                    if (distance <= 6) {
+                        dist = 1;
+                    } else dist = Math.max((int) Math.ceil(distance / (SilverBlock.RANGE / 4)), 2);
 
-                if (dist > 3) {
-                    dist = 3;
+                    if (dist > 3) {
+                        dist = 3;
+                    }
                 }
             }
         }
