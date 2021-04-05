@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xx",
+    "xx"
+  ],
+  "key": {
+    "x": {
+      "item": "oreganized:lead_coating"
+    }
+  },
+  "result": {
+    "item": "oreganized:cut_lead_coating",
+    "count": 4
+  }
+}

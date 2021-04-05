@@ -68,7 +68,7 @@ public class RegistryHandler {
     public static final RegistryObject<EntityType<LeadNuggetEntity>> LEAD_NUGGET_ENTITY = ENTITIES.register("lead_nugget", () ->
             EntityType.Builder.<LeadNuggetEntity>create(
                 LeadNuggetEntity::new, EntityClassification.MISC
-            ).immuneToFire().size(0.5F, 0.5F).trackingRange(4).func_233608_b_(20).build("lead_nugget")
+            ).immuneToFire().size(1.0F, 1.0F).trackingRange(4).func_233608_b_(20).build("lead_nugget")
     );
 
 
@@ -91,6 +91,8 @@ public class RegistryHandler {
     public static final RegistryObject<Block> LEAD_BLOCK = BLOCKS.register("lead_block", () -> new Block(AbstractBlock.Properties.create(Material.IRON)
             .hardnessAndResistance(5.0F, 6.0F).harvestTool(ToolType.PICKAXE).setRequiresTool().harvestLevel(2).sound(SoundType.METAL))
     );
+    public static final RegistryObject<Block> LEAD_COATING = BLOCKS.register("lead_coating", LeadCoating::new);
+    public static final RegistryObject<Block> CUT_LEAD_COATING = BLOCKS.register("cut_lead_coating", CutLeadCoating::new);
     public static final RegistryObject<Block> CAULDRON = BLOCKS.register("cauldron", Cauldron::new);
     public static final RegistryObject<Block> LIGHTENED_IRON_BLOCK = BLOCKS.register("lightened_iron_block", () -> new Block(AbstractBlock.Properties.create(Material.IRON)
             .hardnessAndResistance(4.0F, 5.0F).harvestTool(ToolType.PICKAXE).setRequiresTool().harvestLevel(1).sound(SoundType.NETHERITE))
@@ -165,6 +167,8 @@ public class RegistryHandler {
     //Blocks
     public static final RegistryObject<Item> SILVER_BLOCK_ITEM = ITEMS.register("silver_block", () -> new BlockItemBase(SILVER_BLOCK.get()));
     public static final RegistryObject<Item> LEAD_BLOCK_ITEM = ITEMS.register("lead_block", () -> new BlockItemBase(LEAD_BLOCK.get()));
+    public static final RegistryObject<Item> LEAD_COATING_ITEM = ITEMS.register("lead_coating", () -> new BlockItemBase(LEAD_COATING.get(), 1));
+    public static final RegistryObject<Item> CUT_LEAD_COATING_ITEM = ITEMS.register("cut_lead_coating", () -> new BlockItemBase(CUT_LEAD_COATING.get(), 1));
     public static final RegistryObject<Item> LIGHTENED_IRON_BLOCK_ITEM = ITEMS.register("lightened_iron_block", () -> new BlockItemBase(LIGHTENED_IRON_BLOCK.get()));
     public static final RegistryObject<Item> CAST_IRON_BLOCK_ITEM = ITEMS.register("cast_iron_block", () -> new BlockItemBase(CAST_IRON_BLOCK.get()));
     public static final RegistryObject<Item> CUT_CAST_IRON_BLOCK_ITEM = ITEMS.register("cut_cast_iron_block", () -> new BlockItemBase(CUT_CAST_IRON_BLOCK.get()));

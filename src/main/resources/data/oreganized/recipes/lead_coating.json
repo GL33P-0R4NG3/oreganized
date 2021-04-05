@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "oreganized:lead_ingot"
+    },
+    {
+      "item": "oreganized:lightened_iron_block"
+    }
+  ],
+  "result": {
+    "item": "oreganized:lead_coating",
+    "count": 1
+  }
+}

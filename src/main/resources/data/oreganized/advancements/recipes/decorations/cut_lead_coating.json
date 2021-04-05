@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "oreganized:black_crystal_glass_pane"
+    ]
+  },
+  "criteria": {
+    "has_lightened_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "oreganized:lead_coating"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "oreganized:cut_lead_coating"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_lead_coating",
+      "has_the_recipe"
+    ]
+  ]
+}
