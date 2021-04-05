@@ -8,14 +8,14 @@
   ],
   "key": {
     "x": {
-      "item": "minecraft:black_stained_glass"
+      "tag": "forge:glass/color"
     },
     "#": {
-      "item": "oreganized:lead_ingot"
+      "tag": "forge:ingots/lead"
     }
   },
   "result": {
-    "item": "oreganized:black_crystal_glass",
+    "item": "oreganized:color_crystal_glass",
     "count": 8
   }
 }
