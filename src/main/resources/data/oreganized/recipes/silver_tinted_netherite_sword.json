@@ -4,7 +4,7 @@
     "item": "minecraft:netherite_sword"
   },
   "addition": {
-    "item": "oreganized:silver_ingot"
+    "tag": "forge:ingots/silver"
   },
   "result": {
     "item": "oreganized:silver_tinted_netherite_sword"
