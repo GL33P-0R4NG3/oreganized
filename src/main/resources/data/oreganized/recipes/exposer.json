@@ -7,13 +7,13 @@
   ],
   "key": {
     "x": {
-      "item": "minecraft:cobblestone"
+      "tag": "forge:cobblestone"
     },
     "r": {
-      "item": "minecraft:redstone"
+      "tag": "forge:dusts/redstone"
     },
     "s": {
-      "item": "oreganized:silver_ingot"
+      "tag": "forge:ingots/silver"
     }
   },
   "result": {
