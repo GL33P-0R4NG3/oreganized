@@ -8,10 +8,10 @@
   ],
   "key": {
     "x": {
-      "item": "minecraft:cyan_stained_glass"
+      "tag": "forge:glass/cyan"
     },
     "#": {
-      "item": "oreganized:lead_ingot"
+      "tag": "forge:ingots/lead"
     }
   },
   "result": {
