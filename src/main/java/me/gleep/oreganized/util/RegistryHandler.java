@@ -68,7 +68,7 @@ public class RegistryHandler {
     public static final RegistryObject<EntityType<LeadNuggetEntity>> LEAD_NUGGET_ENTITY = ENTITIES.register("lead_nugget", () ->
             EntityType.Builder.<LeadNuggetEntity>create(
                 LeadNuggetEntity::new, EntityClassification.MISC
-            ).immuneToFire().size(0.5F, 0.5F).trackingRange(4).func_233608_b_(20).build("lead_nugget")
+            ).immuneToFire().size(0.75F, 0.75F).trackingRange(4).func_233608_b_(20).build("lead_nugget")
     );
 
 

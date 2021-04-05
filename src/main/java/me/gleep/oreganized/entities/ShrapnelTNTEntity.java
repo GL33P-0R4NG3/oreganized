@@ -81,7 +81,7 @@ public class ShrapnelTNTEntity extends Entity {
                 nugget = this.createProjectile(false, true);
             }
 
-            nugget.setVelocity(0.0D, 0.05D, 0.0D);
+            nugget.addVelocity(0.0D, 0.06D, 0.0D);
             nugget.setShooter(this.getTntPlacedBy());
             this.world.addEntity(nugget);
         }
@@ -104,10 +104,17 @@ public class ShrapnelTNTEntity extends Entity {
         return !this.isAlive();
     }
 
+    /**
+     * Returns projectile with position around the tnt.
+     * @param x if coordinate x should be positive
+     * @param y if coordinate z should be positive
+     * @return projectile with position and base velocity around the tnt.
+     */
     private LeadNuggetEntity createProjectile(boolean x, boolean y) {
-        float xVect = rand.nextFloat() / 2;
-        float yVect = rand.nextFloat() / 2;
+        float xVect = rand.nextFloat() / 4;
+        float yVect = rand.nextFloat() / 4;
         LeadNuggetEntity nugget = new LeadNuggetEntity(this.world, this.getPosX() + (x ? xVect : -xVect), this.getPosY(), this.getPosZ() + (y ? yVect : -yVect));
+        nugget.setVelocity((xVect / 2.5D) * (x ? 1.0D : -1.0D), 0.0D, (yVect / 2.5D) * (y ? 1.0D : -1.0D));
         return nugget;
     }
 

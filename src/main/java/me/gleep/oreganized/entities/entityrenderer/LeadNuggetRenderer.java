@@ -16,7 +16,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import org.jetbrains.annotations.NotNull;
 
 public class LeadNuggetRenderer extends EntityRenderer<LeadNuggetEntity> {
-    public static final ResourceLocation LEAD_NUGGET = new ResourceLocation("oreganized:textures/item/lead_nugget.png");
+    public static final ResourceLocation LEAD_NUGGET = new ResourceLocation("textures/item/lead_nugget.png");
 
     public LeadNuggetRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn);
@@ -45,21 +45,21 @@ public class LeadNuggetRenderer extends EntityRenderer<LeadNuggetEntity> {
 
         matrixStackIn.rotate(Vector3f.XP.rotationDegrees(45.0F));
         matrixStackIn.scale(0.05625F, 0.05625F, 0.05625F);
-        matrixStackIn.translate(0.0D, 0.0D, 0.0D);
-        IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutout(this.getEntityTexture(entityIn)));/*
+        matrixStackIn.translate(-4.0D, 0.0D, 0.0D);
+        IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutout(this.getEntityTexture(entityIn)));
         MatrixStack.Entry matrixstack$entry = matrixStackIn.getLast();
         Matrix4f matrix4f = matrixstack$entry.getMatrix();
         Matrix3f matrix3f = matrixstack$entry.getNormal();
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, -7, -2, -2, 0.0F, 0.15625F, -1, 0, 0, packedLightIn);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, -7, -2, 2, 0.15625F, 0.15625F, -1, 0, 0, packedLightIn);
-        /*this.drawVertex(matrix4f, matrix3f, ivertexbuilder, -7, 2, 2, 0.15625F, 0.3125F, -1, 0, 0, packedLightIn);
+        this.drawVertex(matrix4f, matrix3f, ivertexbuilder, -7, 2, 2, 0.15625F, 0.3125F, -1, 0, 0, packedLightIn);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, -7, 2, -2, 0.0F, 0.3125F, -1, 0, 0, packedLightIn);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, -7, 2, -2, 0.0F, 0.15625F, 1, 0, 0, packedLightIn);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, -7, 2, 2, 0.15625F, 0.15625F, 1, 0, 0, packedLightIn);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, -7, -2, 2, 0.15625F, 0.3125F, 1, 0, 0, packedLightIn);
         this.drawVertex(matrix4f, matrix3f, ivertexbuilder, -7, -2, -2, 0.0F, 0.3125F, 1, 0, 0, packedLightIn);
 
-        for(int j = 0; j < 4; ++j) {
+        /*for(int j = 0; j < 4; ++j) {
             matrixStackIn.rotate(Vector3f.XP.rotationDegrees(90.0F));
             this.drawVertex(matrix4f, matrix3f, ivertexbuilder, -8, -2, 0, 0.0F, 0.0F, 0, 1, 0, packedLightIn);
             this.drawVertex(matrix4f, matrix3f, ivertexbuilder, 8, -2, 0, 0.5F, 0.0F, 0, 1, 0, packedLightIn);
