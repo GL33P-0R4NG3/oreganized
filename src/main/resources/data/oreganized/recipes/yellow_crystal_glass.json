@@ -8,10 +8,10 @@
   ],
   "key": {
     "x": {
-      "item": "minecraft:yellow_stained_glass"
+      "tag": "forge:glass/yellow"
     },
     "#": {
-      "item": "oreganized:lead_ingot"
+      "tag": "forge:ingots/lead"
     }
   },
   "result": {
