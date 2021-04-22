@@ -19,6 +19,8 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
@@ -29,6 +31,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class RegistryHandler {
     //Mod
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Oreganized.MOD_ID);
+    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Oreganized.MOD_ID);
     public static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, Oreganized.MOD_ID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Oreganized.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Oreganized.MOD_ID);
@@ -39,6 +42,7 @@ public class RegistryHandler {
     public static void init() {
         FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        SOUND_EVENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -55,8 +59,16 @@ public class RegistryHandler {
     );
 
 
+    /*//////////////////////////////////            SOUND EVENTS            //////////////////////////////////*/
+    public static final RegistryObject<SoundEvent> MUSIC_DISC_PILLAGED = SOUND_EVENTS.register("music_disc.pillaged", () -> new SoundEvent(new ResourceLocation(Oreganized.MOD_ID, "music_disc.pillaged")));
+    public static final RegistryObject<SoundEvent> MUSIC_DISC_18 = SOUND_EVENTS.register("music_disc.18", () -> new SoundEvent(new ResourceLocation(Oreganized.MOD_ID, "music_disc.18")));
+    public static final RegistryObject<SoundEvent> MUSIC_DISC_SHULK = SOUND_EVENTS.register("music_disc.shulk", () -> new SoundEvent(new ResourceLocation(Oreganized.MOD_ID, "music_disc.shulk")));
+
+
     /*//////////////////////////////////            EFFECTS            //////////////////////////////////*/
     public static final RegistryObject<Effect> HEAVY_METAL_POISONING = EFFECTS.register("heavy_metal_poisoning", HeavyMetalPoisoning::new);
+    public static final RegistryObject<Effect> DAWN_SHINE = EFFECTS.register("dawn_shine", DawnShine::new);
+    public static final RegistryObject<Effect> NON_DAWN_SHINE = EFFECTS.register("non_dawn_shine", NonDawnShine::new);
 
 
     /*//////////////////////////////////            ENTITIES            //////////////////////////////////*/
@@ -80,6 +92,10 @@ public class RegistryHandler {
     public static final RegistryObject<Item> NETHERITE_NUGGET = ITEMS.register("netherite_nugget", () -> new ItemBase(true));
     public static final RegistryObject<Item> LEAD_BUCKET = ITEMS.register("lead_bucket", () -> new LeadBucket(RegistryHandler.LEAD_FLUID));
     public static final RegistryObject<Item> SILVER_MIRROR = ITEMS.register("silver_mirror", SilverMirror::new);
+    //Music Discs
+    public static final RegistryObject<Item> MUSIC_DISC_PILLAGED_ITEM = ITEMS.register("music_disc_pillaged", () -> new ModMusicDisc(13, MUSIC_DISC_PILLAGED));
+    public static final RegistryObject<Item> MUSIC_DISC_18_ITEM = ITEMS.register("music_disc_18", () -> new ModMusicDisc(14, MUSIC_DISC_18));
+    public static final RegistryObject<Item> MUSIC_DISC_SHULK_ITEM = ITEMS.register("music_disc_shulk", () -> new ModMusicDisc(15, MUSIC_DISC_SHULK));
 
 
     /*//////////////////////////////////            BLOCKS            //////////////////////////////////*/

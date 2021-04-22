@@ -1,0 +1,29 @@
+{
+  "music_disc.pillaged": {
+    "category": "record",
+    "sounds": [
+      {
+        "name": "oreganized:records/pillaged",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.18": {
+    "category": "record",
+    "sounds": [
+      {
+        "name": "oreganized:records/18",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.shulk": {
+    "category": "record",
+    "sounds": [
+      {
+        "name": "oreganized:records/shulk",
+        "stream": true
+      }
+    ]
+  }
+}

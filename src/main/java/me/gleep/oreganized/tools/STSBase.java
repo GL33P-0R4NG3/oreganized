@@ -1,32 +1,27 @@
 package me.gleep.oreganized.tools;
 
+import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.Direction;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
-import javax.rmi.CORBA.Tie;
 import java.util.List;
 
 public class STSBase extends SwordItem {
@@ -41,36 +36,10 @@ public class STSBase extends SwordItem {
 
     @Override
     public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (target.isEntityUndead()) {
-            ExperienceOrbEntity xp = new ExperienceOrbEntity(EntityType.EXPERIENCE_ORB, target.getEntityWorld());
-            xp.setPosition(target.getPosX(), target.getPosY(), target.getPosZ());
-            xp.setMotion(random.nextDouble() * ((random.nextInt() % 2) > 0 ? -0.06D : 0.06D), 0.2D, random.nextDouble() * ((random.nextInt() % 2) > 0 ? -0.06D : 0.06D));
-            xp.xpValue = 1;
-            target.getEntityWorld().addEntity(xp);
+        long random =  Math.round(Math.random() * 100.0F);
 
-            /*if (attacker instanceof PlayerEntity) {
-                double xSpeed = (random.nextInt() % 2) > 0 ? -0.06D : 0.06D;
-                double zSpeed = (random.nextInt() % 2) > 0 ? -0.06D : 0.06D;
-                Direction facing = attacker.getHorizontalFacing();
-                switch (facing) {
-                    case NORTH:
-                        xSpeed = -0.5D;
-                        break;
-                    case SOUTH:
-                        xSpeed = 0.5D;
-                        break;
-                    case WEST:
-                        zSpeed = -0.5D;
-                        break;
-                    case EAST:
-                        zSpeed = 0.5D;
-                        break;
-                }
-
-                for (int i = 0; i < 5; i++) {
-                    attacker.getEntityWorld().addParticle(ParticleTypes.END_ROD, attacker.getPosX() + 1D, attacker.getPosY(), attacker.getPosZ() + 1D, 0D, 0D, 0D);
-                }
-            }*/
+        if (random <= 35) {
+            target.addPotionEffect(this.getSilverShine());
         }
 
         this.decreaseDurabilty(stack, attacker);
@@ -180,5 +149,9 @@ public class STSBase extends SwordItem {
             tooltip.add(text);
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
+    }
+
+    public EffectInstance getSilverShine() {
+        return new EffectInstance(RegistryHandler.DAWN_SHINE.get(), 400, 1);
     }
 }

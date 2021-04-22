@@ -1,4 +1,10 @@
 {
+  "item.oreganized.music_disc_pillaged": "Music Disc",
+  "item.oreganized.music_disc_18": "Music Disc",
+  "item.oreganized.music_disc_shulk": "Music Disc",
+  "item.oreganized.music_disc_pillaged.desc": "JamiesName - Pillaged",
+  "item.oreganized.music_disc_18.desc": "JamiesName - 18",
+  "item.oreganized.music_disc_shulk.desc": "JamiesName - Shulk",
   "block.oreganized.shrapnel_tnt": "Shrapnel TNT",
   "block.oreganized.cut_lead_coating": "Cut Lead Coating",
   "block.oreganized.lead_coating": "Lead Coating",
