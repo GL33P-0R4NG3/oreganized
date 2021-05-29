@@ -6,7 +6,7 @@
     ]
   },
   "criteria": {
-    "has_lightened_block": {
+    "has_lead_coating": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [

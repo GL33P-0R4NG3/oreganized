@@ -17,6 +17,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -31,6 +33,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class RegistryHandler {
     //Mod
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Oreganized.MOD_ID);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Oreganized.MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Oreganized.MOD_ID);
     public static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, Oreganized.MOD_ID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Oreganized.MOD_ID);
@@ -42,6 +45,7 @@ public class RegistryHandler {
     public static void init() {
         FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        PARTICLES.register(FMLJavaModLoadingContext.get().getModEventBus());
         SOUND_EVENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -57,6 +61,10 @@ public class RegistryHandler {
     public static final RegistryObject<FlowingFluidBlock> LEAD_FLUID_BLOCK = BLOCKS.register("lead_fluid_block",
             () -> new LeadFluidBlock(RegistryHandler.LEAD_FLUID)
     );
+
+
+    /*//////////////////////////////////            PARTICLES            //////////////////////////////////*/
+    public static final RegistryObject<BasicParticleType> DAWN_SHINE_PARTICLE = PARTICLES.register("dawn_shine", () -> new BasicParticleType(false));
 
 
     /*//////////////////////////////////            SOUND EVENTS            //////////////////////////////////*/

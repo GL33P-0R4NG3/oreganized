@@ -18,6 +18,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
@@ -29,8 +30,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -144,6 +147,15 @@ public class ModEvents {
                     entity.setMotion(vector3d4.x, (double)0.3F, vector3d4.z);
                 }
             }
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public static void onDawnShineEffect(LivingEvent event) {
+        if (event.getEntityLiving().getActivePotionMap().containsKey(RegistryHandler.DAWN_SHINE.get())) {
+            LivingEntity entity = event.getEntityLiving();
+            entity.world.addParticle(RegistryHandler.DAWN_SHINE_PARTICLE.get(), entity.getPosXRandom(0.5D), entity.getPosYRandom(), entity.getPosZRandom(0.5D), 0, 0, 0);
         }
     }
 

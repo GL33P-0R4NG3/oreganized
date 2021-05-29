@@ -7,6 +7,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
@@ -41,6 +43,8 @@ public class STSBase extends SwordItem {
         if (random <= 35) {
             target.addPotionEffect(this.getSilverShine());
         }
+
+        this.spawnParticles(target);
 
         this.decreaseDurabilty(stack, attacker);
         return super.hitEntity(stack, target, attacker);
@@ -113,6 +117,16 @@ public class STSBase extends SwordItem {
         } else {
             durability--;
             stack.getOrCreateTag().putInt("TintedDamage", durability);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void spawnParticles(LivingEntity entity) {
+        for(int i = 0; i < 5; ++i) {
+            double d0 = entity.world.rand.nextGaussian() * 0.02D;
+            double d1 = entity.world.rand.nextGaussian() * 0.02D;
+            double d2 = entity.world.rand.nextGaussian() * 0.02D;
+            entity.world.addParticle(RegistryHandler.DAWN_SHINE_PARTICLE.get(), entity.getPosXRandom(1.0D), entity.getPosYRandom() + 1.0D, entity.getPosZRandom(1.0D), d0, d1, d2);
         }
     }
 

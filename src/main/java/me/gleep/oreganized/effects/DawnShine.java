@@ -26,6 +26,8 @@ public class DawnShine extends Effect {
         return false;
     }
 
+
+
     @Override
     public boolean shouldRenderInvText(EffectInstance effect) {
         return true;
@@ -38,7 +40,7 @@ public class DawnShine extends Effect {
 
     @Override
     public boolean shouldRender(EffectInstance effect) {
-        return true;
+        return false;
     }
 
     @Override
@@ -80,6 +82,8 @@ public class DawnShine extends Effect {
             return true;
         }
     }
+
+
 
     /**
      * Called to draw the this Potion onto the player's inventory when it's active.
