@@ -1,62 +1,43 @@
 package me.gleep.oreganized.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import it.unimi.dsi.fastutil.objects.Object2DoubleArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.blocks.Cauldron;
-import me.gleep.oreganized.blocks.ExposerBlock;
-import me.gleep.oreganized.entities.LeadNuggetEntity;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.ai.goal.GoalSelector;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-
-import java.util.*;
-import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(modid = Oreganized.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
@@ -169,6 +150,15 @@ public class ModEvents {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public static void onDawnShineEffect(LivingEvent event) {
+        if (event.getEntityLiving().getActivePotionMap().containsKey(RegistryHandler.DAWN_SHINE.get())) {
+            LivingEntity entity = event.getEntityLiving();
+            entity.world.addParticle(RegistryHandler.DAWN_SHINE_PARTICLE.get(), entity.getPosXRandom(0.5D), entity.getPosYRandom(), entity.getPosZRandom(0.5D), 0, 0, 0);
+        }
+    }
+
     /*@SubscribeEvent
     public static void onLeadNuggetImpact(ProjectileImpactEvent event) {
         if (event.getEntity() instanceof LeadNuggetEntity) {
@@ -207,7 +197,7 @@ public class ModEvents {
         }
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onEntityJoin(final EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof MonsterEntity) {
             MonsterEntity monster = (MonsterEntity) event.getEntity();
@@ -259,45 +249,26 @@ public class ModEvents {
                 }
             }
         }
-    }
+    }*/
 
     @SubscribeEvent
     public static void onLivingHurt(final LivingHurtEvent event) {
-        /*if (event.getSource().getTrueSource() instanceof PlayerEntity) {
-            PlayerEntity playerEntity = (PlayerEntity) event.getSource().getTrueSource();
-            if (playerEntity.getHeldItem(playerEntity.getActiveHand()).getItem() instanceof STSBase) {
-                if (playerEntity.getEntityWorld().isRemote()) {
-                    double xSpeed = (playerEntity.getRNG().nextInt() % 2) > 0 ? -0.06D : 0.06D;
-                    double zSpeed = (playerEntity.getRNG().nextInt() % 2) > 0 ? -0.06D : 0.06D;
-                    Direction facing = playerEntity.getHorizontalFacing();
-                    switch (facing) {
-                        case NORTH:
-                            zSpeed = -0.1D;
-                            break;
-                        case SOUTH:
-                            zSpeed = 0.1D;
-                            break;
-                        case WEST:
-                            xSpeed = -0.1D;
-                            break;
-                        case EAST:
-                            xSpeed = 0.1D;
-                            break;
-                    }
-                    playerEntity.getEntityWorld().addParticle(ParticleTypes.END_ROD, playerEntity.getPosX(), playerEntity.getPosY(), playerEntity.getPosZ(), xSpeed, 0.05D, zSpeed);
+        int parts = 0;
+        if (event.getSource().getTrueSource() instanceof LivingEntity) {
+            for (ItemStack stack : event.getEntityLiving().getArmorInventoryList()) {
+                if (stack.getItem() instanceof STABase) {
+                    parts++;
+                    ((STABase)stack.getItem()).decreaseDurabilty(stack, event.getEntityLiving());
                 }
             }
-        }*/
-        //int parts = 0;
-        if (event.getSource().getTrueSource() != null) {
+            long random = Math.round(Math.random() * 100.0F);
+
+            if (random <= (16 * parts)) {
+                ((LivingEntity) event.getSource().getTrueSource()).addPotionEffect(getSilverShine());
+            }
+
             if (event.getSource().getTrueSource() instanceof MonsterEntity) {
                 MonsterEntity monster = (MonsterEntity) event.getSource().getTrueSource();
-                for (ItemStack stack : event.getEntityLiving().getArmorInventoryList()) {
-                    if (stack.getItem() instanceof STABase) {
-                        //parts++;
-                        ((STABase)stack.getItem()).decreaseDurabilty(stack, event.getEntityLiving());
-                    }
-                }
 
                 if (monster.isEntityUndead()) {
                     monster.setAttackTarget(null);
@@ -307,18 +278,8 @@ public class ModEvents {
         }
     }
 
-    /*@SubscribeEvent
-    public static void onFluidFlow(BlockEvent.CreateFluidSourceEvent event) {
-        IWorldReader world = event.getWorld();
-        BlockPos pos = event.getPos();
-        BlockPos newPos = new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ());
-        BlockState blockState = event.getState();
-        IChunk chunk = world.getChunk(pos);
-
-        if (blockState.get(LeadFluid.FALLING) && chunk.getFluidState(pos).equals(RegistryHandler.LEAD_FLUID_FLOW.get().getDefaultState())) {
-            chunk.setBlockState(newPos, Blocks.AIR.getDefaultState(), false);
-            chunk.setBlockState(pos, RegistryHandler.LEAD_FLUID.get().getDefaultState().getBlockState(), true);
-        }
-    }*/
+    public static EffectInstance getSilverShine() {
+        return new EffectInstance(RegistryHandler.DAWN_SHINE.get(), 400, 1);
+    }
 
 }

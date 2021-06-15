@@ -4,11 +4,13 @@ import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.entities.ShrapnelTNTEntity;
 import me.gleep.oreganized.entities.entityrenderer.LeadNuggetRenderer;
 import me.gleep.oreganized.entities.entityrenderer.ShrapnelTNTRenderer;
+import me.gleep.oreganized.particles.DawnShineParticle;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.world.gen.CustomOreGen;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -23,13 +25,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -42,6 +47,7 @@ public class Oreganized {
     public Oreganized() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::particleFactoryRegistrationEvent);
 
         RegistryHandler.init();
     }
@@ -162,6 +168,11 @@ public class Oreganized {
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
                 (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STSBase.MAX_TINT_DURABILITY)
         );
+
+    }
+
+    public void particleFactoryRegistrationEvent(final ParticleFactoryRegisterEvent event) {
+        Minecraft.getInstance().particles.registerFactory(RegistryHandler.DAWN_SHINE_PARTICLE.get(), DawnShineParticle.Factory::new);
     }
 
     /*@SubscribeEvent

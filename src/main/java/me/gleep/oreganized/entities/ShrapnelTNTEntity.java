@@ -81,7 +81,6 @@ public class ShrapnelTNTEntity extends Entity {
                 nugget = this.createProjectile(false, true);
             }
 
-            nugget.addVelocity(0.0D, 0.06D, 0.0D);
             nugget.setShooter(this.getTntPlacedBy());
             this.world.addEntity(nugget);
         }

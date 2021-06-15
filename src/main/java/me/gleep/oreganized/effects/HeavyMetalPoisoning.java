@@ -60,11 +60,6 @@ public class HeavyMetalPoisoning extends Effect {
     }
 
     @Override
-    public void affectEntity(@Nullable Entity source, @Nullable Entity indirectSource, LivingEntity entityLivingBaseIn, int amplifier, double health) {
-        super.affectEntity(source, indirectSource, entityLivingBaseIn, amplifier, health);
-    }
-
-    @Override
     public boolean isReady(int duration, int amplifier) {
         return duration < 0 || duration % 40 == 0;
     }

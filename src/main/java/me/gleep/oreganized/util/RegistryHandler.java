@@ -17,8 +17,12 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
@@ -29,6 +33,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class RegistryHandler {
     //Mod
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Oreganized.MOD_ID);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Oreganized.MOD_ID);
+    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Oreganized.MOD_ID);
     public static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, Oreganized.MOD_ID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Oreganized.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Oreganized.MOD_ID);
@@ -39,6 +45,8 @@ public class RegistryHandler {
     public static void init() {
         FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        PARTICLES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        SOUND_EVENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -55,8 +63,20 @@ public class RegistryHandler {
     );
 
 
+    /*//////////////////////////////////            PARTICLES            //////////////////////////////////*/
+    public static final RegistryObject<BasicParticleType> DAWN_SHINE_PARTICLE = PARTICLES.register("dawn_shine", () -> new BasicParticleType(false));
+
+
+    /*//////////////////////////////////            SOUND EVENTS            //////////////////////////////////*/
+    public static final RegistryObject<SoundEvent> MUSIC_DISC_PILLAGED = SOUND_EVENTS.register("music_disc.pillaged", () -> new SoundEvent(new ResourceLocation(Oreganized.MOD_ID, "music_disc.pillaged")));
+    public static final RegistryObject<SoundEvent> MUSIC_DISC_18 = SOUND_EVENTS.register("music_disc.18", () -> new SoundEvent(new ResourceLocation(Oreganized.MOD_ID, "music_disc.18")));
+    public static final RegistryObject<SoundEvent> MUSIC_DISC_SHULK = SOUND_EVENTS.register("music_disc.shulk", () -> new SoundEvent(new ResourceLocation(Oreganized.MOD_ID, "music_disc.shulk")));
+
+
     /*//////////////////////////////////            EFFECTS            //////////////////////////////////*/
     public static final RegistryObject<Effect> HEAVY_METAL_POISONING = EFFECTS.register("heavy_metal_poisoning", HeavyMetalPoisoning::new);
+    public static final RegistryObject<Effect> DAWN_SHINE = EFFECTS.register("dawn_shine", DawnShine::new);
+    public static final RegistryObject<Effect> NON_DAWN_SHINE = EFFECTS.register("non_dawn_shine", NonDawnShine::new);
 
 
     /*//////////////////////////////////            ENTITIES            //////////////////////////////////*/
@@ -68,7 +88,7 @@ public class RegistryHandler {
     public static final RegistryObject<EntityType<LeadNuggetEntity>> LEAD_NUGGET_ENTITY = ENTITIES.register("lead_nugget", () ->
             EntityType.Builder.<LeadNuggetEntity>create(
                 LeadNuggetEntity::new, EntityClassification.MISC
-            ).immuneToFire().size(0.75F, 0.75F).trackingRange(4).func_233608_b_(20).build("lead_nugget")
+            ).immuneToFire().size(1.0F, 1.0F).trackingRange(4).func_233608_b_(20).build("lead_nugget")
     );
 
 
@@ -80,6 +100,10 @@ public class RegistryHandler {
     public static final RegistryObject<Item> NETHERITE_NUGGET = ITEMS.register("netherite_nugget", () -> new ItemBase(true));
     public static final RegistryObject<Item> LEAD_BUCKET = ITEMS.register("lead_bucket", () -> new LeadBucket(RegistryHandler.LEAD_FLUID));
     public static final RegistryObject<Item> SILVER_MIRROR = ITEMS.register("silver_mirror", SilverMirror::new);
+    //Music Discs
+    public static final RegistryObject<Item> MUSIC_DISC_PILLAGED_ITEM = ITEMS.register("music_disc_pillaged", () -> new ModMusicDisc(13, MUSIC_DISC_PILLAGED));
+    public static final RegistryObject<Item> MUSIC_DISC_18_ITEM = ITEMS.register("music_disc_18", () -> new ModMusicDisc(14, MUSIC_DISC_18));
+    public static final RegistryObject<Item> MUSIC_DISC_SHULK_ITEM = ITEMS.register("music_disc_shulk", () -> new ModMusicDisc(15, MUSIC_DISC_SHULK));
 
 
     /*//////////////////////////////////            BLOCKS            //////////////////////////////////*/
@@ -91,6 +115,8 @@ public class RegistryHandler {
     public static final RegistryObject<Block> LEAD_BLOCK = BLOCKS.register("lead_block", () -> new Block(AbstractBlock.Properties.create(Material.IRON)
             .hardnessAndResistance(5.0F, 6.0F).harvestTool(ToolType.PICKAXE).setRequiresTool().harvestLevel(2).sound(SoundType.METAL))
     );
+    public static final RegistryObject<Block> LEAD_COATING = BLOCKS.register("lead_coating", LeadCoating::new);
+    public static final RegistryObject<Block> CUT_LEAD_COATING = BLOCKS.register("cut_lead_coating", CutLeadCoating::new);
     public static final RegistryObject<Block> CAULDRON = BLOCKS.register("cauldron", Cauldron::new);
     public static final RegistryObject<Block> LIGHTENED_IRON_BLOCK = BLOCKS.register("lightened_iron_block", () -> new Block(AbstractBlock.Properties.create(Material.IRON)
             .hardnessAndResistance(4.0F, 5.0F).harvestTool(ToolType.PICKAXE).setRequiresTool().harvestLevel(1).sound(SoundType.NETHERITE))
@@ -165,6 +191,8 @@ public class RegistryHandler {
     //Blocks
     public static final RegistryObject<Item> SILVER_BLOCK_ITEM = ITEMS.register("silver_block", () -> new BlockItemBase(SILVER_BLOCK.get()));
     public static final RegistryObject<Item> LEAD_BLOCK_ITEM = ITEMS.register("lead_block", () -> new BlockItemBase(LEAD_BLOCK.get()));
+    public static final RegistryObject<Item> LEAD_COATING_ITEM = ITEMS.register("lead_coating", () -> new BlockItemBase(LEAD_COATING.get(), 1));
+    public static final RegistryObject<Item> CUT_LEAD_COATING_ITEM = ITEMS.register("cut_lead_coating", () -> new BlockItemBase(CUT_LEAD_COATING.get(), 1));
     public static final RegistryObject<Item> LIGHTENED_IRON_BLOCK_ITEM = ITEMS.register("lightened_iron_block", () -> new BlockItemBase(LIGHTENED_IRON_BLOCK.get()));
     public static final RegistryObject<Item> CAST_IRON_BLOCK_ITEM = ITEMS.register("cast_iron_block", () -> new BlockItemBase(CAST_IRON_BLOCK.get()));
     public static final RegistryObject<Item> CUT_CAST_IRON_BLOCK_ITEM = ITEMS.register("cut_cast_iron_block", () -> new BlockItemBase(CUT_CAST_IRON_BLOCK.get()));
