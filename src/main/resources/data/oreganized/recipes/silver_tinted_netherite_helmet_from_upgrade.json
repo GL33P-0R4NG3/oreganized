@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "oreganized:silver_tinted_diamond_helmet"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "item": "oreganized:silver_tinted_netherite_helmet"
+  }
+}

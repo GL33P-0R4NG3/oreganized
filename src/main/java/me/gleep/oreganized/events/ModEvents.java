@@ -3,11 +3,12 @@ package me.gleep.oreganized.events;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.STABase;
-import me.gleep.oreganized.blocks.Cauldron;
+import me.gleep.oreganized.blocks.ModCauldron;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
@@ -18,7 +19,6 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
@@ -36,6 +36,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -81,7 +82,7 @@ public class ModEvents {
             } else if (item.getItem().equals(RegistryHandler.LEAD_BUCKET.get())) {
                 if (!world.isRemote()) {
                     world.removeBlock(pos, false);
-                    world.setBlockState(pos, RegistryHandler.CAULDRON.get().getDefaultState().with(Cauldron.LEVEL, 3));
+                    world.setBlockState(pos, RegistryHandler.CAULDRON.get().getDefaultState().with(ModCauldron.LEVEL, 3));
                     if (!event.getPlayer().isCreative()) event.getPlayer().setHeldItem(Hand.MAIN_HAND, new ItemStack(Items.BUCKET, 1));
                     world.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_EMPTY_LAVA, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     event.getPlayer().addStat(Stats.USE_CAULDRON);
@@ -146,16 +147,17 @@ public class ModEvents {
                 if (entity.collidedHorizontally && entity.isOffsetPositionInLiquid(vector3d4.x, vector3d4.y + (double)0.2F - entity.getPosY() + d7, vector3d4.z)) {
                     entity.setMotion(vector3d4.x, (double)0.3F, vector3d4.z);
                 }
-            }
+            }/* else if (entity.isPotionActive(RegistryHandler.DAWN_SHINE.get())) {
+                Minecraft.getInstance().particles.emitParticleAtEntity(entity, RegistryHandler.DAWN_SHINE_PARTICLE.get(), 10);
+            }*/
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onDawnShineEffect(LivingEvent event) {
-        if (event.getEntityLiving().getActivePotionMap().containsKey(RegistryHandler.DAWN_SHINE.get())) {
-            LivingEntity entity = event.getEntityLiving();
-            entity.world.addParticle(RegistryHandler.DAWN_SHINE_PARTICLE.get(), entity.getPosXRandom(0.5D), entity.getPosYRandom(), entity.getPosZRandom(0.5D), 0, 0, 0);
+    public static void onDawnShineEffect(PotionEvent.PotionAddedEvent event) {
+        if (event.getPotionEffect().getPotion().equals(RegistryHandler.DAWN_SHINE.get())) {
+            Minecraft.getInstance().particles.addParticleEmitter(event.getEntityLiving(), RegistryHandler.DAWN_SHINE_PARTICLE.get());
         }
     }
 

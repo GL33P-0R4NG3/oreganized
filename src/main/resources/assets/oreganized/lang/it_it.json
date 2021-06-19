@@ -1,4 +1,6 @@
 {
+  "effect.oreganized.dawn_shine": "Dawn Shine",
+  "effect.oreganized.non_dawn_shine": "Dawn Shine",
   "item.oreganized.music_disc_pillaged": "Music Disc",
   "item.oreganized.music_disc_18": "Music Disc",
   "item.oreganized.music_disc_shulk": "Music Disc",
@@ -98,9 +100,5 @@
   "item.oreganized.silver_tinted_netherite_chestplate": "Corazza di netherite argentata",
   "item.oreganized.silver_tinted_netherite_helmet": "Elmo di netherite argentato",
   "item.oreganized.silver_tinted_netherite_leggings": "Gambiere di netherite argentate",
-  "item.oreganized.silver_tinted_netherite_sword": "Spada di netherite argentata",
-  "block.oreganized.cast_iron_stairs": "Cast Iron Stairs",
-  "block.oreganized.cut_lightened_iron_block": "Cut Lightened Iron Block",
-  "block.oreganized.cut_lightened_iron_slab": "Cut Lightened Iron Slab",
-  "block.oreganized.cut_lightened_iron_stairs": "Cut Lightened Iron Stairs"
+  "item.oreganized.silver_tinted_netherite_sword": "Spada di netherite argentata"
 }

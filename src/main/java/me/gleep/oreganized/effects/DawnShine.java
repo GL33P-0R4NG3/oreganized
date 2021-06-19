@@ -3,8 +3,11 @@ package me.gleep.oreganized.effects;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.DisplayEffectsScreen;
+import net.minecraft.client.renderer.texture.PotionSpriteUploader;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -35,12 +38,12 @@ public class DawnShine extends Effect {
 
     @Override
     public boolean shouldRenderHUD(EffectInstance effect) {
-        return true;
+        return false;
     }
 
     @Override
     public boolean shouldRender(EffectInstance effect) {
-        return false;
+        return true;
     }
 
     @Override
@@ -115,6 +118,5 @@ public class DawnShine extends Effect {
      */
     @Override
     public void renderHUDEffect(EffectInstance effect, AbstractGui gui, MatrixStack mStack, int x, int y, float z, float alpha) {
-
     }
 }

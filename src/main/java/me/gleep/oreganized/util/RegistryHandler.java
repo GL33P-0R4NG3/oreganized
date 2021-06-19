@@ -7,6 +7,7 @@ import me.gleep.oreganized.entities.LeadNuggetEntity;
 import me.gleep.oreganized.entities.ShrapnelTNTEntity;
 import me.gleep.oreganized.entities.tileentities.ExposerBlockTileEntity;
 import me.gleep.oreganized.effects.*;
+import me.gleep.oreganized.entities.tileentities.LeadCoatingTileEntity;
 import me.gleep.oreganized.fluids.*;
 import me.gleep.oreganized.items.*;
 import me.gleep.oreganized.tools.*;
@@ -117,7 +118,7 @@ public class RegistryHandler {
     );
     public static final RegistryObject<Block> LEAD_COATING = BLOCKS.register("lead_coating", LeadCoating::new);
     public static final RegistryObject<Block> CUT_LEAD_COATING = BLOCKS.register("cut_lead_coating", CutLeadCoating::new);
-    public static final RegistryObject<Block> CAULDRON = BLOCKS.register("cauldron", Cauldron::new);
+    public static final RegistryObject<Block> CAULDRON = BLOCKS.register("cauldron", ModCauldron::new);
     public static final RegistryObject<Block> LIGHTENED_IRON_BLOCK = BLOCKS.register("lightened_iron_block", () -> new Block(AbstractBlock.Properties.create(Material.IRON)
             .hardnessAndResistance(4.0F, 5.0F).harvestTool(ToolType.PICKAXE).setRequiresTool().harvestLevel(1).sound(SoundType.NETHERITE))
     );
@@ -261,6 +262,9 @@ public class RegistryHandler {
     );*/
     public static final RegistryObject<TileEntityType<ExposerBlockTileEntity>> EXPOSER_TE = TILE_ENTITY_TYPES.register("exposer", () -> TileEntityType.Builder.create(
             ExposerBlockTileEntity::new, EXPOSER.get()).build(null)
+    );
+    public static final RegistryObject<TileEntityType<LeadCoatingTileEntity>> LEAD_COATING_TE = TILE_ENTITY_TYPES.register("lead_coating", () -> TileEntityType.Builder.create(
+            LeadCoatingTileEntity::new, LEAD_COATING.get()).build(null)
     );
 
 

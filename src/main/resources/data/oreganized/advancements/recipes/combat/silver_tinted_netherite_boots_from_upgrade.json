@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "oreganized:silver_tinted_netherite_sword_from_upgrade"
+      "oreganized:silver_tinted_netherite_boots_from_upgrade"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "oreganized:silver_tinted_netherite_sword_from_upgrade"
+        "recipe": "oreganized:silver_tinted_netherite_boots_from_upgrade"
       }
     }
   },
