@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "oreganized:lead_ingot"
+      "tag": "forge:ingots/lead"
     },
     {
       "item": "oreganized:lightened_iron_block"

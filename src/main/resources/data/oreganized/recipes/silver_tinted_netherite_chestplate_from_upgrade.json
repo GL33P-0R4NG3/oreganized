@@ -4,7 +4,7 @@
     "item": "oreganized:silver_tinted_diamond_chestplate"
   },
   "addition": {
-    "item": "minecraft:netherite_ingot"
+    "tag": "forge:ingots/netherite"
   },
   "result": {
     "item": "oreganized:silver_tinted_netherite_chestplate"

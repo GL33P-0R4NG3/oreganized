@@ -3,7 +3,7 @@
   "group": "netherite_ingot",
   "ingredients": [
     {
-      "item": "minecraft:netherite_ingot"
+      "tag": "forge:ingots/netherite"
     }
   ],
   "result":

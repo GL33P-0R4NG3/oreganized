@@ -4,7 +4,7 @@
     "item": "minecraft:diamond_boots"
   },
   "addition": {
-    "item": "oreganized:silver_ingot"
+    "tag": "forge:ingots/silver"
   },
   "result": {
     "item": "oreganized:silver_tinted_diamond_boots"
