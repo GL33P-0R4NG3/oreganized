@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "oreganized:blasted_iron_slab",
+    "oreganized:cut_blasted_iron_slab",
+    "oreganized:cut_cast_iron_slab",
+    "oreganized:cut_technical_netherite_slab",
+    "oreganized:lightened_iron_slab",
+    "oreganized:technical_netherite_slab"
+  ]
+}
