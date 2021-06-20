@@ -7,7 +7,6 @@ import me.gleep.oreganized.entities.LeadNuggetEntity;
 import me.gleep.oreganized.entities.ShrapnelTNTEntity;
 import me.gleep.oreganized.entities.tileentities.ExposerBlockTileEntity;
 import me.gleep.oreganized.effects.*;
-import me.gleep.oreganized.entities.tileentities.LeadCoatingTileEntity;
 import me.gleep.oreganized.fluids.*;
 import me.gleep.oreganized.items.*;
 import me.gleep.oreganized.tools.*;
@@ -262,9 +261,6 @@ public class RegistryHandler {
     );*/
     public static final RegistryObject<TileEntityType<ExposerBlockTileEntity>> EXPOSER_TE = TILE_ENTITY_TYPES.register("exposer", () -> TileEntityType.Builder.create(
             ExposerBlockTileEntity::new, EXPOSER.get()).build(null)
-    );
-    public static final RegistryObject<TileEntityType<LeadCoatingTileEntity>> LEAD_COATING_TE = TILE_ENTITY_TYPES.register("lead_coating", () -> TileEntityType.Builder.create(
-            LeadCoatingTileEntity::new, LEAD_COATING.get()).build(null)
     );
 
 
