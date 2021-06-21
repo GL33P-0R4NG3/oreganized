@@ -114,7 +114,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onEntityUpdate(final LivingEvent.LivingUpdateEvent event) {
-        if (event.getEntity().isLiving()) {
+        if (event.getEntity() instanceof LivingEntity) {
             LivingEntity entity = event.getEntityLiving();
             ITag<Fluid> tag = FluidTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + ":lead"));
 
