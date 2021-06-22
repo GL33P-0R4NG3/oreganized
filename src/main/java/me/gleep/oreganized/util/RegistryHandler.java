@@ -274,6 +274,7 @@ public class RegistryHandler {
     public static final RegistryObject<SwordItem> SILVER_TINTED_NETHERITE_SWORD = ITEMS.register("silver_tinted_netherite_sword", () ->
             new STSBase(ItemTier.NETHERITE, 3, -2.4F)
     );
+    public static final RegistryObject<Item> BUSH_HAMMER = ITEMS.register("bush_hammer", BushHammer::new);
 
 
     /*//////////////////////////////////            ARMOR            //////////////////////////////////*/

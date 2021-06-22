@@ -4,9 +4,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.blocks.ModCauldron;
+import me.gleep.oreganized.items.BushHammer;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -21,21 +23,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -155,6 +161,20 @@ public class ModEvents {
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
+    public static void onBlockDestroyed(BlockEvent.BreakEvent event) {
+        IWorld world = event.getWorld();
+        BlockPos pos = event.getPos();
+        BlockState state = world.getBlockState(pos);
+        ItemStack currentitem = event.getPlayer().inventory.getCurrentItem();
+
+        if (BlockTags.LEAVES.contains(state.getBlock()) && currentitem.getItem() == RegistryHandler.BUSH_HAMMER.get()) {
+            event.setCanceled(true);
+        }
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
     public static void onDawnShineEffect(PotionEvent.PotionAddedEvent event) {
         if (event.getPotionEffect().getPotion().equals(RegistryHandler.DAWN_SHINE.get())) {
             Minecraft.getInstance().particles.addParticleEmitter(event.getEntityLiving(), RegistryHandler.DAWN_SHINE_PARTICLE.get());
@@ -263,9 +283,12 @@ public class ModEvents {
                     ((STABase)stack.getItem()).decreaseDurabilty(stack, event.getEntityLiving());
                 }
             }
+
+            if (parts == 0) return;
+
             long random = Math.round(Math.random() * 100.0F);
 
-            if (random <= (16 * parts)) {
+            if (random <= (16L * parts)) {
                 ((LivingEntity) event.getSource().getTrueSource()).addPotionEffect(getSilverShine());
             }
 
