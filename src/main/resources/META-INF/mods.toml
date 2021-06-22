@@ -8,7 +8,7 @@ issueTrackerURL="https://github.com/GL33P-0R4NG3/oreganized/issues/" #optional
 
 [[mods]] #mandatory
 modId="oreganized" #mandatory
-version="1.16.4-0.5.0-beta" #mandatory
+version="1.16.4-0.5.1-aplha-1" #mandatory
 displayName="Oreganized Mod" #mandatory
 updateJSONURL="https://www.curseforge.com/minecraft/mc-mods/oreganized-mod/files" #optional
 displayURL="https://www.curseforge.com/minecraft/mc-mods/oreganized-mod" #optional
