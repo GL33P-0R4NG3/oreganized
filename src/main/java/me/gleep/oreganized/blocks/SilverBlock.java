@@ -55,7 +55,7 @@ public class SilverBlock extends Block {
 
         List<Entity> list = worldIn.getEntitiesInAABBexcluding(null,
                 new AxisAlignedBB(pos.getX() + RANGE, pos.getY() + RANGE, pos.getZ() + RANGE,
-                        pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE), Entity::isLiving
+                        pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE), (Entity entity) -> entity instanceof LivingEntity
         );
 
         for (Entity e : list) {

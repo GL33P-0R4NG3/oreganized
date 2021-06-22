@@ -57,7 +57,7 @@ public class DawnShine extends Effect {
                 List<Entity> list = entityLivingBaseIn.getEntityWorld().getEntitiesInAABBexcluding(entityLivingBaseIn, new AxisAlignedBB(
                                 entityLivingBaseIn.getPosX() + 2.0D, entityLivingBaseIn.getPosY() + 2.0D, entityLivingBaseIn.getPosZ() + 2.0D,
                                 entityLivingBaseIn.getPosX() - 2.0D, entityLivingBaseIn.getPosY() - 2.0D, entityLivingBaseIn.getPosZ() - 2.0D),
-                        Entity::isLiving
+                        (Entity entity) -> entity instanceof LivingEntity
                 );
 
                 int i = 0;

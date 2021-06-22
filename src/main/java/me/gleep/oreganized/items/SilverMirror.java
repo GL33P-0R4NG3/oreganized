@@ -39,7 +39,7 @@ public class SilverMirror extends Item {
         BlockPos pos = player.getPosition();
         List<Entity> list = player.getEntityWorld().getEntitiesInAABBexcluding(player,
                 new AxisAlignedBB(pos.getX() + SilverBlock.RANGE, pos.getY() + SilverBlock.RANGE, pos.getZ() + SilverBlock.RANGE,
-                        pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE), Entity::isLiving
+                        pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE), (Entity entity) -> entity instanceof LivingEntity
         );
 
         isUndeadNearby = false;

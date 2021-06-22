@@ -54,10 +54,9 @@ public class Oreganized {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        CustomOreGen.registerOres();
-        MinecraftForge.EVENT_BUS.register(this);
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+        event.enqueueWork(() -> {
+            CustomOreGen.registerOres();
+        });
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
