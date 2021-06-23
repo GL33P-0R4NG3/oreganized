@@ -5,6 +5,7 @@ import net.minecraft.block.OreBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.ToolType;
 
@@ -22,7 +23,7 @@ public class LeadOre extends OreBlock {
     public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
         if (silktouch > 0) return 0;
         if (reader.getChunk(pos).getWorldForge() != null) {
-            return (reader.getChunk(pos).getWorldForge().getRandom().nextInt() % 3 + 1) * fortune;
+            return MathHelper.nextInt(reader.getChunk(pos).getWorldForge().getRandom(), 0, 2);
         }
         return fortune + 1;
     }

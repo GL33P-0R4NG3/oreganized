@@ -9,6 +9,8 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class CrystalGlassPaneColored extends CrystalGlassPaneBase implements IBeaconBeamColorProvider {
 
     public static final BooleanProperty ROTATED = BooleanProperty.create("rotated");
@@ -36,6 +38,7 @@ public class CrystalGlassPaneColored extends CrystalGlassPaneBase implements IBe
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
+        BlockState state = super.getStateForPlacement(context);
         if (this.color != DyeColor.LIGHT_GRAY && this.color != DyeColor.WHITE && this.color != DyeColor.YELLOW) {
             boolean axis = false;
             if (context.getPlayer() != null) {
@@ -43,8 +46,11 @@ public class CrystalGlassPaneColored extends CrystalGlassPaneBase implements IBe
                     axis = true;
                 }
             }
-            return this.getDefaultState().with(ROTATED, axis);
+
+            if (state != null) {
+                return state.with(ROTATED, axis);
+            }
         }
-        return this.getDefaultState();
+        return state;
     }
 }
