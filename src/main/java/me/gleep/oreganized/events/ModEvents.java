@@ -104,7 +104,7 @@ public class ModEvents {
 
     /*@SubscribeEvent
     public static void onLivingJump(final LivingEvent.LivingJumpEvent event) {
-        if (event.getEntity().isLiving()) {
+        if (event.getEntity() instanceof LivingEntity) {
             LivingEntity entity = event.getEntityLiving();
             ITag<Fluid> tag = FluidTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + ":lead"));
 
@@ -120,7 +120,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onEntityUpdate(final LivingEvent.LivingUpdateEvent event) {
-        if (event.getEntity().isLiving()) {
+        if (event.getEntity() instanceof LivingEntity) {
             LivingEntity entity = event.getEntityLiving();
             ITag<Fluid> tag = FluidTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + ":lead"));
 
@@ -167,8 +167,18 @@ public class ModEvents {
         BlockState state = world.getBlockState(pos);
         ItemStack currentitem = event.getPlayer().inventory.getCurrentItem();
 
-        if (BlockTags.LEAVES.contains(state.getBlock()) && currentitem.getItem() == RegistryHandler.BUSH_HAMMER.get()) {
-            event.setCanceled(true);
+        if (currentitem.getItem().equals(RegistryHandler.BUSH_HAMMER.get())) {
+            if (event.getPlayer().isSneaking()) {
+
+            } else {
+                if (state.getBlock().equals(Blocks.STONE)) {
+                    world.setBlockState(pos, Blocks.COBBLESTONE.getDefaultState(), 2);
+                    event.setCanceled(true);
+                } else if (state.getBlock().equals(Blocks.STONE_BRICKS)) {
+                    world.setBlockState(pos, Blocks.CRACKED_STONE_BRICKS.getDefaultState(), 2);
+                    event.setCanceled(true);
+                }
+            }
         }
 
     }
