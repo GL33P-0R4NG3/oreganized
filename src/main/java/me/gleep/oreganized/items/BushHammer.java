@@ -17,8 +17,6 @@ public class BushHammer extends Item {
 
     /**
      * Called when this item is used when targetting a Block
-     *
-     * @param context
      */
     @Override
     public ActionResultType onItemUse(ItemUseContext context) {
@@ -27,12 +25,6 @@ public class BushHammer extends Item {
 
     /**
      * Called when a Block is destroyed using this Item. Return true to trigger the "Use Item" statistic.
-     *
-     * @param stack
-     * @param worldIn
-     * @param state
-     * @param pos
-     * @param entityLiving
      */
     @Override
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
