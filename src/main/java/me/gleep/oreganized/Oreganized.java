@@ -4,9 +4,11 @@ import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.entities.ShrapnelTNTEntity;
 import me.gleep.oreganized.entities.entityrenderer.LeadNuggetRenderer;
 import me.gleep.oreganized.entities.entityrenderer.ShrapnelTNTRenderer;
+import me.gleep.oreganized.entities.entityrenderer.StoneSignRenderer;
 import me.gleep.oreganized.particles.DawnShineParticle;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.RegistryHandler;
+import me.gleep.oreganized.util.SimpleNetwork;
 import me.gleep.oreganized.world.gen.CustomOreGen;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -29,6 +31,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -57,10 +60,13 @@ public class Oreganized {
         event.enqueueWork(() -> {
             CustomOreGen.registerOres();
         });
+        event.enqueueWork(() -> {
+            SimpleNetwork.register();
+        });
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-        LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+        ClientRegistry.bindTileEntityRenderer(RegistryHandler.STONE_SIGN_TE.get(), StoneSignRenderer::new);
 
         RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.SHRAPNEL_TNT_ENTITY.get(), ShrapnelTNTRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.LEAD_NUGGET_ENTITY.get(), LeadNuggetRenderer::new);

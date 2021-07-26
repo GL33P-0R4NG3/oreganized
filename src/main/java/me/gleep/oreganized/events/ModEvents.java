@@ -8,6 +8,7 @@ import me.gleep.oreganized.items.BushHammer;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -168,14 +169,9 @@ public class ModEvents {
         ItemStack currentitem = event.getPlayer().inventory.getCurrentItem();
 
         if (currentitem.getItem().equals(RegistryHandler.BUSH_HAMMER.get())) {
-            if (event.getPlayer().isSneaking()) {
-
-            } else {
-                if (state.getBlock().equals(Blocks.STONE)) {
-                    world.setBlockState(pos, Blocks.COBBLESTONE.getDefaultState(), 2);
-                    event.setCanceled(true);
-                } else if (state.getBlock().equals(Blocks.STONE_BRICKS)) {
-                    world.setBlockState(pos, Blocks.CRACKED_STONE_BRICKS.getDefaultState(), 2);
+            for (Block b : BushHammer.EFFECTIVE_ON.keySet()) {
+                if (state.getBlock().equals(b)) {
+                    world.setBlockState(pos, BushHammer.EFFECTIVE_ON.get(b).getDefaultState(), 2);
                     event.setCanceled(true);
                 }
             }

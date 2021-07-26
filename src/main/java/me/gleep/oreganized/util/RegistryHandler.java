@@ -7,6 +7,7 @@ import me.gleep.oreganized.entities.LeadNuggetEntity;
 import me.gleep.oreganized.entities.ShrapnelTNTEntity;
 import me.gleep.oreganized.entities.tileentities.ExposerBlockTileEntity;
 import me.gleep.oreganized.effects.*;
+import me.gleep.oreganized.entities.tileentities.StoneSignTileEntity;
 import me.gleep.oreganized.fluids.*;
 import me.gleep.oreganized.items.*;
 import me.gleep.oreganized.tools.*;
@@ -129,6 +130,10 @@ public class RegistryHandler {
     public static final RegistryObject<Block> CUT_BLASTED_IRON_BLOCK = BLOCKS.register("cut_blasted_iron_block", () -> new Block(AbstractBlock.Properties.from(BLASTED_IRON_BLOCK.get())));
     public static final RegistryObject<Block> TECHNICAL_NETHERITE_BLOCK = BLOCKS.register("technical_netherite_block", TechnicalNetheriteBlock::new);
     public static final RegistryObject<Block> CUT_TECHNICAL_NETHERITE_BLOCK = BLOCKS.register("cut_technical_netherite_block", TechnicalNetheriteBlock::new);
+    public static final RegistryObject<Block> STONE = BLOCKS.register("stone", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.STONE)));
+    public static final RegistryObject<Block> STONE_BRICKS = BLOCKS.register("stone_bricks", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.STONE_BRICKS)));
+    public static final RegistryObject<Block> POLISHED_BLACKSTONE_BRICKS = BLOCKS.register("polished_blackstone_bricks", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.POLISHED_BLACKSTONE_BRICKS)));
+    public static final RegistryObject<Block> NETHER_BRICKS = BLOCKS.register("nether_bricks", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.NETHER_BRICKS)));
     //Stairs
     public static final RegistryObject<Block> LIGHTENED_IRON_STAIRS = BLOCKS.register("lightened_iron_stairs", () -> new StairsBlock(LIGHTENED_IRON_BLOCK.get()::getDefaultState, AbstractBlock.Properties.from(LIGHTENED_IRON_BLOCK.get())));
     public static final RegistryObject<Block> CUT_CAST_IRON_STAIRS = BLOCKS.register("cut_cast_iron_stairs", () -> new StairsBlock(CAST_IRON_BLOCK.get()::getDefaultState, AbstractBlock.Properties.from(CAST_IRON_BLOCK.get())));
@@ -262,6 +267,9 @@ public class RegistryHandler {
     public static final RegistryObject<TileEntityType<ExposerBlockTileEntity>> EXPOSER_TE = TILE_ENTITY_TYPES.register("exposer", () -> TileEntityType.Builder.create(
             ExposerBlockTileEntity::new, EXPOSER.get()).build(null)
     );
+    public static final RegistryObject<TileEntityType<StoneSignTileEntity>> STONE_SIGN_TE = TILE_ENTITY_TYPES.register("stone_sign", () -> TileEntityType.Builder.create(
+            StoneSignTileEntity::new, STONE.get(), STONE_BRICKS.get()).build(null)
+    );
 
 
     /*//////////////////////////////////            TOOLS            //////////////////////////////////*/
@@ -274,7 +282,7 @@ public class RegistryHandler {
     public static final RegistryObject<SwordItem> SILVER_TINTED_NETHERITE_SWORD = ITEMS.register("silver_tinted_netherite_sword", () ->
             new STSBase(ItemTier.NETHERITE, 3, -2.4F)
     );
-    public static final RegistryObject<Item> BUSH_HAMMER = ITEMS.register("bush_hammer", BushHammer::new);
+    public static final RegistryObject<ToolItem> BUSH_HAMMER = ITEMS.register("bush_hammer", BushHammer::new);
 
 
     /*//////////////////////////////////            ARMOR            //////////////////////////////////*/

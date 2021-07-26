@@ -22,8 +22,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class STABase extends ArmorItem {
+    //Maximum durability of the tint
     public static final int MAX_TINT_DURABILITY = 50;
     private final boolean immuneToFire;
+    //Used for tinted durability
     private boolean shouldDisplayTint;
 
     public STABase(IArmorMaterial materialIn, EquipmentSlotType slot) {

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "oreganized:stone",
+    "oreganized:stone_bricks",
+    "oreganized:polished_blackstone_bricks",
+    "oreganized:nether_bricks"
+  ]
+}
