@@ -37,11 +37,7 @@ public abstract class LeadFluid extends ForgeFlowingFluid {
 
     @Override
     public Vector3d getFlow(IBlockReader blockReader, BlockPos pos, FluidState fluidState) {
-        double d0 = 0.0D;
-        double d1 = 0.0D;
-        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-
-        Vector3d vector3d = new Vector3d(d0, 0.0D, d1);
+        Vector3d vector3d = new Vector3d(0.0D, 0.0D, 0.0D);
 
         return vector3d.normalize();
     }

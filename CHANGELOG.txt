@@ -1,7 +1,12 @@
+Lead:
++ Bush Hammer - new way how to crack blocks (right clicking should do nothing for now)
+
 Tags:
 + Added support for forge tags so now other mods that uses forge tags should be compatible with this mod
 
 Other:
++ Packets but now does not work
+- Now pressing Shift will show the tinted items durability in inventory
 - Lead Ingot texture little bit fixed
 - Fixed wrong xp drop calculation from Lead Ore
 - Fixed bug when you get Dawn Shine effect when you had no silver tinted item

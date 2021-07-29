@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "x "
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:stick"
+    },
+    "#": {
+      "tag": "forge:ingots/lead"
+    }
+  },
+  "result": {
+    "item": "oreganized:bush_hammer"
+  }
+}

@@ -2,13 +2,13 @@ package me.gleep.oreganized.tools;
 
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.particles.BlockParticleData;
-import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
@@ -23,12 +23,15 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
 public class STSBase extends SwordItem {
+    //Maximum durability of the tint
     public static final int MAX_TINT_DURABILITY = 150;
     private final boolean immuneToFire;
+    //Used for tinted durability bar
     private boolean shouldDisplayTint;
 
     public STSBase(IItemTier tier, int attackDamageIn, float attackSpeedIn) {
@@ -41,10 +44,10 @@ public class STSBase extends SwordItem {
         long random =  Math.round(Math.random() * 100.0F);
 
         if (random <= 35) {
-            target.addPotionEffect(this.getSilverShine());
+            target.addPotionEffect(this.getDawnShine());
         }
 
-        this.spawnParticles(target);
+        Minecraft.getInstance().particles.emitParticleAtEntity(target, RegistryHandler.DAWN_SHINE_PARTICLE.get(), (int)(random / 4));
 
         this.decreaseDurabilty(stack, attacker);
         return super.hitEntity(stack, target, attacker);
@@ -61,12 +64,15 @@ public class STSBase extends SwordItem {
         return this.immuneToFire;
     }
 
+    /**
+     * Used to change durability bar when holding left shift or crouching.
+     */
     @Override
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
         if (entityIn instanceof PlayerEntity) {
             PlayerEntity pl = (PlayerEntity) entityIn;
-            this.shouldDisplayTint = pl.isCrouching();
+            this.shouldDisplayTint = pl.isCrouching() || InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT);
         }
     }
 
@@ -120,16 +126,6 @@ public class STSBase extends SwordItem {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void spawnParticles(LivingEntity entity) {
-        for(int i = 0; i < 5; ++i) {
-            double d0 = entity.world.rand.nextGaussian() * 0.02D;
-            double d1 = entity.world.rand.nextGaussian() * 0.02D;
-            double d2 = entity.world.rand.nextGaussian() * 0.02D;
-            entity.world.addParticle(RegistryHandler.DAWN_SHINE_PARTICLE.get(), entity.getPosXRandom(1.0D), entity.getPosYRandom() + 1.0D, entity.getPosZRandom(1.0D), d0, d1, d2);
-        }
-    }
-
     /**
      *
      * @return 0.0 for 100% (no damage / full bar), 1.0 for 0% (fully damaged / empty bar)
@@ -165,7 +161,7 @@ public class STSBase extends SwordItem {
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
-    public EffectInstance getSilverShine() {
+    public EffectInstance getDawnShine() {
         return new EffectInstance(RegistryHandler.DAWN_SHINE.get(), 400, 1);
     }
 }

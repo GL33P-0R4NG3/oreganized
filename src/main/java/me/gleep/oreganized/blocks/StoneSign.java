@@ -1,12 +1,20 @@
 package me.gleep.oreganized.blocks;
 
+import me.gleep.oreganized.entities.tileentities.StoneSignTileEntity;
+import me.gleep.oreganized.util.EditStoneSignScreen;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class StoneSign extends Block {
@@ -20,6 +28,14 @@ public class StoneSign extends Block {
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(PROGRESS);
+    }
+
+    /**
+     * Called by ItemBlocks after a block is set in the world, to allow post-place logic
+     */
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        Minecraft.getInstance().displayGuiScreen(new EditStoneSignScreen((StoneSignTileEntity) worldIn.getTileEntity(pos)));
     }
 
     /**

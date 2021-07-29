@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BlastedIronBlock extends Block {
 
+    //Magic properties
     public static final BooleanProperty UP = BooleanProperty.create("up");
     public static final BooleanProperty DOWN = BooleanProperty.create("down");
     public static final BooleanProperty NORTH = BooleanProperty.create("north");

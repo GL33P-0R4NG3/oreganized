@@ -47,8 +47,13 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.function.Consumer;
+
 @Mod.EventBusSubscriber(modid = Oreganized.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
+    /**
+     * Event to handle Silver Tintend Swords break
+     */
     @SubscribeEvent
     public static void onToolBreakEvent(final PlayerDestroyItemEvent event) {
         ItemStack stack = event.getOriginal();
@@ -66,6 +71,9 @@ public class ModEvents {
         pl.dropItem(item, true);
     }
 
+    /**
+     * Event to handle Cauldron replacement
+     */
     @SubscribeEvent
     public static void onPlayerRightClick(final PlayerInteractEvent.RightClickBlock event) {
         ItemStack item = event.getItemStack();
@@ -119,6 +127,9 @@ public class ModEvents {
         }
     }*/
 
+    /**
+     * Event to handle entities in mod fluid
+     */
     @SubscribeEvent
     public static void onEntityUpdate(final LivingEvent.LivingUpdateEvent event) {
         if (event.getEntity() instanceof LivingEntity) {
@@ -160,6 +171,9 @@ public class ModEvents {
         }
     }
 
+    /**
+     * Event to handle block cracking and damaging BushHammer item
+     */
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onBlockDestroyed(BlockEvent.BreakEvent event) {
@@ -170,8 +184,11 @@ public class ModEvents {
 
         if (currentitem.getItem().equals(RegistryHandler.BUSH_HAMMER.get())) {
             for (Block b : BushHammer.EFFECTIVE_ON.keySet()) {
-                if (state.getBlock().equals(b)) {
+                if (state.getBlock().equals(b) && !event.getPlayer().isCreative()) {
                     world.setBlockState(pos, BushHammer.EFFECTIVE_ON.get(b).getDefaultState(), 2);
+                    currentitem.damageItem(1, event.getPlayer(), (player) -> {
+                        player.sendBreakAnimation(event.getPlayer().getActiveHand());
+                    });
                     event.setCanceled(true);
                 }
             }
@@ -179,6 +196,10 @@ public class ModEvents {
 
     }
 
+    /*
+    /**
+     * Event to emit particles when entity gets DawnShine effect
+    //
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onDawnShineEffect(PotionEvent.PotionAddedEvent event) {
@@ -186,6 +207,7 @@ public class ModEvents {
             Minecraft.getInstance().particles.addParticleEmitter(event.getEntityLiving(), RegistryHandler.DAWN_SHINE_PARTICLE.get());
         }
     }
+    */
 
     /*@SubscribeEvent
     public static void onLeadNuggetImpact(ProjectileImpactEvent event) {
@@ -194,6 +216,9 @@ public class ModEvents {
         }
     }*/
 
+    /**
+     * Event to change fluid fog density for rendering
+     */
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void getFogDensity(EntityViewRenderEvent.FogDensity event) {
@@ -209,6 +234,9 @@ public class ModEvents {
         }
     }
 
+    /**
+     * Event to change the fluid fog color for rendering
+     */
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void getFogColor(EntityViewRenderEvent.FogColors event) {

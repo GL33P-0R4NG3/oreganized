@@ -132,8 +132,8 @@ public class RegistryHandler {
     public static final RegistryObject<Block> CUT_TECHNICAL_NETHERITE_BLOCK = BLOCKS.register("cut_technical_netherite_block", TechnicalNetheriteBlock::new);
     public static final RegistryObject<Block> STONE = BLOCKS.register("stone", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.STONE)));
     public static final RegistryObject<Block> STONE_BRICKS = BLOCKS.register("stone_bricks", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.STONE_BRICKS)));
-    public static final RegistryObject<Block> POLISHED_BLACKSTONE_BRICKS = BLOCKS.register("polished_blackstone_bricks", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.POLISHED_BLACKSTONE_BRICKS)));
-    public static final RegistryObject<Block> NETHER_BRICKS = BLOCKS.register("nether_bricks", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.NETHER_BRICKS)));
+    //public static final RegistryObject<Block> POLISHED_BLACKSTONE_BRICKS = BLOCKS.register("polished_blackstone_bricks", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.POLISHED_BLACKSTONE_BRICKS)));
+    //public static final RegistryObject<Block> NETHER_BRICKS = BLOCKS.register("nether_bricks", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.NETHER_BRICKS)));
     //Stairs
     public static final RegistryObject<Block> LIGHTENED_IRON_STAIRS = BLOCKS.register("lightened_iron_stairs", () -> new StairsBlock(LIGHTENED_IRON_BLOCK.get()::getDefaultState, AbstractBlock.Properties.from(LIGHTENED_IRON_BLOCK.get())));
     public static final RegistryObject<Block> CUT_CAST_IRON_STAIRS = BLOCKS.register("cut_cast_iron_stairs", () -> new StairsBlock(CAST_IRON_BLOCK.get()::getDefaultState, AbstractBlock.Properties.from(CAST_IRON_BLOCK.get())));

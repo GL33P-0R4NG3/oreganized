@@ -25,6 +25,11 @@ public class MoltenLeadBlock extends Block {
                 .noDrops());
     }
 
+
+    /**
+     * Used to make entities "think" they can walk through it
+     * @return {@link PathNodeType#WALKABLE}
+     */
     @Nullable
     @Override
     public PathNodeType getAiPathNodeType(BlockState state, IBlockReader world, BlockPos pos, @Nullable MobEntity entity) {
@@ -36,6 +41,9 @@ public class MoltenLeadBlock extends Block {
         return 8;
     }
 
+    /**
+     * When player have iron boots it will return Cube collision shape otherwise empty
+     */
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {

@@ -1,6 +1,8 @@
 package me.gleep.oreganized.armors;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,6 +20,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ public class STABase extends ArmorItem {
     //Maximum durability of the tint
     public static final int MAX_TINT_DURABILITY = 50;
     private final boolean immuneToFire;
-    //Used for tinted durability
+    //Used for tinted durability bar
     private boolean shouldDisplayTint;
 
     public STABase(IArmorMaterial materialIn, EquipmentSlotType slot) {
@@ -43,12 +46,15 @@ public class STABase extends ArmorItem {
         return stack.getItemEnchantability() == ArmorMaterial.GOLD.getEnchantability();
     }
 
+    /**
+     * Used to change durability bar when holding left shift or crouching.
+     */
     @Override
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
         if (entityIn instanceof PlayerEntity) {
             PlayerEntity pl = (PlayerEntity) entityIn;
-            this.shouldDisplayTint = pl.isCrouching();
+            this.shouldDisplayTint = pl.isCrouching() || InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT);
         }
     }
 
