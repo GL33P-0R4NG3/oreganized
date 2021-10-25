@@ -1,6 +1,6 @@
 package me.gleep.oreganized.items;
 
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 
 public class TechnicalNetheriteBlockItem extends BlockItemBase {
     public TechnicalNetheriteBlockItem (Block block) {
@@ -8,7 +8,7 @@ public class TechnicalNetheriteBlockItem extends BlockItemBase {
     }
 
     @Override
-    public boolean isImmuneToFire() {
+    public boolean isFireResistant() {
         return true;
     }
 }

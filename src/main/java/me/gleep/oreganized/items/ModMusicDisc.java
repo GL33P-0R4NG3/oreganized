@@ -1,14 +1,17 @@
 package me.gleep.oreganized.items;
 
-import net.minecraft.item.*;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraftforge.registries.IRegistryDelegate;
 
 import java.util.function.Supplier;
 
-public class ModMusicDisc extends MusicDiscItem {
+public class ModMusicDisc extends RecordItem {
     /**
      * For mod use, allows to create a music disc without having to create a new
      * SoundEvent before their registry event is fired.
@@ -19,16 +22,11 @@ public class ModMusicDisc extends MusicDiscItem {
      *                        {@link IRegistryDelegate} for this parameter.
      */
     public ModMusicDisc(int comparatorValue, Supplier<SoundEvent> soundSupplier) {
-        super(comparatorValue, soundSupplier, new Item.Properties().maxStackSize(1).group(ItemGroup.MISC).rarity(Rarity.RARE));
+        super(comparatorValue, soundSupplier, new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE));
     }
 
-    /**
-     * Called when this item is used when targetting a Block
-     *
-     * @param context
-     */
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        return super.onItemUse(context);
+    public InteractionResult useOn(UseOnContext p_43048_) {
+        return super.useOn(p_43048_);
     }
 }

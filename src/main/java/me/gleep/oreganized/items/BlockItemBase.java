@@ -1,9 +1,9 @@
 package me.gleep.oreganized.items;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 public class BlockItemBase extends BlockItem {
 
@@ -30,6 +30,6 @@ public class BlockItemBase extends BlockItem {
      * 10 - BREWING/
      */
     public BlockItemBase(Block block, int creativeTab) {
-        super(block, new Item.Properties().group(ItemGroup.GROUPS[creativeTab]));
+        super(block, new Item.Properties().tab(CreativeModeTab.TABS[creativeTab]));
     }
 }

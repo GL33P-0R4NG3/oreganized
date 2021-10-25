@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "oreganized:lead_block",
+    "oreganized:lead_ore",
+    "oreganized:silver_block",
+    "oreganized:silver_ore",
+    "oreganized:technical_netherite_block"
+  ]
+}

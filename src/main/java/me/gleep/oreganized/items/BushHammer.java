@@ -1,26 +1,16 @@
 package me.gleep.oreganized.items;
 
 import com.google.common.collect.*;
-import me.gleep.oreganized.entities.tileentities.StoneSignTileEntity;
 import me.gleep.oreganized.items.tiers.ModTier;
-import me.gleep.oreganized.util.EditStoneSignScreen;
-import me.gleep.oreganized.util.RegistryHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import java.util.Map;
 import java.util.function.Consumer;
 
-public class BushHammer extends ToolItem {
+public class BushHammer extends DiggerItem {
     /**
      * Map where first element is the effective block and second element is the cracked version
      */
@@ -33,36 +23,33 @@ public class BushHammer extends ToolItem {
     /**
      * Map containing vanilla and mod version of blocks
      */
-    public static final Map<Block, Block> SIGNS = ImmutableMap.of(
+    /*public static final Map<Block, Block> SIGNS = ImmutableMap.of(
             Blocks.STONE, RegistryHandler.STONE.get(),
             Blocks.STONE_BRICKS, RegistryHandler.STONE_BRICKS.get()
-    );
+    );*/
 
     public BushHammer() {
-        super(2.5F, -3.1F, ModTier.LEAD, EFFECTIVE_ON.keySet(),
-                new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1)
+        super(2.5F, -3.1F, ModTier.LEAD, Tag.fromSet(EFFECTIVE_ON.keySet()),
+                new Item.Properties().tab(CreativeModeTab.TAB_TOOLS).stacksTo(1)
         );
     }
 
     /**
-     * Called when this item is used when targetting a Block
-     *
      * Used for stone sign placement
      */
-    @NotNull
-    @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        World world = context.getWorld();
-        BlockPos pos = context.getPos();
-        BlockState state = world.getBlockState(pos);
-        PlayerEntity player = context.getPlayer();
+    /*@Override
+    public InteractionResult useOn(UseOnContext p_41427_) {
+        Level level = p_41427_.getLevel();
+        BlockPos pos = p_41427_.getClickedPos();
+        BlockState state = level.getBlockState(pos);
+        Player player = p_41427_.getPlayer();
 
-        if (SIGNS.containsKey(state.getBlock()) && !world.isRemote()) {
-            world.setBlockState(pos, SIGNS.get(state.getBlock()).getDefaultState(), 2);
-            return ActionResultType.SUCCESS;
+        if (SIGNS.containsKey(state.getBlock()) && !level.isClientSide) {
+            level.setBlock(pos, SIGNS.get(state.getBlock()).getDefaultState(), 2);
+            return InteractionResult.SUCCESS;
         }
-        return super.onItemUse(context);
-    }
+        return super.useOn(p_41427_);
+    }*/
 
     /**
      * Called each tick while using an item.
@@ -71,10 +58,10 @@ public class BushHammer extends ToolItem {
      * @param player The Player using the item
      * @param count  The amount of time in tick the item has been used for
      */
-    @Override
+    /*@Override
     public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
 
-    }
+    }*/
 
     /**
      * Reduce the durability of this item by the amount given.
@@ -94,16 +81,16 @@ public class BushHammer extends ToolItem {
     /**
      * Called when the player stops using an Item (stops holding the right mouse button).
      */
-    @Override
+    /*@Override
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
 
-    }
+    }*/
 
     /**
      * Called when a Block is destroyed using this Item. Return true to trigger the "Use Item" statistic.
      */
-    @Override
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
+    /*@Override
+    public boolean onBlockDestroyed(ItemStack stack, Level worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
         return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
-    }
+    }*/
 }

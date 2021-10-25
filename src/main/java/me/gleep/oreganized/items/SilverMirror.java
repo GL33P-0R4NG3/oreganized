@@ -1,22 +1,16 @@
 package me.gleep.oreganized.items;
 
 import me.gleep.oreganized.blocks.SilverBlock;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.command.arguments.NBTPathArgument;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.IntNBT;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
@@ -25,29 +19,29 @@ public class SilverMirror extends Item {
     boolean isUndeadNearby = false;
 
     public SilverMirror() {
-        super(new Properties().group(ItemGroup.TOOLS)
-                .maxStackSize(1));
+        super(new Properties().tab(CreativeModeTab.TAB_TOOLS)
+                .stacksTo(1));
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+    public void inventoryTick(ItemStack p_41404_, Level p_41405_, Entity p_41406_, int p_41407_, boolean p_41408_) {
         int dist = 4;
 
-        if (!(entityIn instanceof PlayerEntity)) return;
-        CompoundNBT nbt = new CompoundNBT();
-        PlayerEntity player = (PlayerEntity) entityIn;
-        BlockPos pos = player.getPosition();
-        List<Entity> list = player.getEntityWorld().getEntitiesInAABBexcluding(player,
-                new AxisAlignedBB(pos.getX() + SilverBlock.RANGE, pos.getY() + SilverBlock.RANGE, pos.getZ() + SilverBlock.RANGE,
+        if (!(p_41406_ instanceof Player)) return;
+        CompoundTag nbt = new CompoundTag();
+        Player player = (Player) p_41406_;
+        BlockPos pos = player.getOnPos();
+        List<Entity> list = p_41405_.getEntities(player,
+                new AABB(pos.getX() + SilverBlock.RANGE, pos.getY() + SilverBlock.RANGE, pos.getZ() + SilverBlock.RANGE,
                         pos.getX() - SilverBlock.RANGE, pos.getY() - SilverBlock.RANGE, pos.getZ() - SilverBlock.RANGE), (Entity entity) -> entity instanceof LivingEntity
         );
 
         isUndeadNearby = false;
         for (Entity e : list) {
             LivingEntity living = (LivingEntity) e;
-            if (living.isEntityUndead()) {
+            if (living.isInvertedHealAndHarm()) {
                 isUndeadNearby = true;
-                double distance = living.getDistance(player);
+                double distance = living.distanceTo(player);
                 if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 4))) < dist) {
                     if (distance <= 6) {
                         dist = 1;
@@ -65,7 +59,6 @@ public class SilverMirror extends Item {
         }
 
         nbt.putInt("Dist", dist);
-        stack.setTag(nbt);
+        p_41404_.setTag(nbt);
     }
-
 }

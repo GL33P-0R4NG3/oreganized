@@ -1,8 +1,6 @@
 package me.gleep.oreganized.util.messages;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.BlockPos;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -33,7 +31,7 @@ public class StoneSignToServerMessage {
         this.lines = new String[]{str1, str2, str3, str4, str5, str6};
     }
 
-    public static StoneSignToServerMessage decode(PacketBuffer buf) {
+    /*public static StoneSignToServerMessage decode(PacketBuffer buf) {
         StoneSignToServerMessage msg = new StoneSignToServerMessage();
         try {
             msg.pos = buf.readBlockPos();
@@ -62,7 +60,7 @@ public class StoneSignToServerMessage {
         context.get().enqueueWork(() -> StoneSignServerHandler.handle(msg));
 
         context.get().setPacketHandled(true);
-    }
+    }*/
 
     @Override
     public String toString() {

@@ -1,19 +1,18 @@
 package me.gleep.oreganized.blocks;
 
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StainedGlassPaneBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 
-public class CrystalGlassPaneBase extends PaneBlock {
+public class CrystalGlassPaneBase extends IronBarsBlock {
 
     public CrystalGlassPaneBase() {
-        super(Properties.create(Material.GLASS)
-                .hardnessAndResistance(0.3F)
+        super(BlockBehaviour.Properties.of(Material.GLASS)
+                .strength(0.3F)
                 .sound(SoundType.GLASS)
-                .notSolid());
+                .noOcclusion());
     }
 
 }

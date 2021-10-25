@@ -1,16 +1,16 @@
 package me.gleep.oreganized.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IBeaconBeamColorProvider;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.DyeColor;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.BeaconBeamBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-public class CrystalGlassColored extends CrystalGlassBase implements IBeaconBeamColorProvider {
+import javax.annotation.Nullable;
+
+public class CrystalGlassColored extends CrystalGlassBase implements BeaconBeamBlock {
 
     public static final BooleanProperty ROTATED = BooleanProperty.create("rotated");
     public DyeColor color;
@@ -19,33 +19,34 @@ public class CrystalGlassColored extends CrystalGlassBase implements IBeaconBeam
         super();
         this.color = color;
         if (this.color != DyeColor.LIGHT_GRAY && this.color != DyeColor.WHITE && this.color != DyeColor.YELLOW) {
-            this.setDefaultState(this.getDefaultState().with(ROTATED, false));
+            this.registerDefaultState(this.defaultBlockState().setValue(ROTATED, false));
         }
     }
 
     @Override
-    public @NotNull DyeColor getColor() {
+    public DyeColor getColor() {
         return this.color;
     }
 
+
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        super.fillStateContainer(builder);
-        if (this.color != DyeColor.LIGHT_GRAY && this.color != DyeColor.WHITE && this.color != DyeColor.YELLOW) builder.add(ROTATED);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_49915_) {
+        super.createBlockStateDefinition(p_49915_);
+        if (this.color != DyeColor.LIGHT_GRAY && this.color != DyeColor.WHITE && this.color != DyeColor.YELLOW) p_49915_.add(ROTATED);
     }
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext p_49820_) {
         if (this.color != DyeColor.LIGHT_GRAY && this.color != DyeColor.WHITE && this.color != DyeColor.YELLOW) {
             boolean axis = false;
-            if (context.getPlayer() != null) {
-                if (context.getPlayer().isSneaking()) {
+            if (p_49820_.getPlayer() != null) {
+                if (p_49820_.getPlayer().isCrouching()) {
                     axis = true;
                 }
             }
-            return this.getDefaultState().with(ROTATED, axis);
+            return this.defaultBlockState().setValue(ROTATED, axis);
         }
-        return this.getDefaultState();
+        return this.defaultBlockState();
     }
 }

@@ -1,19 +1,20 @@
 package me.gleep.oreganized.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.Material;
+
+import javax.annotation.Nullable;
 
 public class BlastedIronBlock extends Block {
 
@@ -27,22 +28,22 @@ public class BlastedIronBlock extends Block {
     public static final BooleanProperty UPDATE = BooleanProperty.create("update");
 
     public BlastedIronBlock() {
-        super(Properties.create(Material.IRON)
-                .hardnessAndResistance(6.0F, 3.0F)
-                .harvestTool(ToolType.PICKAXE)
-                .setRequiresTool()
-                .harvestLevel(1)
-                .sound(SoundType.NETHERITE));
-        this.setDefaultState(this.getDefaultState().with(UP, false).with(DOWN, false).with(NORTH, false)
-                .with(WEST, false).with(SOUTH, false).with(EAST, false).with(UPDATE, false)
+        super(BlockBehaviour.Properties.of(Material.METAL)
+                .strength(6.0F, 3.0F)
+                .requiresCorrectToolForDrops()
+                .sound(SoundType.NETHERITE_BLOCK));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(UP, false).setValue(DOWN, false)
+                .setValue(NORTH, false).setValue(WEST, false)
+                .setValue(SOUTH, false).setValue(EAST, false)
+                .setValue(UPDATE, false)
         );
     }
 
-    @NotNull
     @Override
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updateShape(BlockState p_60541_, Direction p_60542_, BlockState p_60543_, LevelAccessor p_60544_, BlockPos p_60545_, BlockPos p_60546_) {
         BooleanProperty PROPERTY = null;
-        switch (facing) {
+        switch (p_60542_) {
             case UP:
                 PROPERTY = UP;
                 break;
@@ -64,46 +65,47 @@ public class BlastedIronBlock extends Block {
         }
 
         if (PROPERTY != null) {
-            if (canConnect(currentPos, worldIn, facing))
-                stateIn = stateIn.with(PROPERTY, true);
-            else if (stateIn.get(PROPERTY))
-                stateIn = stateIn.with(PROPERTY, false);
+            if (canConnect(p_60545_, p_60544_, p_60542_))
+                p_60541_ = p_60541_.setValue(PROPERTY, true);
+            else if (p_60541_.getValue(PROPERTY))
+                p_60541_ = p_60541_.setValue(PROPERTY, false);
         }
-        return stateIn;
+        return p_60541_;
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(UP, DOWN, NORTH, WEST, SOUTH, EAST, UPDATE);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_49915_) {
+        p_49915_.add(UP, DOWN, NORTH, WEST, SOUTH, EAST, UPDATE);
     }
+
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        if (context.getPlayer() != null) {
-            if (context.getPlayer().isCrouching()) {
-                return this.getDefaultState().with(UP, canConnect(context.getPos(), context.getWorld(), Direction.UP))
-                        .with(DOWN, canConnect(context.getPos(), context.getWorld(), Direction.DOWN))
-                        .with(NORTH, canConnect(context.getPos(), context.getWorld(), Direction.NORTH))
-                        .with(WEST, canConnect(context.getPos(), context.getWorld(), Direction.WEST))
-                        .with(SOUTH, canConnect(context.getPos(), context.getWorld(), Direction.SOUTH))
-                        .with(EAST, canConnect(context.getPos(), context.getWorld(), Direction.EAST))
-                        .with(UPDATE, true);
+    public BlockState getStateForPlacement(BlockPlaceContext p_49820_) {
+        if (p_49820_.getPlayer() != null) {
+            if (p_49820_.getPlayer().isCrouching()) {
+                return this.defaultBlockState().setValue(UP, canConnect(p_49820_.getClickedPos(), p_49820_.getLevel(), Direction.UP))
+                        .setValue(DOWN, canConnect(p_49820_.getClickedPos(), p_49820_.getLevel(), Direction.DOWN))
+                        .setValue(NORTH, canConnect(p_49820_.getClickedPos(), p_49820_.getLevel(), Direction.NORTH))
+                        .setValue(WEST, canConnect(p_49820_.getClickedPos(), p_49820_.getLevel(), Direction.WEST))
+                        .setValue(SOUTH, canConnect(p_49820_.getClickedPos(), p_49820_.getLevel(), Direction.SOUTH))
+                        .setValue(EAST, canConnect(p_49820_.getClickedPos(), p_49820_.getLevel(), Direction.EAST))
+                        .setValue(UPDATE, true);
             }
         }
-        return this.getDefaultState();
+        return this.defaultBlockState();
     }
 
-    private boolean canConnect(BlockPos pos, World world, Direction dir) {
-        if (world.getBlockState(pos.offset(dir)).getBlock() instanceof BlastedIronBlock) {
-            return world.getBlockState(pos.offset(dir)).get(UPDATE);
+    private boolean canConnect(BlockPos pos, Level world, Direction dir) {
+        if (world.getBlockState(pos.offset(dir.getNormal())).getBlock() instanceof BlastedIronBlock) {
+            return world.getBlockState(pos.offset(dir.getNormal())).getValue(UPDATE);
         }
         return false;
     }
 
-    private boolean canConnect(BlockPos pos, IWorld world, Direction dir) {
-        if (world.getBlockState(pos.offset(dir)).getBlock() instanceof BlastedIronBlock) {
-            return world.getBlockState(pos.offset(dir)).get(UPDATE) && world.getBlockState(pos).get(UPDATE);
+    private boolean canConnect(BlockPos pos, LevelAccessor world, Direction dir) {
+        if (world.getBlockState(pos.offset(dir.getNormal())).getBlock() instanceof BlastedIronBlock) {
+            return world.getBlockState(pos.offset(dir.getNormal())).getValue(UPDATE) && world.getBlockState(pos).getValue(UPDATE);
         }
         return false;
     }

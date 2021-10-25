@@ -1,30 +1,28 @@
 package me.gleep.oreganized.tools;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import me.gleep.oreganized.util.RegistryHandler;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
-import net.minecraft.particles.ItemParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.lwjgl.glfw.GLFW;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class STSBase extends SwordItem {
@@ -34,33 +32,33 @@ public class STSBase extends SwordItem {
     //Used for tinted durability bar
     private boolean shouldDisplayTint;
 
-    public STSBase(IItemTier tier, int attackDamageIn, float attackSpeedIn) {
-        super(tier, attackDamageIn, attackSpeedIn, new Item.Properties().group(ItemGroup.COMBAT).maxStackSize(1));
-        this.immuneToFire = tier == ItemTier.NETHERITE;
+    public STSBase(Tier p_43269_, int p_43270_, float p_43271_) {
+        super(p_43269_, p_43270_, p_43271_, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT).stacksTo(1));
+        this.immuneToFire = p_43269_ == Tiers.NETHERITE;
     }
 
     @Override
-    public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public boolean hurtEnemy(ItemStack p_43278_, LivingEntity target, LivingEntity attacker) {
         long random =  Math.round(Math.random() * 100.0F);
 
-        if (random <= 35) {
-            target.addPotionEffect(this.getDawnShine());
-        }
+        /*if (random <= 35) {
+            target.addEffect(this.getDawnShine());
+        }*/
 
-        Minecraft.getInstance().particles.emitParticleAtEntity(target, RegistryHandler.DAWN_SHINE_PARTICLE.get(), (int)(random / 4));
+        //Minecraft.getInstance().particleEngine.createTrackingEmitter(target, RegistryHandler.DAWN_SHINE_PARTICLE.get(), (int)(random / 4));
 
-        this.decreaseDurabilty(stack, attacker);
-        return super.hitEntity(stack, target, attacker);
+        this.decreaseDurabilty(p_43278_, attacker);
+        return super.hurtEnemy(p_43278_, target, attacker);
     }
 
     @Override
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-        this.decreaseDurabilty(stack, entityLiving);
-        return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
+    public boolean mineBlock(ItemStack p_43282_, Level p_43283_, BlockState p_43284_, BlockPos p_43285_, LivingEntity p_43286_) {
+        this.decreaseDurabilty(p_43282_, p_43286_);
+        return super.mineBlock(p_43282_, p_43283_, p_43284_, p_43285_, p_43286_);
     }
 
     @Override
-    public boolean isImmuneToFire() {
+    public boolean isFireResistant() {
         return this.immuneToFire;
     }
 
@@ -68,17 +66,17 @@ public class STSBase extends SwordItem {
      * Used to change durability bar when holding left shift or crouching.
      */
     @Override
-    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
-        if (entityIn instanceof PlayerEntity) {
-            PlayerEntity pl = (PlayerEntity) entityIn;
-            this.shouldDisplayTint = pl.isCrouching() || InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT);
+    public void inventoryTick(ItemStack p_41404_, Level p_41405_, Entity p_41406_, int p_41407_, boolean p_41408_) {
+        super.inventoryTick(p_41404_, p_41405_, p_41406_, p_41407_, p_41408_);
+        if (p_41406_ instanceof Player) {
+            Player pl = (Player) p_41406_;
+            this.shouldDisplayTint = pl.isCrouching() || InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT);
         }
     }
 
     public void decreaseDurabilty(ItemStack stack, LivingEntity entityLiving) {
-        if (!(entityLiving instanceof PlayerEntity)) return;
-        PlayerEntity pl = (PlayerEntity) entityLiving;
+        if (!(entityLiving instanceof Player)) return;
+        Player pl = (Player) entityLiving;
         if (pl.isCreative()) return;
         int durability = stack.getOrCreateTag().getInt("TintedDamage");
         if (durability == 0) {
@@ -89,36 +87,36 @@ public class STSBase extends SwordItem {
         if (durability - 1 < 1) {
             if (!stack.isEmpty()) {
                 if (!pl.isSilent()) {
-                    pl.world.playSound(pl.getPosX(), pl.getPosY(), pl.getPosZ(), SoundEvents.ENTITY_ITEM_BREAK, pl.getSoundCategory(), 0.8F, 0.8F + pl.world.rand.nextFloat() * 0.4F, false);
+                    pl.level.playSound(pl, pl.getX(), pl.getY(), pl.getZ(), SoundEvents.ITEM_BREAK, pl.getSoundSource(), 0.8F, 0.8F + pl.level.random.nextFloat() * 0.4F);
                 }
 
                 for (int i = 0; i < 5; ++i) {
-                    Vector3d vector3d = new Vector3d(((double)pl.getRNG().nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
-                    vector3d = vector3d.rotatePitch(-pl.rotationPitch * ((float)Math.PI / 180F));
-                    vector3d = vector3d.rotateYaw(-pl.rotationYaw * ((float)Math.PI / 180F));
-                    double d0 = (double)(-pl.getRNG().nextFloat()) * 0.6D - 0.3D;
-                    Vector3d vector3d1 = new Vector3d(((double)pl.getRNG().nextFloat() - 0.5D) * 0.3D, d0, 0.6D);
-                    vector3d1 = vector3d1.rotatePitch(-pl.rotationPitch * ((float)Math.PI / 180F));
-                    vector3d1 = vector3d1.rotateYaw(-pl.rotationYaw * ((float)Math.PI / 180F));
-                    vector3d1 = vector3d1.add(pl.getPosX(), pl.getPosYEye(), pl.getPosZ());
-                    if (pl.world instanceof ServerWorld) //Forge: Fix MC-2518 spawnParticle is nooped on server, need to use server specific variant
-                        ((ServerWorld)pl.world).spawnParticle(new ItemParticleData(ParticleTypes.ITEM, stack), vector3d1.x, vector3d1.y, vector3d1.z, 1, vector3d.x, vector3d.y + 0.05D, vector3d.z, 0.0D);
+                    Vec3 vector = new Vec3(((double)pl.getRandom().nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+                    vector = vector.xRot(-pl.getXRot() * ((float)Math.PI / 180F));
+                    vector = vector.yRot(-pl.getYRot() * ((float)Math.PI / 180F));
+                    double d0 = (double)(-pl.getRandom().nextFloat()) * 0.6D - 0.3D;
+                    Vec3 vector1 = new Vec3(((double)pl.getRandom().nextFloat() - 0.5D) * 0.3D, d0, 0.6D);
+                    vector1 = vector1.xRot(-pl.getXRot() * ((float)Math.PI / 180F));
+                    vector1 = vector1.yRot(-pl.getYRot() * ((float)Math.PI / 180F));
+                    vector1 = vector1.add(pl.getX(), pl.getEyeY(), pl.getZ());
+                    if (pl.level instanceof ServerLevel) //Forge: Fix MC-2518 spawnParticle is nooped on server, need to use server specific variant
+                        ((ServerLevel)pl.level).sendParticles(new ItemParticleOption(ParticleTypes.ITEM, stack), vector1.x, vector1.y, vector1.z, 1, vector.x, vector.y + 0.05D, vector.z, 0.0D);
                     else
-                        pl.world.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), vector3d1.x, vector3d1.y, vector3d1.z, vector3d.x, vector3d.y + 0.05D, vector3d.z);
+                        pl.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), vector1.x, vector1.y, vector1.z, vector.x, vector.y + 0.05D, vector.z);
                 }
 
                 ItemStack newSword = ItemStack.EMPTY;
-                if (this.getTier().equals(ItemTier.DIAMOND)) {
+                if (this.getTier().equals(Tiers.DIAMOND)) {
                     newSword = new ItemStack(Items.DIAMOND_SWORD, 1);
-                } else if (this.getTier().equals(ItemTier.GOLD)) {
+                } else if (this.getTier().equals(Tiers.GOLD)) {
                     newSword = new ItemStack(Items.GOLDEN_SWORD, 1);
-                } else if (this.getTier().equals(ItemTier.NETHERITE)) {
+                } else if (this.getTier().equals(Tiers.NETHERITE)) {
                     newSword = new ItemStack(Items.NETHERITE_SWORD, 1);
                 }
 
                 newSword.setTag(stack.getTag());
                 newSword.getOrCreateTag().remove("TintedDamage");
-                pl.setHeldItem(pl.getActiveHand(), newSword);
+                pl.setItemInHand(pl.getUsedItemHand(), newSword);
             }
         } else {
             durability--;
@@ -135,7 +133,7 @@ public class STSBase extends SwordItem {
         if (this.shouldDisplayTint) {
             return this.getSilverDurabilityForDisplay(stack);
         }
-        return (double) stack.getDamage() / (double) stack.getMaxDamage();
+        return (double) stack.getDamageValue() / (double) stack.getMaxDamage();
     }
 
     public double getSilverDurabilityForDisplay(ItemStack stack) {
@@ -145,23 +143,22 @@ public class STSBase extends SwordItem {
     @Override
     public int getRGBDurabilityForDisplay(ItemStack stack) {
         if (this.shouldDisplayTint) {
-            return MathHelper.hsvToRGB(200F / 360F, Math.max(0.0F, (float) this.getDurabilityForDisplay(stack)), 0.94F);
+            return Mth.hsvToRgb(200F / 360F, Math.max(0.0F, (float) this.getDurabilityForDisplay(stack)), 0.94F);
         }
-        return MathHelper.hsvToRGB(Math.max(0.0F, (float) (1.0F - this.getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
+        return Mth.hsvToRgb(Math.max(0.0F, (float) (1.0F - this.getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        if (stack.getOrCreateTag().getInt("TintedDamage") > 0) {
-            ITextComponent text = ITextComponent.getTextComponentOrEmpty("Tint Durability: " + stack.getOrCreateTag().getInt("TintedDamage") + "/" + MAX_TINT_DURABILITY);
-            text.getStyle().setColor(Color.fromInt(0xE1EBF0));
-            tooltip.add(text);
+    public void appendHoverText(ItemStack p_41421_, @Nullable Level p_41422_, List<Component> p_41423_, TooltipFlag p_41424_) {
+        if (p_41421_.getOrCreateTag().getInt("TintedDamage") > 0) {
+            TextComponent text = new TextComponent("Tint Durability: " + p_41421_.getOrCreateTag().getInt("TintedDamage") + "/" + MAX_TINT_DURABILITY);
+            text.getStyle().withColor(TextColor.fromRgb(0xE1EBF0));
+            p_41423_.add(text);
         }
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(p_41421_, p_41422_, p_41423_, p_41424_);
     }
 
-    public EffectInstance getDawnShine() {
-        return new EffectInstance(RegistryHandler.DAWN_SHINE.get(), 400, 1);
-    }
+    /*public MobEffectInstance getDawnShine() {
+        return new MobEffectInstance(RegistryHandler.DAWN_SHINE.get(), 400, 1);
+    }*/
 }
