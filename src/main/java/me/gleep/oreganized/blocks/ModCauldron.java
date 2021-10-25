@@ -1,69 +1,82 @@
 package me.gleep.oreganized.blocks;
 
 import me.gleep.oreganized.util.RegistryHandler;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Random;
 
+import static net.minecraft.world.phys.shapes.BooleanOp.ONLY_FIRST;
+
 public class ModCauldron extends Block {
 
-    public static final IntegerProperty LEVEL = BlockStateProperties.LEVEL_0_3;
-    private static final VoxelShape INSIDE = makeCuboidShape(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
-    protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(), VoxelShapes.or(makeCuboidShape(0.0D, 0.0D, 4.0D, 16.0D, 3.0D, 12.0D), makeCuboidShape(4.0D, 0.0D, 0.0D, 12.0D, 3.0D, 16.0D), makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D), INSIDE), IBooleanFunction.ONLY_FIRST);
+    public static final IntegerProperty LEVEL = BlockStateProperties.AGE_3;
+    private static final VoxelShape INSIDE = box(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
+    protected static final VoxelShape SHAPE = Shapes.join(Shapes.block(),
+            Shapes.or(box(0.0D, 0.0D, 4.0D, 16.0D, 3.0D, 12.0D),
+                      box(4.0D, 0.0D, 0.0D, 12.0D, 3.0D, 16.0D),
+                      box(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D),
+                      INSIDE), ONLY_FIRST);
 
     public ModCauldron() {
-        super(AbstractBlock.Properties.create(Material.IRON, MaterialColor.STONE).setRequiresTool().hardnessAndResistance(2.0F).notSolid());
-        this.setDefaultState(this.getStateContainer().getBaseState().with(LEVEL, Integer.valueOf(1)));
+        super(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.STONE)
+                .requiresCorrectToolForDrops()
+                .strength(2.0F)
+                .noOcclusion());
+        registerDefaultState(this.getStateDefinition().any().setValue(LEVEL, Integer.valueOf(1)));
     }
 
-    @NotNull
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
         return SHAPE;
     }
 
-    @NotNull
     @Override
-    public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getOcclusionShape(BlockState p_60578_, BlockGetter p_60579_, BlockPos p_60580_) {
         return INSIDE;
     }
 
-    @NotNull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        ItemStack itemstack = player.getHeldItem(handIn);
+    public InteractionResult use(BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult p_60508_) {
+        ItemStack itemstack = player.getItemInHand(hand);
         if (itemstack.isEmpty()) {
-            if (state.get(LEVEL) == 1) {
-                worldIn.removeBlock(pos, false);
-                worldIn.setBlockState(pos, Blocks.CAULDRON.getDefaultState());
-                worldIn.addEntity(new ItemEntity(worldIn, pos.getX(), pos.getY() + 0.5D, pos.getZ(), RegistryHandler.LEAD_BLOCK_ITEM.get().getDefaultInstance()));
-                return ActionResultType.func_233537_a_(worldIn.isRemote);
-            } else return ActionResultType.PASS;
+            if (blockState.getValue(LEVEL) == 1) {
+                level.removeBlock(pos, false);
+                level.setBlockAndUpdate(pos, Blocks.CAULDRON.defaultBlockState());
+                level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 0.5D, pos.getZ(), RegistryHandler.LEAD_BLOCK_ITEM.get().getDefaultInstance()));
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            } else return InteractionResult.PASS;
         } else {
-            int i = state.get(LEVEL);
+            int i = blockState.getValue(LEVEL);
             Item item = itemstack.getItem();
             /*if (item == RegistryHandler.LEAD_BLOCK_ITEM.get()) {
                 if (!worldIn.isRemote) {
@@ -74,45 +87,45 @@ public class ModCauldron extends Block {
 
                 return ActionResultType.func_233537_a_(worldIn.isRemote);
             } else */if (item == Items.BUCKET) {
-                if (i == 3 && !worldIn.isRemote) {
-                    if (!player.abilities.isCreativeMode) {
+                if (i == 3 && !level.isClientSide) {
+                    if (!player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                         if (itemstack.isEmpty()) {
-                            player.setHeldItem(handIn, new ItemStack(RegistryHandler.LEAD_BUCKET.get()));
-                        } else if (!player.inventory.addItemStackToInventory(new ItemStack(RegistryHandler.LEAD_BUCKET.get()))) {
-                            player.dropItem(new ItemStack(RegistryHandler.LEAD_BUCKET.get()), false);
+                            player.setItemInHand(hand, new ItemStack(RegistryHandler.LEAD_BUCKET.get()));
+                        } else if (!player.getInventory().add(new ItemStack(RegistryHandler.LEAD_BUCKET.get()))) {
+                            player.drop(new ItemStack(RegistryHandler.LEAD_BUCKET.get()), false);
                         }
                     }
-                    player.addStat(Stats.USE_CAULDRON);
-                    worldIn.removeBlock(pos, false);
-                    worldIn.setBlockState(pos, Blocks.CAULDRON.getDefaultState());
-                    worldIn.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    player.awardStat(Stats.USE_CAULDRON);
+                    level.removeBlock(pos, false);
+                    level.setBlockAndUpdate(pos, Blocks.CAULDRON.defaultBlockState());
+                    level.playSound((Player) null, pos, SoundEvents.BUCKET_FILL_LAVA, SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
-                return ActionResultType.func_233537_a_(worldIn.isRemote);
+                return InteractionResult.sidedSuccess(level.isClientSide);
 
-            } else return ActionResultType.PASS;
+            } else return InteractionResult.PASS;
         }
     }
 
     @Override
-    public boolean ticksRandomly(BlockState state) {
+    public boolean isRandomlyTicking(BlockState p_49921_) {
         return true;
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
+    public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
         this.tick(state, worldIn, pos, random);
     }
 
     @Override
-    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
-        if (state.get(LEVEL) > 0 && state.get(LEVEL) != 3) {
-            if (!worldIn.isRemote) {
+    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
+        if (state.getValue(LEVEL) > 0 && state.getValue(LEVEL) != 3) {
+            if (!worldIn.isClientSide) {
                 BlockPos newPos = new BlockPos(pos.getX(), pos.getY() - 1.0D, pos.getZ());
                 BlockState block = worldIn.getBlockState(newPos);
                 ResourceLocation loc = new ResourceLocation("oreganized", "fire_source");
-                if (BlockTags.getCollection().getTagByID(loc).contains(block.getBlock())) {
-                    this.setLeadLevel(worldIn, pos, state, state.get(LEVEL) + 1);
+                if (BlockTags.getAllTags().getTag(loc).contains(block.getBlock())) {
+                    this.setLeadLevel(worldIn, pos, state, state.getValue(LEVEL) + 1);
                 } else {
                     this.setLeadLevel(worldIn, pos, state, 1);
                 }
@@ -120,17 +133,17 @@ public class ModCauldron extends Block {
         }
     }
 
-    public void setLeadLevel(World worldIn, BlockPos pos, BlockState state, int level) {
-        worldIn.setBlockState(pos, state.with(LEVEL, MathHelper.clamp(level, 0, 3)), 2);
+    public void setLeadLevel(Level worldIn, BlockPos pos, BlockState state, int level) {
+        worldIn.setBlock(pos, state.setValue(LEVEL, Mth.clamp(level, 0, 3)), 2);
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) { builder.add(LEVEL); }
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_49915_) {
+        p_49915_.add(LEVEL);
+    }
 
     @Override
-    public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
+    public boolean isPathfindable(BlockState p_60475_, BlockGetter p_60476_, BlockPos p_60477_, PathComputationType p_60478_) {
         return false;
     }
-
-
 }

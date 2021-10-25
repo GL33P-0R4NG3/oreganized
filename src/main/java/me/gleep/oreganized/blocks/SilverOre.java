@@ -1,24 +1,23 @@
 package me.gleep.oreganized.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.OreBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 
 public class SilverOre extends OreBlock {
     public SilverOre() {
-        super(Block.Properties.create(Material.IRON)
-                .hardnessAndResistance(3.0f, 3.0f)
-                .harvestTool(ToolType.PICKAXE)
-                .setRequiresTool()
-                .harvestLevel(2)
+        super(BlockBehaviour.Properties.of(Material.METAL)
+                .strength(3.0f, 3.0f)
+                .requiresCorrectToolForDrops()
                 .sound(SoundType.STONE));
     }
 
     @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) { return 0; }
+    public int getExpDrop(BlockState state, LevelReader reader, BlockPos pos, int fortune, int silktouch) {
+        return 0;
+    }
 }

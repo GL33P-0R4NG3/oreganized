@@ -1,10 +1,10 @@
 package me.gleep.oreganized.util.messages;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.ICustomPacket;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -35,24 +35,24 @@ public class StoneSignToClientMessage {
         this.lines = new String[]{str1, str2, str3, str4, str5, str6};
     }
 
-    public static StoneSignToClientMessage decode(PacketBuffer buf) {
+    /*public static StoneSignToClientMessage decode(PacketBuffer buf) {
         return new StoneSignToClientMessage(buf.readBlockPos(), buf.readString(384), buf.readString(384), buf.readString(384), buf.readString(384), buf.readString(384), buf.readString(384));
-    }
+    }*/
 
-    public static void encode(StoneSignToClientMessage msg, PacketBuffer buf) {
-        buf.writeBlockPos(msg.pos);
+    public static void encode(StoneSignToClientMessage msg, ICustomPacket<?> buf) {
+        /*buf.setData(msg.pos);
 
         for(int i = 0; i < 6; ++i) {
             buf.writeString(msg.lines[i]);
-        }
+        }*/
     }
 
     public static void handle(StoneSignToClientMessage msg, Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
+        /*context.get().enqueueWork(() -> {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> StoneSignClientHandler.handle(msg));
         });
 
-        context.get().setPacketHandled(true);
+        context.get().setPacketHandled(true);*/
     }
 
     @Override

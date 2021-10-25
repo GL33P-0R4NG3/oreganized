@@ -1,63 +1,63 @@
 package me.gleep.oreganized.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.GlassBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+import javax.annotation.Nullable;
 
 public class MoltenLeadBlock extends Block {
     public MoltenLeadBlock() {
-        super(Block.Properties.create(Material.LAVA)
-                .hardnessAndResistance(100.0F)
+        super(BlockBehaviour.Properties.of(Material.LAVA)
+                .strength(100.0F)
                 .noDrops());
     }
 
 
     /**
-     * Used to make entities "think" they can walk through it
-     * @return {@link PathNodeType#WALKABLE}
+     * Get the {@code PathNodeType} for this block. Return {@code null} for vanilla behavior.
+     *
+     * @param state
+     * @param world
+     * @param pos
+     * @param entity
+     * @return the PathNodeType
      */
     @Nullable
     @Override
-    public PathNodeType getAiPathNodeType(BlockState state, IBlockReader world, BlockPos pos, @Nullable MobEntity entity) {
-        return PathNodeType.WALKABLE;
+    public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity) {
+        return BlockPathTypes.WALKABLE;
     }
 
     @Override
-    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+    public int getLightBlock(BlockState p_60585_, BlockGetter p_60586_, BlockPos p_60587_) {
         return 8;
     }
 
-    /**
-     * When player have iron boots it will return Cube collision shape otherwise empty
-     */
-    @NotNull
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        if (!(context.getEntity() instanceof LivingEntity)) return VoxelShapes.empty();
-        LivingEntity entity = (LivingEntity) context.getEntity();
-        for (ItemStack item : entity.getArmorInventoryList()) {
-            if (item.getItem().equals(Items.IRON_BOOTS)) return VoxelShapes.fullCube();
+    public VoxelShape getCollisionShape(BlockState p_60572_, BlockGetter p_60573_, BlockPos p_60574_, CollisionContext p_60575_) {
+        if (!(p_60575_ instanceof LivingEntity)) return Shapes.empty();
+        LivingEntity entity = (LivingEntity) p_60575_;
+        for (ItemStack item : entity.getArmorSlots()) {
+            if (item.getItem().equals(Items.IRON_BOOTS)) return Shapes.block();
         }
-        return VoxelShapes.empty();
+        return Shapes.empty();
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return VoxelShapes.empty();
+    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
+        return Shapes.empty();
     }
 
     /*@Override

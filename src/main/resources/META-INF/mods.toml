@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[35,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+loaderVersion="[37,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license='''
 MIT License
 Copyright (c) 2021 GLEEP ORANGE
@@ -8,7 +8,7 @@ issueTrackerURL="https://github.com/GL33P-0R4NG3/oreganized/issues/" #optional
 
 [[mods]] #mandatory
 modId="oreganized" #mandatory
-version="1.16.4-0.5.1-beta" #mandatory
+version="1.17.1-1.0.0-alpha-0" #mandatory
 displayName="Oreganized Mod" #mandatory
 updateJSONURL="https://www.curseforge.com/minecraft/mc-mods/oreganized-mod/files" #optional
 displayURL="https://www.curseforge.com/minecraft/mc-mods/oreganized-mod" #optional
@@ -25,7 +25,7 @@ Expands vanilla stuff.
     # Does this dependency have to exist - if not, ordering below must be specified
     mandatory=true #mandatory
     # The version range of the dependency
-    versionRange="[35,)" #mandatory
+    versionRange="[37,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -35,6 +35,6 @@ Expands vanilla stuff.
     modId="minecraft"
     mandatory=true
     # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[1.16.4,1.17)"
+    versionRange="[1.17.1,1.18)"
     ordering="NONE"
     side="BOTH"

@@ -1,47 +1,24 @@
 package me.gleep.oreganized;
 
 import me.gleep.oreganized.armors.STABase;
-import me.gleep.oreganized.entities.ShrapnelTNTEntity;
-import me.gleep.oreganized.entities.entityrenderer.LeadNuggetRenderer;
-import me.gleep.oreganized.entities.entityrenderer.ShrapnelTNTRenderer;
-import me.gleep.oreganized.entities.entityrenderer.StoneSignRenderer;
-import me.gleep.oreganized.particles.DawnShineParticle;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.RegistryHandler;
-import me.gleep.oreganized.util.SimpleNetwork;
 import me.gleep.oreganized.world.gen.CustomOreGen;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.texture.PotionSpriteUploader;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemModelsProperties;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 @Mod("oreganized")
 public class Oreganized {
@@ -51,7 +28,7 @@ public class Oreganized {
     public Oreganized() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::particleFactoryRegistrationEvent);
+        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::particleFactoryRegistrationEvent);
 
         RegistryHandler.init();
     }
@@ -60,126 +37,142 @@ public class Oreganized {
         event.enqueueWork(() -> {
             CustomOreGen.registerOres();
         });
-        event.enqueueWork(() -> {
+        /*event.enqueueWork(() -> {
             SimpleNetwork.register();
-        });
+        });*/
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-        ClientRegistry.bindTileEntityRenderer(RegistryHandler.STONE_SIGN_TE.get(), StoneSignRenderer::new);
+        //BlockEntityRenderers.register(RegistryHandler.STONE_SIGN_TE.get(), BlockEntityRendererProvider::new);
 
-        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.SHRAPNEL_TNT_ENTITY.get(), ShrapnelTNTRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.LEAD_NUGGET_ENTITY.get(), LeadNuggetRenderer::new);
+        //RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.SHRAPNEL_TNT_ENTITY.get(), ShrapnelTNTRenderer::new);
+        //RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.LEAD_NUGGET_ENTITY.get(), LeadNuggetRenderer::new);
 
-        RenderTypeLookup.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.CYAN_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.GREEN_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.GRAY_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.LIGHT_BLUE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.LIGHT_GRAY_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.LIME_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.MAGENTA_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.ORANGE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.PINK_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.PURPLE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.RED_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.WHITE_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS.get(), RenderType.getTranslucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CYAN_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GREEN_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GRAY_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.LIGHT_BLUE_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.LIGHT_GRAY_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.LIME_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.MAGENTA_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.ORANGE_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.PINK_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.PURPLE_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.RED_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.WHITE_CRYSTAL_GLASS.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS.get(), RenderType.translucent());
 
-        RenderTypeLookup.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.CYAN_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.GREEN_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.GRAY_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.LIGHT_BLUE_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.LIGHT_GRAY_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.LIME_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.MAGENTA_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.ORANGE_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.PINK_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.PURPLE_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.RED_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.WHITE_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS_PANE.get(), RenderType.getTranslucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CYAN_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GREEN_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GRAY_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.LIGHT_BLUE_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.LIGHT_GRAY_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.LIME_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.MAGENTA_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.ORANGE_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.PINK_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.PURPLE_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.RED_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.WHITE_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.YELLOW_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
 
-        RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID.get(), RenderType.getWaterMask());
-        //RenderTypeLookup.setRenderLayer(RegistryHandler.LEAD_FLUID_BLOCK.get(), RenderType.getSolid());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.LEAD_FLUID.get(), RenderType.waterMask());
+        //ItemBlockRenderTypes.setRenderLayer(RegistryHandler.LEAD_FLUID_BLOCK.get(), RenderType.getSolid());
 
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_MIRROR.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_MIRROR.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":dist"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("Dist") : 4)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("Dist") : 4)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_BOOTS.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_DIAMOND_BOOTS.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_CHESTPLATE.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_DIAMOND_CHESTPLATE.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_HELMET.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_DIAMOND_HELMET.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_LEGGINGS.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_DIAMOND_LEGGINGS.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_DIAMOND_SWORD.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_DIAMOND_SWORD.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STSBase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STSBase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_GOLDEN_BOOTS.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_GOLDEN_BOOTS.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_GOLDEN_CHESTPLATE.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_GOLDEN_CHESTPLATE.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_GOLDEN_HELMET.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_GOLDEN_HELMET.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_GOLDEN_LEGGINGS.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_GOLDEN_LEGGINGS.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_GOLDEN_SWORD.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_GOLDEN_SWORD.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STSBase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STSBase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_NETHERITE_BOOTS.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_NETHERITE_BOOTS.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) -> 
+        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_NETHERITE_CHESTPLATE.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_NETHERITE_CHESTPLATE.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) -> 
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_NETHERITE_HELMET.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_NETHERITE_HELMET.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) -> 
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_NETHERITE_LEGGINGS.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_NETHERITE_LEGGINGS.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STABase.MAX_TINT_DURABILITY)
         );
-        event.enqueueWork(() -> ItemModelsProperties.registerProperty(RegistryHandler.SILVER_TINTED_NETHERITE_SWORD.get(),
+        event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_NETHERITE_SWORD.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
-                (p_call_1_, p_call_2_, p_call_3_) -> p_call_1_.getTag() != null ? p_call_1_.getTag().getInt("TintedDamage") : STSBase.MAX_TINT_DURABILITY)
+                (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) -> 
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("TintedDamage") : STSBase.MAX_TINT_DURABILITY)
         );
 
     }
 
-    public void particleFactoryRegistrationEvent(final ParticleFactoryRegisterEvent event) {
-        Minecraft.getInstance().particles.registerFactory(RegistryHandler.DAWN_SHINE_PARTICLE.get(), DawnShineParticle.Factory::new);
-    }
+    /*public void particleFactoryRegistrationEvent(final ParticleFactoryRegisterEvent event) {
+        Minecraft.getInstance().particleEngine.register(RegistryHandler.DAWN_SHINE_PARTICLE.get(), DawnShineParticle.Factory::new);
+    }*/
 
     /*@SubscribeEvent
     public static void onRegisterItems(final RegistryEvent.Register<Item> event) {
