@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "oreganized:block/lead_fluid"
+    "all": "oreganized:block/molten_lead_block"
   }
 }

@@ -91,9 +91,9 @@ public class ModCauldron extends Block {
                     if (!player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                         if (itemstack.isEmpty()) {
-                            player.setItemInHand(hand, new ItemStack(RegistryHandler.LEAD_BUCKET.get()));
-                        } else if (!player.getInventory().add(new ItemStack(RegistryHandler.LEAD_BUCKET.get()))) {
-                            player.drop(new ItemStack(RegistryHandler.LEAD_BUCKET.get()), false);
+                            player.setItemInHand(hand, new ItemStack(RegistryHandler.MOLTEN_LEAD_BUCKET.get()));
+                        } else if (!player.getInventory().add(new ItemStack(RegistryHandler.MOLTEN_LEAD_BUCKET.get()))) {
+                            player.drop(new ItemStack(RegistryHandler.MOLTEN_LEAD_BUCKET.get()), false);
                         }
                     }
                     player.awardStat(Stats.USE_CAULDRON);

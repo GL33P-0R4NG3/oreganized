@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "oreganized:item/lead_bucket"
+    "layer0": "oreganized:item/molten_lead_bucket"
   }
 }

@@ -1,6 +1,5 @@
 package me.gleep.oreganized.events;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.blocks.ModCauldron;
@@ -8,7 +7,6 @@ import me.gleep.oreganized.items.BushHammer;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
-import net.minecraft.client.Camera;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -30,11 +28,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -87,7 +83,7 @@ public class ModEvents {
                     event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide()));
                     event.setCanceled(true);
                 }
-            } else if (item.getItem().equals(RegistryHandler.LEAD_BUCKET.get())) {
+            } else if (item.getItem().equals(RegistryHandler.MOLTEN_LEAD_BUCKET.get())) {
                 if (!level.isClientSide()) {
                     level.removeBlock(pos, false);
                     level.setBlockAndUpdate(pos, RegistryHandler.CAULDRON.get().defaultBlockState().setValue(ModCauldron.LEVEL, 3));
@@ -158,9 +154,7 @@ public class ModEvents {
                 if (entity.horizontalCollision && entity.isFree(vector3d4.x, vector3d4.y + (double)0.2F - entity.getY() + d7, vector3d4.z)) {
                     entity.setDeltaMovement(vector3d4.x, (double)0.3F, vector3d4.z);
                 }
-            }/* else if (entity.isPotionActive(RegistryHandler.DAWN_SHINE.get())) {
-                Minecraft.getInstance().particles.emitParticleAtEntity(entity, RegistryHandler.DAWN_SHINE_PARTICLE.get(), 10);
-            }*/
+            }
         }
     }
 
@@ -212,7 +206,7 @@ public class ModEvents {
     /**
      * Event to change fluid fog density for rendering
      */
-    @OnlyIn(Dist.CLIENT)
+    /*@OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void getFogDensity(EntityViewRenderEvent.FogDensity event) {
         Camera info = event.getInfo();
@@ -225,12 +219,12 @@ public class ModEvents {
             event.setDensity(1.4F);
             event.setCanceled(true);
         }
-    }
+    }*/
 
     /**
      * Event to change the fluid fog color for rendering
      */
-    @OnlyIn(Dist.CLIENT)
+    /*@OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void getFogColor(EntityViewRenderEvent.FogColors event) {
         Camera info = event.getInfo();
@@ -244,7 +238,7 @@ public class ModEvents {
             event.setGreen(57F / 256F);
             event.setBlue(95F / 256F);
         }
-    }
+    }*/
 
     /*@SubscribeEvent
     public static void onEntityJoin(final EntityJoinWorldEvent event) {

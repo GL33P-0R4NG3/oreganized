@@ -9,7 +9,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
@@ -27,7 +26,7 @@ public abstract class LeadFluid extends ForgeFlowingFluid {
                     .density(11300)
                     .temperature(570)
                     .sound(SoundEvents.BUCKET_FILL_LAVA, SoundEvents.BUCKET_EMPTY_LAVA))
-                .bucket(RegistryHandler.LEAD_BUCKET)
+                .bucket(RegistryHandler.MOLTEN_LEAD_BUCKET)
                 .block(RegistryHandler.LEAD_FLUID_BLOCK)
                 .tickRate(8));
     }
