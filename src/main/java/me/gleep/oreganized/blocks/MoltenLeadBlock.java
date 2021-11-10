@@ -40,6 +40,7 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
     public MoltenLeadBlock() {
         super(BlockBehaviour.Properties.of(Material.LAVA)
                 .strength(-1.0F, 3600000.0F)
+                .noCollission()
                 .noDrops()
                 .requiresCorrectToolForDrops());
     }
@@ -116,12 +117,15 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
                 if (item.getItem().equals(Items.IRON_BOOTS)) return Shapes.block();
             }
         }
+        //if (!p_60575_.isDescending()) return Shapes.block();
         return Shapes.empty();
     }
 
     @Override
     public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        return p_60558_.isHoldingItem(Items.BUCKET) || p_60558_.isHoldingItem(RegistryHandler.MOLTEN_LEAD_BUCKET.get()) ? Shapes.block() : Shapes.empty();
+        return p_60558_.isHoldingItem(Items.BUCKET)
+                || p_60558_.isHoldingItem(RegistryHandler.MOLTEN_LEAD_BUCKET.get())
+                || !p_60558_.isDescending() ? Shapes.block() : Shapes.empty();
         //return Shapes.block();
     }
 
