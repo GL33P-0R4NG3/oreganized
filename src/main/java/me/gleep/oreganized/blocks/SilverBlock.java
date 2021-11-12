@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Random;
 
 public class SilverBlock extends Block {
-    public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
+    public static final IntegerProperty LEVEL = BlockStateProperties.AGE_3;
     public static final float RANGE = 16.0f;
     boolean isUndeadNearby = false;
 
@@ -31,7 +31,7 @@ public class SilverBlock extends Block {
                 .strength(5.0f, 6.0f)
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.METAL));
-        this.registerDefaultState(this.getStateDefinition().any().setValue(AGE, 3));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(LEVEL, 3));
     }
 
     /**
@@ -51,7 +51,7 @@ public class SilverBlock extends Block {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_49915_) {
-        p_49915_.add(AGE);
+        p_49915_.add(LEVEL);
     }
 
     @Override
@@ -83,6 +83,6 @@ public class SilverBlock extends Block {
         if (!isUndeadNearby) {
             dist = 4;
         }
-        p_49889_.setBlockAndUpdate(p_49890_, p_49888_.setValue(AGE, dist - 1));
+        p_49889_.setBlockAndUpdate(p_49890_, p_49888_.setValue(LEVEL, dist - 1));
     }
 }

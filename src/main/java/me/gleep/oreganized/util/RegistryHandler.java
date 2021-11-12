@@ -7,22 +7,34 @@ import me.gleep.oreganized.fluids.LeadFluid;
 import me.gleep.oreganized.fluids.LeadFluidBlock;
 import me.gleep.oreganized.items.*;
 import me.gleep.oreganized.tools.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.Containers;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.event.entity.item.ItemEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Random;
 
 public class RegistryHandler {
     //Mod
@@ -89,6 +101,8 @@ public class RegistryHandler {
     /*//////////////////////////////////            ITEMS            //////////////////////////////////*/
     public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", ItemBase::new);
     public static final RegistryObject<Item> LEAD_INGOT = ITEMS.register("lead_ingot", ItemBase::new);
+    public static final RegistryObject<Item> LEAD_RAW = ITEMS.register("lead_raw", ItemBase::new);
+    public static final RegistryObject<Item> SILVER_RAW = ITEMS.register("silver_raw", ItemBase::new);
     public static final RegistryObject<Item> SILVER_NUGGET = ITEMS.register("silver_nugget", ItemBase::new);
     public static final RegistryObject<Item> LEAD_NUGGET = ITEMS.register("lead_nugget", ItemBase::new);
     public static final RegistryObject<Item> NETHERITE_NUGGET = ITEMS.register("netherite_nugget", () -> new ItemBase(true));
@@ -102,13 +116,30 @@ public class RegistryHandler {
 
     /*//////////////////////////////////            BLOCKS            //////////////////////////////////*/
     //Ores
-    public static final RegistryObject<Block> SILVER_ORE = BLOCKS.register("silver_ore", SilverOre::new);
-    public static final RegistryObject<Block> LEAD_ORE = BLOCKS.register("lead_ore", LeadOre::new);
+    public static final RegistryObject<Block> SILVER_ORE = BLOCKS.register("silver_ore", ()->new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_ORE)));
+    public static final RegistryObject<Block> LEAD_ORE = BLOCKS.register("lead_ore", ()->new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_ORE)));
+    public static final RegistryObject<Block> SILVER_GRIMSTONE_ORE = BLOCKS.register("silver_grimstone_ore", ()->new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_GOLD_ORE)));
+    public static final RegistryObject<Block> LEAD_GRIMSTONE_ORE = BLOCKS.register("lead_grimstone_ore", ()->new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_GOLD_ORE)));
+    public static final RegistryObject<Block> SILVER_RAW_BLOCK = BLOCKS.register("silver_raw_block", SilverOre::new);
+    public static final RegistryObject<Block> LEAD_RAW_BLOCK = BLOCKS.register("lead_raw_block", LeadOre::new);
     //Blocks
     public static final RegistryObject<Block> SILVER_BLOCK = BLOCKS.register("silver_block", SilverBlock::new);
     public static final RegistryObject<Block> LEAD_BLOCK = BLOCKS.register("lead_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL)
             .strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL))
     );
+    public static final RegistryObject<Block> GLANCE = BLOCKS.register("glance", ()->new Block(BlockBehaviour.Properties.copy(Blocks.DIORITE)));
+    public static final RegistryObject<Block> GLANCE_SPOTTED = BLOCKS.register("glance_spotted", ()->new Block(BlockBehaviour.Properties.copy(Blocks.DIORITE)){
+    
+        @Override
+        public BlockState updateShape(BlockState p_60541_, Direction p_60542_, BlockState p_60543_, LevelAccessor p_60544_, BlockPos p_60545_, BlockPos p_60546_) {
+            if(p_60544_.getFluidState(p_60546_).getType()==Fluids.WATER||p_60544_.getFluidState(p_60546_).getType()==Fluids.FLOWING_WATER){
+                Containers.dropItemStack((Level) p_60544_,p_60545_.getX(),p_60545_.getY(),p_60545_.getZ(),new ItemStack(LEAD_NUGGET.get(),p_60544_.getRandom().nextInt(2)+1));
+                return GLANCE.get().defaultBlockState();
+            }
+            return super.updateShape(p_60541_, p_60542_, p_60543_, p_60544_, p_60545_, p_60546_);
+        }
+        
+    });
     public static final RegistryObject<Block> MOLTEN_LEAD_BLOCK = BLOCKS.register("molten_lead_block", MoltenLeadBlock::new);
     public static final RegistryObject<Block> LEAD_COATING = BLOCKS.register("lead_coating", LeadCoating::new);
     public static final RegistryObject<Block> CUT_LEAD_COATING = BLOCKS.register("cut_lead_coating", CutLeadCoating::new);
@@ -187,6 +218,10 @@ public class RegistryHandler {
     //Ores
     public static final RegistryObject<Item> SILVER_ORE_ITEM = ITEMS.register("silver_ore", () -> new BlockItemBase(SILVER_ORE.get()));
     public static final RegistryObject<Item> LEAD_ORE_ITEM = ITEMS.register("lead_ore", () -> new BlockItemBase(LEAD_ORE.get()));
+    public static final RegistryObject<Item> SILVER_GRIMSTONE_ORE_ITEM = ITEMS.register("silver_grimstone_ore", () -> new BlockItemBase(SILVER_GRIMSTONE_ORE.get()));
+    public static final RegistryObject<Item> LEAD_GRIMSTONE_ORE_ITEM = ITEMS.register("lead_grimstone_ore", () -> new BlockItemBase(LEAD_GRIMSTONE_ORE.get()));
+    public static final RegistryObject<Item> SILVER_RAW_BLOCK_ITEM = ITEMS.register("silver_raw_block", () -> new BlockItemBase(SILVER_RAW_BLOCK.get()));
+    public static final RegistryObject<Item> LEAD_RAW_BLOCK_ITEM = ITEMS.register("lead_raw_block", () -> new BlockItemBase(LEAD_RAW_BLOCK.get()));
     //Blocks
     public static final RegistryObject<Item> SILVER_BLOCK_ITEM = ITEMS.register("silver_block", () -> new BlockItemBase(SILVER_BLOCK.get()));
     public static final RegistryObject<Item> LEAD_BLOCK_ITEM = ITEMS.register("lead_block", () -> new BlockItemBase(LEAD_BLOCK.get()));
@@ -199,6 +234,8 @@ public class RegistryHandler {
     public static final RegistryObject<Item> CUT_BLASTED_IRON_BLOCK_ITEM = ITEMS.register("cut_blasted_iron_block", () -> new BlockItemBase(CUT_BLASTED_IRON_BLOCK.get()));
     public static final RegistryObject<Item> TECHNICAL_NETHERITE_BLOCK_ITEM = ITEMS.register("technical_netherite_block", () -> new TechnicalNetheriteBlockItem(TECHNICAL_NETHERITE_BLOCK.get()));
     public static final RegistryObject<Item> CUT_TECHNICAL_NETHERITE_BLOCK_ITEM = ITEMS.register("cut_technical_netherite_block", () -> new TechnicalNetheriteBlockItem(CUT_TECHNICAL_NETHERITE_BLOCK.get()));
+    public static final RegistryObject<Item> GLANCE_ITEM = ITEMS.register("glance", () -> new BlockItemBase(GLANCE.get()));
+    public static final RegistryObject<Item> GLANCE_SPOTTED_ITEM = ITEMS.register("glance_spotted", () -> new BlockItemBase(GLANCE_SPOTTED.get()));
     //Stairs
     public static final RegistryObject<Item> LIGHTENED_IRON_STAIRS_ITEM = ITEMS.register("lightened_iron_stairs", () -> new BlockItemBase(LIGHTENED_IRON_STAIRS.get()));
     public static final RegistryObject<Item> CUT_CAST_IRON_STAIRS_ITEM = ITEMS.register("cut_cast_iron_stairs", () -> new BlockItemBase(CUT_CAST_IRON_STAIRS.get()));
