@@ -1,16 +1,28 @@
 {
   "variants": {
     "age=0": {
-      "model": "oreganized:block/silver_block_level_1"
+      "model": "oreganized:block/silver_block_level_7"
     },
     "age=1": {
-      "model": "oreganized:block/silver_block_level_2"
+      "model": "oreganized:block/silver_block_level_6"
     },
     "age=2": {
-      "model": "oreganized:block/silver_block_level_3"
+      "model": "oreganized:block/silver_block_level_5"
     },
     "age=3": {
-      "model": "oreganized:block/silver_block"
+      "model": "oreganized:block/silver_block_level_4"
+    },
+    "age=4": {
+      "model": "oreganized:block/silver_block_level_3"
+    },
+    "age=5": {
+      "model": "oreganized:block/silver_block_level_2"
+    },
+    "age=6": {
+      "model": "oreganized:block/silver_block_level_1"
+    },
+    "age=7": {
+      "model": "oreganized:block/silver_block_level_0"
     }
   }
 }

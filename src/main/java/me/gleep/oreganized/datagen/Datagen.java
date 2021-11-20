@@ -58,18 +58,42 @@ public class Datagen {
 			event.getGenerator().addProvider(new BlockTagsProvider(event.getGenerator(),Oreganized.MOD_ID, event.getExistingFileHelper()){
 				@Override
 				protected void addTags() {
-					this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(RegistryHandler.LEAD_RAW_BLOCK.get(),RegistryHandler.LEAD_GRIMSTONE_ORE.get(),
-							RegistryHandler.SILVER_RAW_BLOCK.get(),RegistryHandler.SILVER_GRIMSTONE_ORE.get(),RegistryHandler.GLANCE.get(),
-							RegistryHandler.GLANCE_SPOTTED.get(),RegistryHandler.SILVER_ORE.get(),RegistryHandler.LEAD_ORE.get(),
-							RegistryHandler.BLASTED_IRON_BLOCK.get(),RegistryHandler.CAST_IRON_BLOCK.get(),RegistryHandler.CUT_LEAD_COATING.get(),
-							RegistryHandler.LEAD_COATING.get(),RegistryHandler.LEAD_BLOCK.get(),RegistryHandler.LIGHTENED_IRON_BLOCK.get(),
-							RegistryHandler.SILVER_BLOCK.get(),RegistryHandler.TECHNICAL_NETHERITE_BLOCK.get());
-					this.tag(BlockTags.NEEDS_IRON_TOOL).add(RegistryHandler.SILVER_RAW_BLOCK.get(),RegistryHandler.SILVER_GRIMSTONE_ORE.get(),
-							RegistryHandler.SILVER_ORE.get(),RegistryHandler.SILVER_BLOCK.get(),RegistryHandler.TECHNICAL_NETHERITE_BLOCK.get());
-					this.tag(BlockTags.NEEDS_STONE_TOOL).add(RegistryHandler.LEAD_RAW_BLOCK.get(),RegistryHandler.LEAD_GRIMSTONE_ORE.get(),
-							RegistryHandler.BLASTED_IRON_BLOCK.get(),RegistryHandler.CAST_IRON_BLOCK.get(),RegistryHandler.CUT_LEAD_COATING.get(),
-							RegistryHandler.LEAD_COATING.get(),RegistryHandler.LIGHTENED_IRON_BLOCK.get(),RegistryHandler.LEAD_BLOCK.get(),
-							RegistryHandler.LEAD_ORE.get());
+					this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+							RegistryHandler.RAW_LEAD_BLOCK.get(),
+							RegistryHandler.DEEPSLATE_LEAD_ORE.get(),
+							RegistryHandler.RAW_SILVER_BLOCK.get(),
+							RegistryHandler.DEEPSLATE_SILVER_ORE.get(),
+							RegistryHandler.GLANCE.get(),
+							RegistryHandler.SPOTTED_GLANCE.get(),
+							RegistryHandler.SILVER_ORE.get(),
+							RegistryHandler.LEAD_ORE.get(),
+							RegistryHandler.BLASTED_IRON_BLOCK.get(),
+							RegistryHandler.CAST_IRON_BLOCK.get(),
+							RegistryHandler.CUT_LEAD_COATING.get(),
+							RegistryHandler.LEAD_COATING.get(),
+							RegistryHandler.LEAD_BLOCK.get(),
+							RegistryHandler.LIGHTENED_IRON_BLOCK.get(),
+							RegistryHandler.SILVER_BLOCK.get(),
+							RegistryHandler.TECHNICAL_NETHERITE_BLOCK.get()
+					);
+					this.tag(BlockTags.NEEDS_IRON_TOOL).add(
+							RegistryHandler.RAW_SILVER_BLOCK.get(),
+							RegistryHandler.DEEPSLATE_SILVER_ORE.get(),
+							RegistryHandler.SILVER_ORE.get(),
+							RegistryHandler.SILVER_BLOCK.get(),
+							RegistryHandler.TECHNICAL_NETHERITE_BLOCK.get()
+					);
+					this.tag(BlockTags.NEEDS_STONE_TOOL).add(
+							RegistryHandler.RAW_LEAD_BLOCK.get(),
+							RegistryHandler.DEEPSLATE_LEAD_ORE.get(),
+							RegistryHandler.BLASTED_IRON_BLOCK.get(),
+							RegistryHandler.CAST_IRON_BLOCK.get(),
+							RegistryHandler.CUT_LEAD_COATING.get(),
+							RegistryHandler.LEAD_COATING.get(),
+							RegistryHandler.LIGHTENED_IRON_BLOCK.get(),
+							RegistryHandler.LEAD_BLOCK.get(),
+							RegistryHandler.LEAD_ORE.get()
+					);
 				}
 			});
 			//blockstate
@@ -78,35 +102,35 @@ public class Datagen {
 				protected void registerStatesAndModels() {
 					//simpleBlock(RegistryHandler.LEAD_RAW_BLOCK.get());
 					//simpleBlock(RegistryHandler.SILVER_RAW_BLOCK.get());
-					simpleBlock(RegistryHandler.LEAD_GRIMSTONE_ORE.get());
-					simpleBlock(RegistryHandler.SILVER_GRIMSTONE_ORE.get());
+					simpleBlock(RegistryHandler.DEEPSLATE_LEAD_ORE.get());
+					simpleBlock(RegistryHandler.DEEPSLATE_SILVER_ORE.get());
 					simpleBlock(RegistryHandler.GLANCE.get());
-					simpleBlock(RegistryHandler.GLANCE_SPOTTED.get());
+					simpleBlock(RegistryHandler.SPOTTED_GLANCE.get());
 				}
 			});
 			//items
 			event.getGenerator().addProvider(new ItemModelProvider(event.getGenerator(), Oreganized.MOD_ID, event.getExistingFileHelper()) {
 				@Override
 				protected void registerModels() {
-					withExistingParent(RegistryHandler.LEAD_GRIMSTONE_ORE_ITEM.get().getRegistryName().getPath(), new ResourceLocation(Oreganized.MOD_ID,"block/lead_grimstone_ore"));
-					withExistingParent(RegistryHandler.SILVER_GRIMSTONE_ORE_ITEM.get().getRegistryName().getPath(), new ResourceLocation(Oreganized.MOD_ID,"block/silver_grimstone_ore"));
+					withExistingParent(RegistryHandler.DEEPSLATE_LEAD_ORE_ITEM.get().getRegistryName().getPath(), new ResourceLocation(Oreganized.MOD_ID,"block/deepslate_lead_ore"));
+					withExistingParent(RegistryHandler.DEEPSLATE_SILVER_ORE_ITEM.get().getRegistryName().getPath(), new ResourceLocation(Oreganized.MOD_ID,"block/deepslate_silver_ore"));
 					withExistingParent(RegistryHandler.GLANCE_ITEM.get().getRegistryName().getPath(), new ResourceLocation(Oreganized.MOD_ID,"block/glance"));
-					withExistingParent(RegistryHandler.GLANCE_SPOTTED_ITEM.get().getRegistryName().getPath(), new ResourceLocation(Oreganized.MOD_ID,"block/glance_spotted"));
+					withExistingParent(RegistryHandler.SPOTTED_GLANCE_ITEM.get().getRegistryName().getPath(), new ResourceLocation(Oreganized.MOD_ID,"block/spotted_glance"));
 				}
 			});
 			//recipes
 			event.getGenerator().addProvider(new ModRecipeProvider(event.getGenerator()){
 				@Override
 				protected void buildCraftingRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
-					nineBlockStorageRecipes(pFinishedRecipeConsumer, RegistryHandler.LEAD_RAW.get(), RegistryHandler.LEAD_RAW_BLOCK.get());
-					nineBlockStorageRecipes(pFinishedRecipeConsumer, RegistryHandler.SILVER_RAW.get(), RegistryHandler.SILVER_RAW_BLOCK.get());
+					nineBlockStorageRecipes(pFinishedRecipeConsumer, RegistryHandler.RAW_LEAD.get(), RegistryHandler.RAW_LEAD_BLOCK.get());
+					nineBlockStorageRecipes(pFinishedRecipeConsumer, RegistryHandler.RAW_SILVER.get(), RegistryHandler.RAW_SILVER_BLOCK.get());
 					
 					nineBlockStorageRecipes(pFinishedRecipeConsumer, RegistryHandler.LEAD_INGOT.get(), RegistryHandler.LEAD_BLOCK.get());
 					
-					oreSmelting(pFinishedRecipeConsumer, ImmutableList.of(RegistryHandler.LEAD_RAW.get(),RegistryHandler.LEAD_ORE.get(),RegistryHandler.LEAD_GRIMSTONE_ORE.get()),RegistryHandler.LEAD_INGOT.get(),1F,200,"lead_ingot");
-					oreBlasting(pFinishedRecipeConsumer, ImmutableList.of(RegistryHandler.LEAD_RAW.get(),RegistryHandler.LEAD_ORE.get(),RegistryHandler.LEAD_GRIMSTONE_ORE.get()),RegistryHandler.LEAD_INGOT.get(),1F,100,"lead_ingot");
-					oreSmelting(pFinishedRecipeConsumer, ImmutableList.of(RegistryHandler.SILVER_RAW.get(),RegistryHandler.SILVER_ORE.get(),RegistryHandler.SILVER_GRIMSTONE_ORE.get()),RegistryHandler.SILVER_INGOT.get(),1F,200,"silver_ingot");
-					oreBlasting(pFinishedRecipeConsumer, ImmutableList.of(RegistryHandler.SILVER_RAW.get(),RegistryHandler.SILVER_ORE.get(),RegistryHandler.SILVER_GRIMSTONE_ORE.get()),RegistryHandler.SILVER_INGOT.get(),1F,100,"silver_ingot");
+					oreSmelting(pFinishedRecipeConsumer, ImmutableList.of(RegistryHandler.RAW_LEAD.get(),RegistryHandler.LEAD_ORE.get(),RegistryHandler.DEEPSLATE_LEAD_ORE.get()),RegistryHandler.LEAD_INGOT.get(),1F,200,"lead_ingot");
+					oreBlasting(pFinishedRecipeConsumer, ImmutableList.of(RegistryHandler.RAW_LEAD.get(),RegistryHandler.LEAD_ORE.get(),RegistryHandler.DEEPSLATE_LEAD_ORE.get()),RegistryHandler.LEAD_INGOT.get(),1F,100,"lead_ingot");
+					oreSmelting(pFinishedRecipeConsumer, ImmutableList.of(RegistryHandler.RAW_SILVER.get(),RegistryHandler.SILVER_ORE.get(),RegistryHandler.DEEPSLATE_SILVER_ORE.get()),RegistryHandler.SILVER_INGOT.get(),1F,200,"silver_ingot");
+					oreBlasting(pFinishedRecipeConsumer, ImmutableList.of(RegistryHandler.RAW_SILVER.get(),RegistryHandler.SILVER_ORE.get(),RegistryHandler.DEEPSLATE_SILVER_ORE.get()),RegistryHandler.SILVER_INGOT.get(),1F,100,"silver_ingot");
 					
 					
 				}
@@ -118,28 +142,28 @@ public class Datagen {
 	public static class ModBlockLoot extends BlockLoot {
 		@Override
 		protected void addTables() {
-			this.add(RegistryHandler.LEAD_GRIMSTONE_ORE.get(), (i)->{
-				return createOreDrop(i, RegistryHandler.LEAD_RAW.get());
+			this.add(RegistryHandler.DEEPSLATE_LEAD_ORE.get(), (i)->{
+				return createOreDrop(i, RegistryHandler.RAW_LEAD.get());
 			});
-			this.add(RegistryHandler.SILVER_GRIMSTONE_ORE.get(), (i)->{
-				return createOreDrop(i, RegistryHandler.SILVER_RAW.get());
+			this.add(RegistryHandler.DEEPSLATE_SILVER_ORE.get(), (i)->{
+				return createOreDrop(i, RegistryHandler.RAW_SILVER.get());
 			});
 			this.add(RegistryHandler.LEAD_ORE.get(), (i)->{
-				return createOreDrop(i, RegistryHandler.LEAD_RAW.get());
+				return createOreDrop(i, RegistryHandler.RAW_LEAD.get());
 			});
 			this.add(RegistryHandler.SILVER_ORE.get(), (i)->{
-				return createOreDrop(i, RegistryHandler.SILVER_RAW.get());
+				return createOreDrop(i, RegistryHandler.RAW_SILVER.get());
 			});
 			this.dropSelf(RegistryHandler.GLANCE.get());
-			this.dropSelf(RegistryHandler.GLANCE_SPOTTED.get());
-			this.dropSelf(RegistryHandler.LEAD_RAW_BLOCK.get());
-			this.dropSelf(RegistryHandler.SILVER_RAW_BLOCK.get());
+			this.dropSelf(RegistryHandler.SPOTTED_GLANCE.get());
+			this.dropSelf(RegistryHandler.RAW_LEAD_BLOCK.get());
+			this.dropSelf(RegistryHandler.RAW_SILVER_BLOCK.get());
 		}
 		
 		@Override
 		protected Iterable<Block> getKnownBlocks() {
-			return List.of(RegistryHandler.GLANCE.get(),RegistryHandler.GLANCE_SPOTTED.get(),RegistryHandler.LEAD_GRIMSTONE_ORE.get(),RegistryHandler.SILVER_GRIMSTONE_ORE.get(),
-					RegistryHandler.LEAD_RAW_BLOCK.get(),RegistryHandler.SILVER_RAW_BLOCK.get(),RegistryHandler.LEAD_ORE.get(),RegistryHandler.SILVER_ORE.get());
+			return List.of(RegistryHandler.GLANCE.get(),RegistryHandler.SPOTTED_GLANCE.get(),RegistryHandler.DEEPSLATE_LEAD_ORE.get(),RegistryHandler.DEEPSLATE_SILVER_ORE.get(),
+					RegistryHandler.RAW_LEAD_BLOCK.get(),RegistryHandler.RAW_SILVER_BLOCK.get(),RegistryHandler.LEAD_ORE.get(),RegistryHandler.SILVER_ORE.get());
 		}
 	}
 	

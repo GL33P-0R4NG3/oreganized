@@ -1,15 +1,15 @@
 {
   "variants": {
-    "level=0": {
+    "age=0": {
       "model": "oreganized:block/cauldron"
     },
-    "level=1": {
+    "age=1": {
       "model": "oreganized:block/cauldron_lead_level1"
     },
-    "level=2": {
+    "age=2": {
       "model": "oreganized:block/cauldron_lead_level2"
     },
-    "level=3": {
+    "age=3": {
       "model": "oreganized:block/cauldron_lead_level3"
     }
   }

@@ -1,21 +1,27 @@
 package me.gleep.oreganized.events;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.blocks.ModCauldron;
 import me.gleep.oreganized.items.BushHammer;
+import me.gleep.oreganized.potion.ModPotions;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
+import net.minecraft.client.Camera;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -31,10 +37,14 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -73,7 +83,7 @@ public class ModEvents {
             if (item.getItem().equals(RegistryHandler.LEAD_BLOCK_ITEM.get())) {
                 if (!level.isClientSide()) {
                     level.removeBlock(pos, false);
-                    level.setBlockAndUpdate(pos, RegistryHandler.CAULDRON.get().defaultBlockState());
+                    level.setBlockAndUpdate(pos, RegistryHandler.LEAD_CAULDRON.get().defaultBlockState());
                     if (!event.getPlayer().isCreative()) item.shrink(1);
                     level.playSound((Player) null, pos, SoundEvents.STONE_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
                     event.getPlayer().awardStat(Stats.USE_CAULDRON);
@@ -86,7 +96,7 @@ public class ModEvents {
             } else if (item.getItem().equals(RegistryHandler.MOLTEN_LEAD_BUCKET.get())) {
                 if (!level.isClientSide()) {
                     level.removeBlock(pos, false);
-                    level.setBlockAndUpdate(pos, RegistryHandler.CAULDRON.get().defaultBlockState().setValue(ModCauldron.LEVEL, 3));
+                    level.setBlockAndUpdate(pos, RegistryHandler.LEAD_CAULDRON.get().defaultBlockState().setValue(ModCauldron.LEVEL, 3));
                     if (!event.getPlayer().isCreative()) event.getPlayer().setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BUCKET, 1));
                     level.playSound((Player) null, pos, SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.BLOCKS, 1.0F, 1.0F);
                     event.getPlayer().awardStat(Stats.USE_CAULDRON);
@@ -100,26 +110,10 @@ public class ModEvents {
         }
     }
 
-    /*@SubscribeEvent
-    public static void onLivingJump(final LivingEvent.LivingJumpEvent event) {
-        if (event.getEntity() instanceof LivingEntity) {
-            LivingEntity entity = event.getEntityLiving();
-            ITag<Fluid> tag = FluidTags.getCollection().getTagByID(new ResourceLocation(Oreganized.MOD_ID + ":lead"));
-
-            double d7 = entity.func_233571_b_(tag);
-            double d8 = entity.func_233579_cu_();
-
-            if (d7 > d8 && entity.handleFluidAcceleration(tag, 0.009D)) {
-                entity.setMotion(entity.getMotion().add(0.0D, (double)0.04F * entity.getAttribute(net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue(), 0.0D));
-            }
-
-        }
-    }*/
-
     /**
      * Event to handle entities in mod fluid
      */
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onEntityUpdate(final LivingEvent.LivingUpdateEvent event) {
         if (event.getEntity() instanceof LivingEntity) {
             LivingEntity entity = event.getEntityLiving();
@@ -156,7 +150,7 @@ public class ModEvents {
                 }
             }
         }
-    }
+    }*/
 
     /**
      * Event to handle block cracking and damaging BushHammer item
@@ -183,149 +177,75 @@ public class ModEvents {
 
     }
 
-    /*
-    /**
-     * Event to emit particles when entity gets DawnShine effect
-    //
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onDawnShineEffect(PotionEvent.PotionAddedEvent event) {
-        if (event.getPotionEffect().getPotion().equals(RegistryHandler.DAWN_SHINE.get())) {
-            Minecraft.getInstance().particles.addParticleEmitter(event.getEntityLiving(), RegistryHandler.DAWN_SHINE_PARTICLE.get());
+    public static void applyLeadEffect(LivingEntityUseItemEvent.Finish event){
+        if(event.getItem().getItem().isEdible()){
+            if(event.getEntityLiving() instanceof Player player){
+                for(int i=0;i<9;i++){
+                    if(ItemTags.getAllTags().getTag(new ResourceLocation("forge","ingots/lead")).contains(player.getInventory().items.get(i).getItem())){
+                        player.addEffect(new MobEffectInstance(ModPotions.STUNNING,40*20));
+                        return;
+                    }
+                }
+                if(ItemTags.getAllTags().getTag(new ResourceLocation("forge","ingots/lead")).contains(player.getInventory().offhand.get(0).getItem())){
+                    player.addEffect(new MobEffectInstance(ModPotions.STUNNING,40*20));
+                }
+            }
         }
     }
-    */
-
-    /*@SubscribeEvent
-    public static void onLeadNuggetImpact(ProjectileImpactEvent event) {
-        if (event.getEntity() instanceof LeadNuggetEntity) {
-            event.setCanceled(true);
-        }
-    }*/
 
     /**
      * Event to change fluid fog density for rendering
      */
-    /*@OnlyIn(Dist.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void getFogDensity(EntityViewRenderEvent.FogDensity event) {
         Camera info = event.getInfo();
-        FluidState fluidState = info.getBlockAtCamera().getFluidState();
-        if (fluidState.isEmpty()) return;
-        Fluid fluid = fluidState.getType();
+        BlockState blockState = info.getBlockAtCamera();
 
-        if (fluid.isSame(RegistryHandler.LEAD_FLUID.get())) {
-            RenderSystem.disableCull();
+        if (blockState.getBlock().equals(RegistryHandler.MOLTEN_LEAD_BLOCK.get())) {
+            RenderSystem.enableCull();
             event.setDensity(1.4F);
             event.setCanceled(true);
         }
-    }*/
+    }
 
     /**
      * Event to change the fluid fog color for rendering
      */
-    /*@OnlyIn(Dist.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void getFogColor(EntityViewRenderEvent.FogColors event) {
         Camera info = event.getInfo();
-        FluidState fluidState = info.getBlockAtCamera().getFluidState();
-        if (fluidState.isEmpty())
-            return;
-        Fluid fluid = fluidState.getType();
+        BlockState blockState = info.getBlockAtCamera();
 
-        if (fluid.isSame(RegistryHandler.LEAD_FLUID.get())) {
+        if (blockState.getBlock().equals(RegistryHandler.MOLTEN_LEAD_BLOCK.get())) {
             event.setRed(57F / 256F);
             event.setGreen(57F / 256F);
             event.setBlue(95F / 256F);
         }
-    }*/
+    }
 
-    /*@SubscribeEvent
-    public static void onEntityJoin(final EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof MonsterEntity) {
-            MonsterEntity monster = (MonsterEntity) event.getEntity();
-            if (monster.isEntityUndead()) {
-                try {
-                    final Set<PrioritizedGoal> goals = ObfuscationReflectionHelper.getPrivateValue(
-                            GoalSelector.class, monster.targetSelector, "field_220892_d");
+    @SubscribeEvent
+    public static void onEntityDeath(LivingDeathEvent event) {
+        if (event.getSource().getDirectEntity() instanceof Player) {
+            Player player = (Player) event.getSource().getDirectEntity();
+            LivingEntity living = event.getEntityLiving();
 
-                    for (PrioritizedGoal g : goals) {
-                        if (g.getGoal() instanceof NearestAttackableTargetGoal<?>) {
-                            NearestAttackableTargetGoal<?> goal = (NearestAttackableTargetGoal<?>) g.getGoal();
+            if (living.isInvertedHealAndHarm()) {
+                CompoundTag nbt = new CompoundTag();
+                nbt.putLong("t", player.level.getGameTime());
+                nbt.putBoolean("Shine", true);
 
-                            final Class<?> targetClass = ObfuscationReflectionHelper.getPrivateValue(
-                                    NearestAttackableTargetGoal.class, goal, "field_75307_b");
-                            if (targetClass == PlayerEntity.class || targetClass == ServerPlayerEntity.class) {
-                                final EntityPredicate targetEntitySelector = ObfuscationReflectionHelper.getPrivateValue(
-                                        NearestAttackableTargetGoal.class, goal, "field_220779_d");
+                for (ItemStack stack: player.getInventory().items) {
+                    if (stack.getItem().equals(RegistryHandler.SILVER_INGOT.get())) stack.setTag(nbt);
+                }
 
-                                final Predicate<LivingEntity> customPredicate = ObfuscationReflectionHelper.getPrivateValue(
-                                        EntityPredicate.class, targetEntitySelector, "field_221023_h");
-
-                                Predicate<LivingEntity> entityPredicate =  new Predicate<LivingEntity>() {
-                                    final Predicate<LivingEntity> predicate = customPredicate;
-                                    @Override
-                                    public boolean test(LivingEntity target) {
-                                        for (ItemStack itemStack : target.getArmorInventoryList()) {
-                                            if (ItemTags.getCollection().getTagByID(
-                                                    new ResourceLocation("oreganized:silver_tinted_items"))
-                                                    .contains(itemStack.getItem())) return false;
-                                        }
-                                        return predicate == null || predicate.test(target);
-                                    }
-                                };
-
-                                targetEntitySelector.setCustomPredicate(entityPredicate);
-                            }
-                        }
-                    }
-                } catch (NullPointerException nullPointerException) {
-                    if (event.getWorld().getServer() != null) {
-                        event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("An error occurred during loading living entity\n" + nullPointerException.getMessage()), UUID.randomUUID());
-                    }
-                    Oreganized.LOGGER.error("An error occurred during living entity loading\n" + nullPointerException.getMessage());
-                } catch (ObfuscationReflectionHelper.UnableToAccessFieldException fieldException) {
-                    if (event.getWorld().getServer() != null) {
-                        event.getWorld().getServer().sendMessage(ITextComponent.getTextComponentOrEmpty("Cannot find the field\n" + fieldException.getMessage()), UUID.randomUUID());
-                    }
-                    Oreganized.LOGGER.error("Cannot find the field\n" + fieldException.getMessage());
+                if (player.getInventory().offhand.get(0).getItem().equals(RegistryHandler.SILVER_INGOT.get())) {
+                    player.getInventory().offhand.get(0).setTag(nbt);
                 }
             }
         }
-    }*/
-
-    /*@SubscribeEvent
-    public static void onLivingHurt(final LivingHurtEvent event) {
-        int parts = 0;
-        if (event.getSource().getDirectEntity() instanceof LivingEntity) {
-            for (ItemStack stack : event.getEntityLiving().getArmorSlots()) {
-                if (stack.getItem() instanceof STABase) {
-                    parts++;
-                    ((STABase)stack.getItem()).decreaseDurabilty(stack, event.getEntityLiving());
-                }
-            }
-
-            if (parts == 0) return;
-
-            long random = Math.round(Math.random() * 100.0F);
-
-            if (random <= (16L * parts)) {
-                ((LivingEntity) event.getSource().getDirectEntity()).addEffect(getSilverShine());
-            }
-
-            if (event.getSource().getTrueSource() instanceof MonsterEntity) {
-                MonsterEntity monster = (MonsterEntity) event.getSource().getTrueSource();
-
-                if (monster.isEntityUndead()) {
-                    monster.setAttackTarget(null);
-                    monster.setRevengeTarget(null);
-                }
-            }
-        }
-    }*/
-
-    /*public static MobEffectInstance getSilverShine() {
-        return new MobEffectInstance(RegistryHandler.DAWN_SHINE.get(), 400, 1);
-    }*/
+    }
 
 }

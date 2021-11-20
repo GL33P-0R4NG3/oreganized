@@ -2,5 +2,8 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "oreganized:item/silver_ingot"
-  }
+  },
+  "overrides": [
+    { "predicate": { "oreganized:shine": 1 }, "model": "oreganized:item/silver_ingot_shine" }
+  ]
 }

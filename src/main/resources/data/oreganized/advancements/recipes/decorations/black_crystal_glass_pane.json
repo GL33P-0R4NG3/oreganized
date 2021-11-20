@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:black_crystal_glass"
+            "items": [
+              "oreganized:black_crystal_glass"
+            ]
           }
         ]
       }

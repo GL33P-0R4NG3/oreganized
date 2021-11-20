@@ -6,7 +6,7 @@
         "bottom": "block/cauldron_bottom",
         "side": "block/cauldron_side",
         "inside": "block/cauldron_inner",
-        "lead": "oreganized:block/lead_block1"
+        "lead": "oreganized:block/lead_block"
     },
     "elements": [
         {

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:blasting",
+  "group": "gold_ingot",
+  "ingredient": {
+    "item": "oreganized:raw_lead"
+  },
+  "result": "oreganized:lead_ingot",
+  "experience": 1.0,
+  "cookingtime": 100
+}

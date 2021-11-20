@@ -3,38 +3,26 @@ package me.gleep.oreganized.util;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.*;
 import me.gleep.oreganized.blocks.*;
-import me.gleep.oreganized.fluids.LeadFluid;
-import me.gleep.oreganized.fluids.LeadFluidBlock;
+import me.gleep.oreganized.entities.tileentities.ExposerBlockEntity;
 import me.gleep.oreganized.items.*;
 import me.gleep.oreganized.tools.*;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.Containers;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.event.entity.item.ItemEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.Random;
 
 public class RegistryHandler {
     //Mod
@@ -45,7 +33,7 @@ public class RegistryHandler {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Oreganized.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Oreganized.MOD_ID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Oreganized.MOD_ID);
-    //public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Oreganized.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Oreganized.MOD_ID);
     //private static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, OreExpansion.MOD_ID);
 
     public static void init() {
@@ -56,17 +44,17 @@ public class RegistryHandler {
         //ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //TILE_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        BLOCK_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
 
     /*//////////////////////////////////            FLUIDS            //////////////////////////////////*/
     //MOLTEN LEAD
-    public static final RegistryObject<ForgeFlowingFluid> LEAD_FLUID = FLUIDS.register("lead_fluid", LeadFluid.Source::new);
+    /*public static final RegistryObject<ForgeFlowingFluid> LEAD_FLUID = FLUIDS.register("lead_fluid", LeadFluid.Source::new);
     public static final RegistryObject<ForgeFlowingFluid> LEAD_FLUID_FLOW = FLUIDS.register("lead_fluid_flow", LeadFluid.Flowing::new);
     public static final RegistryObject<LiquidBlock> LEAD_FLUID_BLOCK = BLOCKS.register("lead_fluid_block",
             () -> new LeadFluidBlock(RegistryHandler.LEAD_FLUID)
-    );
+    );*/
 
 
     /*//////////////////////////////////            PARTICLES            //////////////////////////////////*/
@@ -99,14 +87,16 @@ public class RegistryHandler {
 
 
     /*//////////////////////////////////            ITEMS            //////////////////////////////////*/
-    public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", ItemBase::new);
+    public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", SilverIngot::new);
     public static final RegistryObject<Item> LEAD_INGOT = ITEMS.register("lead_ingot", ItemBase::new);
-    public static final RegistryObject<Item> LEAD_RAW = ITEMS.register("lead_raw", ItemBase::new);
-    public static final RegistryObject<Item> SILVER_RAW = ITEMS.register("silver_raw", ItemBase::new);
+    public static final RegistryObject<Item> RAW_SILVER = ITEMS.register("raw_silver", ItemBase::new);
+    public static final RegistryObject<Item> RAW_LEAD = ITEMS.register("raw_lead", ItemBase::new);
     public static final RegistryObject<Item> SILVER_NUGGET = ITEMS.register("silver_nugget", ItemBase::new);
     public static final RegistryObject<Item> LEAD_NUGGET = ITEMS.register("lead_nugget", ItemBase::new);
     public static final RegistryObject<Item> NETHERITE_NUGGET = ITEMS.register("netherite_nugget", () -> new ItemBase(true));
-    public static final RegistryObject<Item> MOLTEN_LEAD_BUCKET = ITEMS.register("molten_lead_bucket", () -> new SolidBucketItem(RegistryHandler.MOLTEN_LEAD_BLOCK.get(), SoundEvents.BUCKET_EMPTY_LAVA, new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS).stacksTo(1)));
+    public static final RegistryObject<Item> MOLTEN_LEAD_BUCKET = ITEMS.register("molten_lead_bucket", () -> new SolidBucketItem(RegistryHandler.MOLTEN_LEAD_BLOCK.get(),
+            SoundEvents.BUCKET_EMPTY_LAVA, new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS).stacksTo(1))
+    );
     public static final RegistryObject<Item> SILVER_MIRROR = ITEMS.register("silver_mirror", SilverMirror::new);
     //Music Discs
     public static final RegistryObject<Item> MUSIC_DISC_PILLAGED_ITEM = ITEMS.register("music_disc_pillaged", () -> new ModMusicDisc(13, MUSIC_DISC_PILLAGED));
@@ -116,34 +106,25 @@ public class RegistryHandler {
 
     /*//////////////////////////////////            BLOCKS            //////////////////////////////////*/
     //Ores
-    public static final RegistryObject<Block> SILVER_ORE = BLOCKS.register("silver_ore", ()->new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_ORE)));
-    public static final RegistryObject<Block> LEAD_ORE = BLOCKS.register("lead_ore", ()->new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_ORE)));
-    public static final RegistryObject<Block> SILVER_GRIMSTONE_ORE = BLOCKS.register("silver_grimstone_ore", ()->new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_GOLD_ORE)));
-    public static final RegistryObject<Block> LEAD_GRIMSTONE_ORE = BLOCKS.register("lead_grimstone_ore", ()->new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_GOLD_ORE)));
-    public static final RegistryObject<Block> SILVER_RAW_BLOCK = BLOCKS.register("silver_raw_block", SilverOre::new);
-    public static final RegistryObject<Block> LEAD_RAW_BLOCK = BLOCKS.register("lead_raw_block", LeadOre::new);
+    public static final RegistryObject<Block> SILVER_ORE = BLOCKS.register("silver_ore", () -> new OreBlock(BlockBehaviour.Properties.copy(Blocks.GOLD_ORE)));
+    public static final RegistryObject<Block> LEAD_ORE = BLOCKS.register("lead_ore", () -> new OreBlock(BlockBehaviour.Properties.of(Material.METAL)
+            .strength(3.0F, 3.0F).requiresCorrectToolForDrops().sound(SoundType.STONE), UniformInt.of(0, 3))
+    );
+    public static final RegistryObject<Block> DEEPSLATE_SILVER_ORE = BLOCKS.register("deepslate_silver_ore", () -> new OreBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_GOLD_ORE)));
+    public static final RegistryObject<Block> DEEPSLATE_LEAD_ORE = BLOCKS.register("deepslate_lead_ore", () -> new OreBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_GOLD_ORE)));
+    public static final RegistryObject<Block> RAW_SILVER_BLOCK = BLOCKS.register("raw_silver_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK)));
+    public static final RegistryObject<Block> RAW_LEAD_BLOCK = BLOCKS.register("raw_lead_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK)));
     //Blocks
     public static final RegistryObject<Block> SILVER_BLOCK = BLOCKS.register("silver_block", SilverBlock::new);
     public static final RegistryObject<Block> LEAD_BLOCK = BLOCKS.register("lead_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL)
             .strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL))
     );
-    public static final RegistryObject<Block> GLANCE = BLOCKS.register("glance", ()->new Block(BlockBehaviour.Properties.copy(Blocks.DIORITE)));
-    public static final RegistryObject<Block> GLANCE_SPOTTED = BLOCKS.register("glance_spotted", ()->new Block(BlockBehaviour.Properties.copy(Blocks.DIORITE)){
-    
-        @Override
-        public BlockState updateShape(BlockState p_60541_, Direction p_60542_, BlockState p_60543_, LevelAccessor p_60544_, BlockPos p_60545_, BlockPos p_60546_) {
-            if(p_60544_.getFluidState(p_60546_).getType()==Fluids.WATER||p_60544_.getFluidState(p_60546_).getType()==Fluids.FLOWING_WATER){
-                Containers.dropItemStack((Level) p_60544_,p_60545_.getX(),p_60545_.getY(),p_60545_.getZ(),new ItemStack(LEAD_NUGGET.get(),p_60544_.getRandom().nextInt(2)+1));
-                return GLANCE.get().defaultBlockState();
-            }
-            return super.updateShape(p_60541_, p_60542_, p_60543_, p_60544_, p_60545_, p_60546_);
-        }
-        
-    });
+    public static final RegistryObject<Block> GLANCE = BLOCKS.register("glance", () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIORITE)));
+    public static final RegistryObject<Block> SPOTTED_GLANCE = BLOCKS.register("spotted_glance", SpottedGlance::new);
     public static final RegistryObject<Block> MOLTEN_LEAD_BLOCK = BLOCKS.register("molten_lead_block", MoltenLeadBlock::new);
     public static final RegistryObject<Block> LEAD_COATING = BLOCKS.register("lead_coating", LeadCoating::new);
     public static final RegistryObject<Block> CUT_LEAD_COATING = BLOCKS.register("cut_lead_coating", CutLeadCoating::new);
-    public static final RegistryObject<Block> CAULDRON = BLOCKS.register("cauldron", ModCauldron::new);
+    public static final RegistryObject<Block> LEAD_CAULDRON = BLOCKS.register("cauldron", ModCauldron::new);
     public static final RegistryObject<Block> LIGHTENED_IRON_BLOCK = BLOCKS.register("lightened_iron_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL)
             .strength(4.0F, 5.0F).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK))
     );
@@ -210,7 +191,7 @@ public class RegistryHandler {
     public static final RegistryObject<Block> WHITE_CRYSTAL_GLASS_PANE = BLOCKS.register("white_crystal_glass_pane", () -> new CrystalGlassPaneColored(DyeColor.WHITE));
     public static final RegistryObject<Block> YELLOW_CRYSTAL_GLASS_PANE = BLOCKS.register("yellow_crystal_glass_pane", () -> new CrystalGlassPaneColored(DyeColor.YELLOW));
     //Redstone Components
-    //public static final RegistryObject<Block> EXPOSER = BLOCKS.register("exposer", ExposerBlock::new);
+    public static final RegistryObject<Block> EXPOSER = BLOCKS.register("exposer", ExposerBlock::new);
     //public static final RegistryObject<Block> SHRAPNEL_TNT = BLOCKS.register("shrapnel_tnt", ShrapnelTNT::new);
 
 
@@ -218,10 +199,10 @@ public class RegistryHandler {
     //Ores
     public static final RegistryObject<Item> SILVER_ORE_ITEM = ITEMS.register("silver_ore", () -> new BlockItemBase(SILVER_ORE.get()));
     public static final RegistryObject<Item> LEAD_ORE_ITEM = ITEMS.register("lead_ore", () -> new BlockItemBase(LEAD_ORE.get()));
-    public static final RegistryObject<Item> SILVER_GRIMSTONE_ORE_ITEM = ITEMS.register("silver_grimstone_ore", () -> new BlockItemBase(SILVER_GRIMSTONE_ORE.get()));
-    public static final RegistryObject<Item> LEAD_GRIMSTONE_ORE_ITEM = ITEMS.register("lead_grimstone_ore", () -> new BlockItemBase(LEAD_GRIMSTONE_ORE.get()));
-    public static final RegistryObject<Item> SILVER_RAW_BLOCK_ITEM = ITEMS.register("silver_raw_block", () -> new BlockItemBase(SILVER_RAW_BLOCK.get()));
-    public static final RegistryObject<Item> LEAD_RAW_BLOCK_ITEM = ITEMS.register("lead_raw_block", () -> new BlockItemBase(LEAD_RAW_BLOCK.get()));
+    public static final RegistryObject<Item> DEEPSLATE_SILVER_ORE_ITEM = ITEMS.register("deepslate_silver_ore", () -> new BlockItemBase(DEEPSLATE_SILVER_ORE.get()));
+    public static final RegistryObject<Item> DEEPSLATE_LEAD_ORE_ITEM = ITEMS.register("deepslate_lead_ore", () -> new BlockItemBase(DEEPSLATE_LEAD_ORE.get()));
+    public static final RegistryObject<Item> RAW_SILVER_BLOCK_ITEM = ITEMS.register("raw_silver_block", () -> new BlockItemBase(RAW_SILVER_BLOCK.get()));
+    public static final RegistryObject<Item> RAW_LEAD_BLOCK_ITEM = ITEMS.register("raw_lead_block", () -> new BlockItemBase(RAW_LEAD_BLOCK.get()));
     //Blocks
     public static final RegistryObject<Item> SILVER_BLOCK_ITEM = ITEMS.register("silver_block", () -> new BlockItemBase(SILVER_BLOCK.get()));
     public static final RegistryObject<Item> LEAD_BLOCK_ITEM = ITEMS.register("lead_block", () -> new BlockItemBase(LEAD_BLOCK.get()));
@@ -235,7 +216,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> TECHNICAL_NETHERITE_BLOCK_ITEM = ITEMS.register("technical_netherite_block", () -> new TechnicalNetheriteBlockItem(TECHNICAL_NETHERITE_BLOCK.get()));
     public static final RegistryObject<Item> CUT_TECHNICAL_NETHERITE_BLOCK_ITEM = ITEMS.register("cut_technical_netherite_block", () -> new TechnicalNetheriteBlockItem(CUT_TECHNICAL_NETHERITE_BLOCK.get()));
     public static final RegistryObject<Item> GLANCE_ITEM = ITEMS.register("glance", () -> new BlockItemBase(GLANCE.get()));
-    public static final RegistryObject<Item> GLANCE_SPOTTED_ITEM = ITEMS.register("glance_spotted", () -> new BlockItemBase(GLANCE_SPOTTED.get()));
+    public static final RegistryObject<Item> SPOTTED_GLANCE_ITEM = ITEMS.register("spotted_glance", () -> new BlockItemBase(SPOTTED_GLANCE.get()));
     //Stairs
     public static final RegistryObject<Item> LIGHTENED_IRON_STAIRS_ITEM = ITEMS.register("lightened_iron_stairs", () -> new BlockItemBase(LIGHTENED_IRON_STAIRS.get()));
     public static final RegistryObject<Item> CUT_CAST_IRON_STAIRS_ITEM = ITEMS.register("cut_cast_iron_stairs", () -> new BlockItemBase(CUT_CAST_IRON_STAIRS.get()));
@@ -287,7 +268,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> WHITE_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("white_crystal_glass_pane", () -> new BlockItemBase(WHITE_CRYSTAL_GLASS_PANE.get(), 1));
     public static final RegistryObject<Item> YELLOW_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("yellow_crystal_glass_pane", () -> new BlockItemBase(YELLOW_CRYSTAL_GLASS_PANE.get(), 1));
     //Redstone Components
-    //public static final RegistryObject<Item> EXPOSER_ITEM = ITEMS.register("exposer", () -> new BlockItemBase(EXPOSER.get(), 2));
+    public static final RegistryObject<Item> EXPOSER_ITEM = ITEMS.register("exposer", () -> new BlockItemBase(EXPOSER.get(), 2));
     //public static final RegistryObject<Item> SHRAPNEL_TNT_ITEM = ITEMS.register("shrapnel_tnt", () -> new BlockItemBase(SHRAPNEL_TNT.get(), 2));
 
 
@@ -295,10 +276,10 @@ public class RegistryHandler {
     /*public static final RegistryObject<TileEntityType<SilverBlockTileEntity>> SILVER_BLOCK_TE = TILE_ENTITY_TYPES.register("silver_block", () -> TileEntityType.Builder.create(
             SilverBlockTileEntity::new, SILVER_BLOCK.get()).build(null)
     );*/
-    /*public static final RegistryObject<BlockEntityType<ExposerBlockEntity>> EXPOSER_TE = TILE_ENTITY_TYPES.register("exposer", () -> BlockEntityType.Builder.of(
+    public static final RegistryObject<BlockEntityType<ExposerBlockEntity>> EXPOSER_TE = BLOCK_ENTITY_TYPES.register("exposer", () -> BlockEntityType.Builder.of(
             ExposerBlockEntity::new, EXPOSER.get()).build(null)
     );
-    public static final RegistryObject<BlockEntityType<StoneSignTileEntity>> STONE_SIGN_TE = TILE_ENTITY_TYPES.register("stone_sign", () -> BlockEntityType.Builder.of(
+    /*public static final RegistryObject<BlockEntityType<StoneSignTileEntity>> STONE_SIGN_TE = TILE_ENTITY_TYPES.register("stone_sign", () -> BlockEntityType.Builder.of(
             StoneSignTileEntity::new, STONE.get(), STONE_BRICKS.get()).build(null)
     );*/
 

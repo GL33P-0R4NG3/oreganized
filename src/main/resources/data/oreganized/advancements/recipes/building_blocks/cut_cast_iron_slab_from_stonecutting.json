@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:cut_cast_iron_block"
+            "items": [
+              "oreganized:cut_cast_iron_block"
+            ]
           }
         ]
       }

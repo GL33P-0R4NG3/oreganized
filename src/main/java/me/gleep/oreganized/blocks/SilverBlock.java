@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Random;
 
 public class SilverBlock extends Block {
-    public static final IntegerProperty LEVEL = BlockStateProperties.AGE_3;
-    public static final float RANGE = 16.0f;
+    public static final IntegerProperty LEVEL = BlockStateProperties.AGE_7;
+    public static final float RANGE = 24.0f;
     boolean isUndeadNearby = false;
 
     public SilverBlock() {
@@ -31,7 +31,7 @@ public class SilverBlock extends Block {
                 .strength(5.0f, 6.0f)
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.METAL));
-        this.registerDefaultState(this.getStateDefinition().any().setValue(LEVEL, 3));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(LEVEL, 7));
     }
 
     /**
@@ -56,7 +56,7 @@ public class SilverBlock extends Block {
 
     @Override
     public void animateTick(BlockState p_49888_, Level p_49889_, BlockPos p_49890_, Random p_49891_) {
-        int dist = 4;
+        int dist = 8;
 
         List<Entity> list = p_49889_.getEntities((Entity) null,
                 new AABB(p_49890_.getX() + RANGE, p_49890_.getY() + RANGE, p_49890_.getZ() + RANGE,
@@ -68,20 +68,18 @@ public class SilverBlock extends Block {
             if (living.isInvertedHealAndHarm()) {
                 isUndeadNearby = true;
                 double distance = Math.sqrt(living.distanceToSqr(p_49890_.getX(), p_49890_.getY(), p_49890_.getZ()));
-                if (distance < RANGE && ((int) Math.ceil(distance / (RANGE / 4))) < dist) {
-                    if (distance <= 6) {
-                        dist = 1;
-                    } else dist = Math.max((int) Math.ceil(distance / (RANGE / 4)), 2);
+                if (((int) Math.ceil(distance / (RANGE / 8))) < dist) {
+                    dist = (int) Math.ceil(distance / (RANGE / 8));
 
-                    if (dist > 3) {
-                        dist = 3;
-                    }
+                    /*if (dist > 7) {
+                        dist = 7;
+                    }*/
                 }
             }
         }
 
         if (!isUndeadNearby) {
-            dist = 4;
+            dist = 8;
         }
         p_49889_.setBlockAndUpdate(p_49890_, p_49888_.setValue(LEVEL, dist - 1));
     }

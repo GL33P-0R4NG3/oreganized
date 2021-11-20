@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -23,8 +25,10 @@ import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -32,18 +36,51 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.client.IBlockRenderProperties;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class MoltenLeadBlock extends Block implements BucketPickup {
     public MoltenLeadBlock() {
-        super(BlockBehaviour.Properties.of(Material.LAVA)
+        super(BlockBehaviour.Properties.of((new Material.Builder(MaterialColor.COLOR_PURPLE)).noCollider().nonSolid().liquid().build())
                 .strength(-1.0F, 3600000.0F)
                 .noDrops()
                 .requiresCorrectToolForDrops());
     }
 
+
+
+    @Override
+    public boolean skipRendering(BlockState p_60532_, BlockState p_60533_, Direction p_60534_) {
+        return super.skipRendering(p_60532_, p_60533_, p_60534_);
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction p_60542_, BlockState neighbour, LevelAccessor level, BlockPos pos, BlockPos neighbourPos) {
+        if (level.isWaterAt(neighbourPos)) {
+            level.levelEvent(1501, pos, 0);
+
+            return RegistryHandler.LEAD_BLOCK.get().defaultBlockState();
+        }
+
+        return super.updateShape(state, p_60542_, neighbour, level, pos, neighbourPos);
+    }
+
+    @Override
+    public void neighborChanged(BlockState p_60509_, Level level, BlockPos pos, Block p_60512_, BlockPos neighbourPos, boolean p_60514_) {
+        if (level.getFluidState(neighbourPos).is(FluidTags.WATER)) {
+            level.setBlockAndUpdate(pos, RegistryHandler.LEAD_BLOCK.get().defaultBlockState());
+
+            level.levelEvent(1501, pos, 0);
+        } else if (level.getFluidState(neighbourPos).is(FluidTags.LAVA)) {
+
+        }
+
+
+        super.neighborChanged(p_60509_, level, pos, p_60512_, neighbourPos, p_60514_);
+    }
 
     /**
      * Get the {@code PathNodeType} for this block. Return {@code null} for vanilla behavior.
@@ -74,33 +111,6 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
         return false;
     }
 
-    @Override
-    public void playerWillDestroy(Level p_49852_, BlockPos p_49853_, BlockState p_49854_, Player p_49855_) { }
-
-    /**
-     * Called when a player removes a block.  This is responsible for
-     * actually destroying the block, and the block is intact at time of call.
-     * This is called regardless of whether the player can harvest the block or
-     * not.
-     * <p>
-     * Return true if the block is actually destroyed.
-     * <p>
-     * Note: When used in multiplayer, this is called on both client and
-     * server sides!
-     *
-     * @param state       The current state.
-     * @param world       The current world
-     * @param pos         Block position in world
-     * @param player      The player damaging the block, may be null
-     * @param willHarvest True if Block.harvestBlock will be called after this, if the return in true.
-     *                    Can be useful to delay the destruction of tile entities till after harvestBlock
-     * @param fluid       The current fluid state at current position
-     * @return True if the block is actually destroyed.
-     */
-    @Override
-    public boolean removedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        return false;
-    }
 
     @Override
     public int getLightBlock(BlockState p_60585_, BlockGetter p_60586_, BlockPos p_60587_) {
@@ -118,25 +128,16 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
         }
         return Shapes.empty();
     }
-    
-    @Override
-    public FluidState getFluidState(BlockState p_60577_) {
-        return RegistryHandler.LEAD_FLUID.get().defaultFluidState();
-    }
-    
+
     @Override
     public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        //return p_60558_.isHoldingItem(Items.BUCKET) || p_60558_.isHoldingItem(RegistryHandler.MOLTEN_LEAD_BUCKET.get()) ? Shapes.block() : Shapes.empty();
-        return Shapes.empty();
-    }
-
-    /*@Override
-    public InteractionResult use(BlockState p_60503_, Level p_60504_, BlockPos p_60505_, Player p_60506_, InteractionHand p_60507_, BlockHitResult p_60508_) {
-        if (p_60506_.getItemInHand(p_60507_).getItem().equals(Items.BUCKET) || p_60506_.getItemInHand(p_60507_).getItem().equals(RegistryHandler.MOLTEN_LEAD_BUCKET.get())){
-            return InteractionResult.SUCCESS;
+        if (((EntityCollisionContext)p_60558_).getEntity().isPresent()) {
+            return p_60558_.isHoldingItem(Items.BUCKET)
+                    || p_60558_.isHoldingItem(RegistryHandler.MOLTEN_LEAD_BUCKET.get()) ? Shapes.block() : Shapes.empty();
         }
-        return InteractionResult.PASS;
-    }*/
+
+        return Shapes.block();
+    }
 
     /**
      * Determines if the player can harvest this block, obtaining it's drops when the block is destroyed.
@@ -178,8 +179,4 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
         return Optional.of(SoundEvents.BUCKET_FILL_LAVA);
     }
 
-    /*@Override
-    public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
-        return state.getBlock().equals(adjacentBlockState.getBlock());
-    }*/
 }

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:silver_nugget"
+            "items": [
+              "oreganized:silver_nugget"
+            ]
           }
         ]
       }

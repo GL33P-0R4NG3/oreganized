@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:blasted_iron_block"
+            "items": [
+              "oreganized:blasted_iron_block"
+            ]
           }
         ]
       }

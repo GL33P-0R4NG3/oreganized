@@ -22,7 +22,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:silver_mirror",
+            "items": [
+              "oreganized:silver_mirror"
+            ],
             "nbt": "{Dist:1}"
           }
         ]

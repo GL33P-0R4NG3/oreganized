@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -28,6 +27,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ExposerBlock extends DirectionalBlock implements EntityBlock {
+    public static final float RANGE = 16.0f;
     public static final IntegerProperty LEVEL = BlockStateProperties.AGE_3;
     public static final int[] POWER_STATES = new int[] {0, 1, 2, 3};
     boolean isUndeadNearby = false;
@@ -64,11 +64,6 @@ public class ExposerBlock extends DirectionalBlock implements EntityBlock {
         return ExposerBlockEntity::tick;
     }
 
-    /*@Nullable
-    public BlockEntityTicker<ExposerBlockEntity> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : ExposerBlockEntity::tick;
-    }*/
-
     @Override
     public boolean isSignalSource(BlockState p_60571_) {
         return true;
@@ -76,7 +71,7 @@ public class ExposerBlock extends DirectionalBlock implements EntityBlock {
 
     @Override
     public int getSignal(BlockState p_60483_, BlockGetter p_60484_, BlockPos p_60485_, Direction p_60486_) {
-        return p_60483_.getSignal(p_60484_, p_60485_, p_60486_);
+        return p_60483_.getDirectSignal(p_60484_, p_60485_, p_60486_);
     }
 
     @Override
@@ -104,8 +99,8 @@ public class ExposerBlock extends DirectionalBlock implements EntityBlock {
         int dist = 4;
 
         List<Entity> list = p_60463_.getEntities((Entity) null,
-                new AABB(p_60464_.getX() + SilverBlock.RANGE, p_60464_.getY() + SilverBlock.RANGE, p_60464_.getZ() + SilverBlock.RANGE,
-                        p_60464_.getX() - SilverBlock.RANGE, p_60464_.getY() - SilverBlock.RANGE, p_60464_.getZ() - SilverBlock.RANGE),
+                new AABB(p_60464_.getX() + RANGE, p_60464_.getY() + RANGE, p_60464_.getZ() + RANGE,
+                        p_60464_.getX() - RANGE, p_60464_.getY() - RANGE, p_60464_.getZ() - RANGE),
                 (Entity entity) -> entity instanceof LivingEntity
         );
 
@@ -114,10 +109,10 @@ public class ExposerBlock extends DirectionalBlock implements EntityBlock {
             if (living.isInvertedHealAndHarm()) {
                 isUndeadNearby = true;
                 double distance = Mth.sqrt((float) living.distanceToSqr(p_60464_.getX(), p_60464_.getY(), p_60464_.getZ()));
-                if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 4))) < dist) {
+                if (distance < RANGE && ((int) Math.ceil(distance / (RANGE / 4))) < dist) {
                     if (distance <= 6) {
                         dist = 1;
-                    } else dist = Math.max((int) Math.ceil(distance / (SilverBlock.RANGE / 4)), 2);
+                    } else dist = Math.max((int) Math.ceil(distance / (RANGE / 4)), 2);
 
                     if (dist > 3) {
                         dist = 3;

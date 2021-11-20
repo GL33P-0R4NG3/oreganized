@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:lead_ingot"
+            "items":[
+              "oreganized:lead_ingot"
+            ]
           }
         ]
       }

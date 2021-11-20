@@ -22,7 +22,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:silver_tinted_golden_helmet"
+            "items": [
+              "oreganized:silver_tinted_golden_helmet"
+            ]
           }
         ]
       }
@@ -32,7 +34,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:silver_tinted_golden_chestplate"
+            "items": [
+              "oreganized:silver_tinted_golden_chestplate"
+            ]
           }
         ]
       }
@@ -42,7 +46,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:silver_tinted_golden_leggings"
+            "items": [
+              "oreganized:silver_tinted_golden_leggings"
+            ]
           }
         ]
       }
@@ -52,7 +58,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:silver_tinted_golden_boots"
+            "items": [
+              "oreganized:silver_tinted_golden_boots"
+            ]
           }
         ]
       }
@@ -62,7 +70,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:silver_tinted_golden_sword"
+            "items": [
+              "oreganized:silver_tinted_golden_sword"
+            ]
           }
         ]
       }

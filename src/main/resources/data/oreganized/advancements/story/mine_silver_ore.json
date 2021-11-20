@@ -21,7 +21,9 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:silver_ore"
+            "items": [
+              "oreganized:silver_ore"
+            ]
           }
         ]
       }

@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "oreganized:lead_ingot"
+            "tag": "forge:ingots/lead"
           }
         ]
       }
