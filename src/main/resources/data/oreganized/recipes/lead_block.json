@@ -1,36 +1,16 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "oreganized:lead_nugget"
-    },
-    {
-      "item": "oreganized:lead_nugget"
-    },
-    {
-      "item": "oreganized:lead_nugget"
-    },
-    {
-      "item": "oreganized:lead_nugget"
-    },
-    {
-      "item": "oreganized:lead_nugget"
-    },
-    {
-      "item": "oreganized:lead_ingot"
-    },
-    {
-      "item": "oreganized:lead_ingot"
-    },
-    {
-      "item": "oreganized:lead_ingot"
-    },
-    {
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xx ",
+    "xx ",
+    "   "
+  ],
+  "key": {
+    "x": {
       "item": "oreganized:lead_ingot"
     }
-  ],
-  "result":
-  {
+  },
+  "result": {
     "item": "oreganized:lead_block",
     "count": 1
   }
