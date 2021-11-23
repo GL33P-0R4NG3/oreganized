@@ -25,7 +25,7 @@ public class SilverMirror extends Item {
 
     @Override
     public void inventoryTick(ItemStack p_41404_, Level p_41405_, Entity p_41406_, int p_41407_, boolean p_41408_) {
-        int dist = 4;
+        int dist = 8;
 
         if (!(p_41406_ instanceof Player)) return;
         CompoundTag nbt = new CompoundTag();
@@ -42,20 +42,20 @@ public class SilverMirror extends Item {
             if (living.isInvertedHealAndHarm()) {
                 isUndeadNearby = true;
                 double distance = living.distanceTo(player);
-                if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 4))) < dist) {
-                    if (distance <= 6) {
+                if (distance < SilverBlock.RANGE && ((int) Math.ceil(distance / (SilverBlock.RANGE / 8))) < dist) {
+                    if (distance < 6) {
                         dist = 1;
-                    } else dist = Math.max((int) Math.ceil(distance / (SilverBlock.RANGE / 4)), 2);
+                    } else dist = Math.max( (int) Math.ceil(distance / (SilverBlock.RANGE / 8)), 2);
 
-                    if (dist > 3) {
-                        dist = 3;
+                    if (dist > 8) {
+                        dist = 8;
                     }
                 }
             }
         }
 
         if (!isUndeadNearby) {
-            dist = 4;
+            dist = 8;
         }
 
         nbt.putInt("Dist", dist);

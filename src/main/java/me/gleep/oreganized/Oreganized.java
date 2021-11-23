@@ -98,7 +98,7 @@ public class Oreganized {
         event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_MIRROR.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":dist"),
                 (ItemStack p_174676_, @Nullable ClientLevel p_174677_, @Nullable LivingEntity p_174678_, int p_174679_) ->
-                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("Dist") : 4)
+                        p_174676_.getTag() != null ? p_174676_.getTag().getInt("Dist") : 8)
         );
         event.enqueueWork(() -> ItemProperties.register(RegistryHandler.SILVER_TINTED_DIAMOND_BOOTS.get(),
                 new ResourceLocation(Oreganized.MOD_ID + ":tinted_damage"),
