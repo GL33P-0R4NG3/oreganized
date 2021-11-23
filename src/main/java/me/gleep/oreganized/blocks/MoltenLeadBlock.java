@@ -47,7 +47,8 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
         super(BlockBehaviour.Properties.of((new Material.Builder(MaterialColor.COLOR_PURPLE)).noCollider().notSolidBlocking().nonSolid().liquid().build())
                 .strength(-1.0F, 3600000.0F)
                 .noDrops()
-                .requiresCorrectToolForDrops());
+                .requiresCorrectToolForDrops()
+        );
     }
 
     @Override
@@ -72,9 +73,7 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
             level.setBlockAndUpdate(pos, RegistryHandler.LEAD_BLOCK.get().defaultBlockState());
 
             level.levelEvent(1501, pos, 0);
-        } else if (level.getFluidState(neighbourPos).is(FluidTags.LAVA)) {
-
-        }
+        } //else if (level.getFluidState(neighbourPos).is(FluidTags.LAVA)) {}
 
 
         super.neighborChanged(p_60509_, level, pos, p_60512_, neighbourPos, p_60514_);
