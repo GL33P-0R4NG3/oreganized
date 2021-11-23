@@ -44,14 +44,12 @@ import java.util.function.Consumer;
 
 public class MoltenLeadBlock extends Block implements BucketPickup {
     public MoltenLeadBlock() {
-        super(BlockBehaviour.Properties.of((new Material.Builder(MaterialColor.COLOR_PURPLE)).noCollider().nonSolid().liquid().build())
+        super(BlockBehaviour.Properties.of((new Material.Builder(MaterialColor.COLOR_PURPLE)).noCollider().notSolidBlocking().nonSolid().liquid().build())
                 .strength(-1.0F, 3600000.0F)
                 .noDrops()
                 .requiresCorrectToolForDrops()
         );
     }
-
-
 
     @Override
     public boolean skipRendering(BlockState p_60532_, BlockState p_60533_, Direction p_60534_) {
