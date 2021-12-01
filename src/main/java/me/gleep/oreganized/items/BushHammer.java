@@ -1,25 +1,47 @@
 package me.gleep.oreganized.items;
 
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableMap;
+import me.gleep.oreganized.Oreganized;
+import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
 import me.gleep.oreganized.items.tiers.ModTier;
+import me.gleep.oreganized.util.messages.BushHammerClickPacket;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.Tag;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.fmllegacy.network.NetworkDirection;
+import net.minecraftforge.registries.ForgeRegistries;
+
 import java.util.Map;
+import java.util.Random;
 import java.util.function.Consumer;
 
-public class BushHammer extends DiggerItem {
+import static me.gleep.oreganized.util.RegistryHandler.BRICKS_BLOCKTAG;
+import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
+import static me.gleep.oreganized.util.SimpleNetwork.CHANNEL;
+
+public class BushHammer extends DiggerItem{
     /**
      * Map where first element is the effective block and second element is the cracked version
      */
-    public static final Map<Block, Block> EFFECTIVE_ON = ImmutableMap.of(
-            Blocks.STONE, Blocks.COBBLESTONE,
-            Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS,
-            Blocks.POLISHED_BLACKSTONE_BRICKS, Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS,
-            Blocks.NETHER_BRICKS, Blocks.CRACKED_NETHER_BRICKS
+    public static final Map <Block, Block> EFFECTIVE_ON = ImmutableMap.of(
+            Blocks.STONE , Blocks.COBBLESTONE ,
+            Blocks.STONE_BRICKS , Blocks.CRACKED_STONE_BRICKS ,
+            Blocks.POLISHED_BLACKSTONE_BRICKS , Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS ,
+            Blocks.NETHER_BRICKS , Blocks.CRACKED_NETHER_BRICKS
     );
+
     /**
      * Map containing vanilla and mod version of blocks
      */
@@ -27,29 +49,35 @@ public class BushHammer extends DiggerItem {
             Blocks.STONE, RegistryHandler.STONE.get(),
             Blocks.STONE_BRICKS, RegistryHandler.STONE_BRICKS.get()
     );*/
-
-    public BushHammer() {
-        super(2.5F, -3.1F, ModTier.LEAD, Tag.fromSet(EFFECTIVE_ON.keySet()),
-                new Item.Properties().tab(CreativeModeTab.TAB_TOOLS).stacksTo(1)
+    public BushHammer(){
+        super( 2.5F , -3.1F , ModTier.LEAD , Tag.fromSet( EFFECTIVE_ON.keySet() ) ,
+                new Item.Properties().tab( CreativeModeTab.TAB_TOOLS ).stacksTo( 1 )
         );
     }
 
-    /**
-     * Used for stone sign placement
-     */
-    /*@Override
-    public InteractionResult useOn(UseOnContext p_41427_) {
-        Level level = p_41427_.getLevel();
-        BlockPos pos = p_41427_.getClickedPos();
-        BlockState state = level.getBlockState(pos);
-        Player player = p_41427_.getPlayer();
-
-        if (SIGNS.containsKey(state.getBlock()) && !level.isClientSide) {
-            level.setBlock(pos, SIGNS.get(state.getBlock()).getDefaultState(), 2);
+    @Override
+    public InteractionResult useOn( UseOnContext pContext ){
+        BlockPos pPos = pContext.getClickedPos();
+        Level pLevel = pContext.getLevel();
+        if(BRICKS_BLOCKTAG.contains( pLevel.getBlockState( pPos ).getBlock() )){
+            String name = pLevel.getBlockState( pContext.getClickedPos() ).getBlock().getRegistryName().getPath();
+            pLevel.setBlockAndUpdate( pContext.getClickedPos() , ForgeRegistries.BLOCKS.getValue(
+                    new ResourceLocation( Oreganized.MOD_ID , "smooth_" + name ) )
+                    .defaultBlockState() );
+        }
+        if(ENGRAVEABLE_BLOCKTAG.contains( pLevel.getBlockState( pContext.getClickedPos() ).getBlock() )){
+            EngravedBlocks.Face clickedFace = getFaceFromDirection( pContext.getClickedFace() , pContext.getHorizontalDirection() );
+            if(!pLevel.isClientSide()){
+                ServerPlayer player = (ServerPlayer) pContext.getPlayer();
+                CHANNEL.sendTo( new BushHammerClickPacket( pPos , clickedFace , player.level.getBlockState( pPos ).getBlock() ) ,
+                        player.connection.getConnection() , NetworkDirection.PLAY_TO_CLIENT );
+                if (!player.gameMode.isCreative()) pContext.getItemInHand().hurt( 5 , new Random() , player );
+            }
             return InteractionResult.SUCCESS;
         }
-        return super.useOn(p_41427_);
-    }*/
+        return InteractionResult.PASS;
+    }
+
 
     /**
      * Called each tick while using an item.
@@ -74,8 +102,31 @@ public class BushHammer extends DiggerItem {
      * @return The amount of damage to pass to the vanilla logic
      */
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
-        return super.damageItem(stack, amount, entity, onBroken);
+    public <T extends LivingEntity> int damageItem( ItemStack stack , int amount , T entity , Consumer <T> onBroken ){
+        return super.damageItem( stack , amount , entity , onBroken );
+    }
+
+    private EngravedBlocks.Face getFaceFromDirection( Direction pClickedFace , Direction pLookingDirection ){
+        return switch(pClickedFace){
+            case DOWN -> switch(pLookingDirection){
+                case NORTH -> EngravedBlocks.Face.DOWN_N;
+                case SOUTH -> EngravedBlocks.Face.DOWN_S;
+                case WEST -> EngravedBlocks.Face.DOWN_W;
+                case EAST -> EngravedBlocks.Face.DOWN_E;
+                default -> EngravedBlocks.Face.DOWN_N;
+            };
+            case UP -> switch(pLookingDirection){
+                case NORTH -> EngravedBlocks.Face.UP_N;
+                case SOUTH -> EngravedBlocks.Face.UP_S;
+                case WEST -> EngravedBlocks.Face.UP_W;
+                case EAST -> EngravedBlocks.Face.UP_E;
+                default -> EngravedBlocks.Face.UP_N;
+            };
+            case NORTH -> EngravedBlocks.Face.FRONT;
+            case SOUTH -> EngravedBlocks.Face.BACK;
+            case WEST -> EngravedBlocks.Face.LEFT;
+            case EAST -> EngravedBlocks.Face.RIGHT;
+        };
     }
 
     /**
