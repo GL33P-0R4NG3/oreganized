@@ -34,7 +34,6 @@ public class GeneralUtility{
     }
 
     public static void handleClientEngravedBlocksSync( UpdateClientEngravedBlocks message ) {
-        ModEvents.recentlyChangedDimension = true;
         Level pLevel = Minecraft.getInstance().level;
         IEngravedBlocks pCap = pLevel.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
         pCap.setEngravedBlocks( message.engravedBlocks );
@@ -73,11 +72,7 @@ public class GeneralUtility{
                 }
             }
         }
-        int color = (brightestColorIntArr[0] << 16) + (brightestColorIntArr[1] << 8) + (brightestColorIntArr[2]);
-        if (maxBrightness > 325){
-            color = modifyColorBrightness( color , 0.4f );
-        }
-        return color;
+        return (brightestColorIntArr[0] << 16) + (brightestColorIntArr[1] << 8) + (brightestColorIntArr[2]);
     }
 
     public static int modifyColorBrightness(int color, float brightness){

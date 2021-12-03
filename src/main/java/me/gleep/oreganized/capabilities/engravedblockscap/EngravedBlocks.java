@@ -5,6 +5,7 @@ import me.gleep.oreganized.util.GeneralUtility;
 import me.gleep.oreganized.util.messages.UpdateServerEngravedBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -113,7 +114,6 @@ public class EngravedBlocks implements IEngravedBlocks, INBTSerializable<Compoun
             engravedBlocks.add( pos );
             engravedColors.put( pos, GeneralUtility.getBrightestColorFromBlock( Minecraft.getInstance().level.getBlockState( pos ).getBlock(), pos ) );
         }
-        Level level = Minecraft.getInstance().level;
         CHANNEL.sendToServer( new UpdateServerEngravedBlocks(engravedBlocks, engravedFaces, engravedColors) );
     }
 
@@ -174,23 +174,25 @@ public class EngravedBlocks implements IEngravedBlocks, INBTSerializable<Compoun
 
 
     public enum Face{
-        UP_N(new Vector3f(0.05f,1.0002f,0.19f), new Vector3f(90f,0f,0f)),
-        UP_S(new Vector3f(0.95f,1.0002f,0.81f), new Vector3f(90f,0f,180f)),
-        UP_W(new Vector3f(0.19f,1.0002f,0.95f), new Vector3f(90f,0f,-90f)),
-        UP_E(new Vector3f(0.81f,1.0002f,0.05f), new Vector3f(90f,0f,90f)),
-        DOWN_N(new Vector3f(0.95f,-0.0002f,0.19f), new Vector3f(-90f,0f,180f)),
-        DOWN_S(new Vector3f(0.05f,-0.0002f,0.81f), new Vector3f(-90f,0f,0f)),
-        DOWN_E(new Vector3f(0.81f,-0.0002f,0.95f), new Vector3f(-90f,0f,90f)),
-        DOWN_W(new Vector3f(0.19f,-0.0002f,0.05f), new Vector3f(-90f,0f,-90f)),
-        LEFT(new Vector3f(-0.0002f,0.81f,0.05f), new Vector3f(0f,90f,180f)),
-        RIGHT(new Vector3f(1.0002f,0.81f, 0.95f), new Vector3f(0f,-90f,180f)),
-        FRONT(new Vector3f(0.95f,0.81f,-0.0002f), new Vector3f(0f,0f,180f)),
-        BACK(new Vector3f(0.05f,0.81f, 1.0002f), new Vector3f(0f,180f,180f));
+        UP_N(new Vector3f(0.05f,1.0002f,0.19f), new Vector3f(90f,0f,0f), Direction.UP),
+        UP_S(new Vector3f(0.95f,1.0002f,0.81f), new Vector3f(90f,0f,180f), Direction.UP),
+        UP_W(new Vector3f(0.19f,1.0002f,0.95f), new Vector3f(90f,0f,-90f), Direction.UP),
+        UP_E(new Vector3f(0.81f,1.0002f,0.05f), new Vector3f(90f,0f,90f), Direction.UP),
+        DOWN_N(new Vector3f(0.95f,-0.0002f,0.19f), new Vector3f(-90f,0f,180f), Direction.DOWN),
+        DOWN_S(new Vector3f(0.05f,-0.0002f,0.81f), new Vector3f(-90f,0f,0f), Direction.DOWN),
+        DOWN_E(new Vector3f(0.81f,-0.0002f,0.95f), new Vector3f(-90f,0f,90f), Direction.DOWN),
+        DOWN_W(new Vector3f(0.19f,-0.0002f,0.05f), new Vector3f(-90f,0f,-90f), Direction.DOWN),
+        LEFT(new Vector3f(-0.0002f,0.81f,0.05f), new Vector3f(0f,90f,180f), Direction.WEST),
+        RIGHT(new Vector3f(1.0002f,0.81f, 0.95f), new Vector3f(0f,-90f,180f), Direction.EAST),
+        FRONT(new Vector3f(0.95f,0.81f,-0.0002f), new Vector3f(0f,0f,180f), Direction.NORTH),
+        BACK(new Vector3f(0.05f,0.81f, 1.0002f), new Vector3f(0f,180f,180f), Direction.SOUTH);
 
         public Vector3f translation;
         public Vector3f rotation;
+        public Direction direction;
 
-        Face( Vector3f translation, Vector3f rotation ){
+        Face( Vector3f translation, Vector3f rotation, Direction direction ) {
+            this.direction = direction;
             this.translation = translation;
             this.rotation = rotation;
         }

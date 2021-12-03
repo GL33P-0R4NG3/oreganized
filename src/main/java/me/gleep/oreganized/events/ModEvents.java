@@ -14,7 +14,6 @@ import net.minecraft.client.Camera;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -48,11 +47,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.PistonEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmllegacy.network.NetworkDirection;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import net.minecraftforge.fmllegacy.network.PacketDistributor;
-
-import java.util.Arrays;
 
 import static me.gleep.oreganized.Oreganized.MOD_ID;
 import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
@@ -279,86 +274,62 @@ public class ModEvents{
         if(recentlyActivatedPistonDelay == 0){
             recentlyActivatedPiston = false;
         }
-
-
-    }
-
-    @SubscribeEvent
-    public static void updatePistonDelayClient( TickEvent.ClientTickEvent event ){
-        if(recentlyActivatedPiston && recentlyActivatedPistonDelayClient == 0){
-            recentlyActivatedPistonDelayClient = 27;
-        }
-        if(recentlyActivatedPistonDelayClient > 0){
-            recentlyActivatedPistonDelayClient--;
-        }
-        if(recentlyActivatedPistonDelayClient == 0){
-            recentlyActivatedPiston = false;
-        }
-        if(recentlyChangedDimension && recentlyChangedDimensionDelay == 0){
-            recentlyChangedDimensionDelay = 20;
-        }
-        if(recentlyChangedDimensionDelay > 0){
-            recentlyChangedDimensionDelay--;
-        }
-        if(recentlyChangedDimensionDelay == 0){
-            recentlyChangedDimension = false;
-        }
     }
 
     @SubscribeEvent
     public static void updateEngravedBlocks( TickEvent.PlayerTickEvent event ){
-        IEngravedBlocks capability = event.player.level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY )
-                .orElse( null );
-        for(BlockPos pos : capability.getEngravedBlocks()){
-            if(!ENGRAVEABLE_BLOCKTAG.contains( event.player.level.getBlockState( pos ).getBlock() ) && !recentlyActivatedPiston && !recentlyChangedDimension){
-                capability.removeEngravedBlock( pos );
-                break;
+        Level level = event.player.level;
+        if(!level.isClientSide()){
+            IEngravedBlocks capability = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY )
+                    .orElse( null );
+            for(BlockPos pos : capability.getEngravedBlocks()){
+                if(!ENGRAVEABLE_BLOCKTAG.contains( event.player.level.getBlockState( pos ).getBlock() ) && !recentlyActivatedPiston){
+                    capability.removeEngravedBlock( pos );
+                    CHANNEL.send( PacketDistributor.ALL.noArg() , new UpdateClientEngravedBlocks( capability.getEngravedBlocks() ,
+                            capability.getEngravedFaces() , capability.getEngravedColors() ) );
+                    break;
+                }
             }
         }
     }
 
     @SubscribeEvent
     public static void onEngravedBlockMoved( PistonEvent.Pre event ){
-
         if(event.getWorld() instanceof Level){
             Level level = (Level) event.getWorld();
+            if(!level.isClientSide()){
                 PistonStructureResolver pistonHelper = event.getStructureHelper();
                 pistonHelper.resolve();
                 Direction pushDirection = pistonHelper.getPushDirection();
                 for(BlockPos oldPos : pistonHelper.getToPush()){
-                    if(!(level.getBlockState(event.getPos()).getBlock() == Blocks.PISTON && !event.getPistonMoveType().isExtend)){
+                    if(!(level.getBlockState( event.getPos() ).getBlock() == Blocks.PISTON && !event.getPistonMoveType().isExtend)){
                         BlockPos newPos = oldPos.relative( pushDirection );
                         IEngravedBlocks cap = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
-
-                        if(cap.isEngraved(oldPos)){
+                        if(cap.isEngraved( oldPos )){
                             cap.getEngravedBlocks().add( newPos );
                             cap.getEngravedFaces().put( newPos , cap.getEngravedFaces().get( oldPos ) );
                             cap.getEngravedColors().put( newPos , cap.getEngravedColors().get( oldPos ) );
-
+                            cap.getEngravedBlocks().remove( oldPos );
+                            cap.getEngravedFaces().remove( oldPos );
+                            cap.getEngravedColors().remove( oldPos );
+                            CHANNEL.send( PacketDistributor.ALL.noArg() ,
+                                    new UpdateClientEngravedBlocks( cap.getEngravedBlocks() , cap.getEngravedFaces() , cap.getEngravedColors() ) );
                         }
                     }
-                    if(!pistonHelper.getToPush().isEmpty()){
-                        recentlyActivatedPiston = true;
-                    }
                 }
+                if(!pistonHelper.getToPush().isEmpty()){
+                    recentlyActivatedPiston = true;
+                }
+            }
         }
     }
 
     @SubscribeEvent
-    public static void onPlayerLogin( PlayerEvent.PlayerChangedDimensionEvent event ){
-        recentlyChangedDimension = true;
-        ServerPlayer player = (ServerPlayer) event.getPlayer();
-        ServerLevel level = player.getLevel();
-        IEngravedBlocks cap = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
-        CHANNEL.send(PacketDistributor.DIMENSION.with( level::dimension ) , new UpdateClientEngravedBlocks( cap.getEngravedBlocks(), cap.getEngravedFaces(), cap.getEngravedColors() ));
-    }
-
-    @SubscribeEvent
     public static void onPlayerLogin( PlayerEvent.PlayerLoggedInEvent event ){
-        recentlyChangedDimension = true;
         ServerPlayer player = (ServerPlayer) event.getPlayer();
         ServerLevel level = player.getLevel();
         IEngravedBlocks cap = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
-        CHANNEL.send(PacketDistributor.DIMENSION.with( level::dimension ) , new UpdateClientEngravedBlocks( cap.getEngravedBlocks(), cap.getEngravedFaces(), cap.getEngravedColors() ));
+        CHANNEL.send( PacketDistributor.PLAYER.with( () -> player ) ,
+                new UpdateClientEngravedBlocks( cap.getEngravedBlocks() , cap.getEngravedFaces() , cap.getEngravedColors() ) );
     }
 }

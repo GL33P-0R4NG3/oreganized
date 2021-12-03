@@ -17,7 +17,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.17.1-1.0.0-aplha-1'
+version = '1.17.1-1.0.0-beta-2'
 group = 'me.gleep.oreganized' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'oreganized'
 
