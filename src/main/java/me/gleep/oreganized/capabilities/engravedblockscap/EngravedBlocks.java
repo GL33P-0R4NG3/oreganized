@@ -61,7 +61,6 @@ public class EngravedBlocks implements IEngravedBlocks, INBTSerializable<Compoun
             CompoundTag coords = block.getCompound( "POS" );
             CompoundTag faces = block.getCompound( "FACES" );
             BlockPos blockPos = new BlockPos( coords.getFloat( "X" ), coords.getFloat( "Y" ), coords.getFloat( "Z" ) );
-            System.out.println(blockPos);
             engravedBlocks.add( blockPos );
             HashMap <Face, String> facesmap = new HashMap <Face, String>(12);
             facesmap.put( Face.UP_N, faces.getString( "UP_N" ) );
@@ -128,7 +127,9 @@ public class EngravedBlocks implements IEngravedBlocks, INBTSerializable<Compoun
 
     @Override
     public String[] getStringArray(BlockPos pos, Face face ){
-        if(engravedFaces.get( pos ) != null) if(engravedFaces.get( pos ).get( face ) != null) return engravedFaces.get( pos ).get( face ).split( "\n" );
+        if(this.engravedFaces.get( pos ) != null) if(this.engravedFaces.get( pos ).get( face ) != null) {
+            return this.engravedFaces.get( pos ).get( face ).split( "\n" );
+        }
         return new String[0];
     }
 

@@ -50,24 +50,21 @@ public class EngravedBlockOverlayRenderer{
         IEngravedBlocks capability = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY,
                 null ).orElse( null );
 
-        if(capability.getEngravedBlocks().isEmpty() || ModEvents.recentlyActivatedPiston) return;
+        if(capability.getEngravedBlocks().isEmpty()) return;
 
         for(BlockPos pos : capability.getEngravedBlocks())
         {
-            if(mc.gameRenderer.getRenderDistance() < sqrt(mc.player.distanceToSqr( new Vec3(pos.getX(), pos.getY(), pos.getZ()) ))) break;
+            if(mc.gameRenderer.getRenderDistance() < sqrt(mc.player.distanceToSqr( new Vec3(pos.getX(), pos.getY(), pos.getZ()) ))) continue;
             for(EngravedBlocks.Face face : faces){
                 matrix.pushPose();
                 RenderSystem.enableDepthTest();
                 matrix.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
                 matrix.translate(pos.getX() + face.translation.x(),pos.getY() + face.translation.y(),pos.getZ() + face.translation.z());
-                //matrix.translate(pos.getX() + face.translation.x(),pos.getY() + face.translation.y(),pos.getZ() + 0.95f);
                 matrix.scale( 0.01f, 0.01f, 0.01f );
                 matrix.mulPose( Vector3f.XP.rotationDegrees( face.rotation.x() ) );
                 matrix.mulPose( Vector3f.YP.rotationDegrees( face.rotation.y() ) );
                 matrix.mulPose( Vector3f.ZP.rotationDegrees( face.rotation.z() ) );
-                /*matrix.mulPose( Vector3f.XP.rotationDegrees( face.rotation.x() ) );
-                matrix.mulPose( Vector3f.YP.rotationDegrees( face.rotation.y() ) );
-                matrix.mulPose( Vector3f.ZP.rotationDegrees( -90 ) );*/
+
                 if(capability.getStringArray( pos, face ) != null){
                     int pPackedLight = ev.getContext().getLightColor(level, pos.relative( face.direction ));
                     MultiBufferSource.BufferSource multibuffersource$buffersource = mc.renderBuffers().bufferSource();
@@ -86,5 +83,4 @@ public class EngravedBlockOverlayRenderer{
             }
         }
     }
-
 }

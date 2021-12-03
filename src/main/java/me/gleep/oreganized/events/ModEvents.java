@@ -254,14 +254,10 @@ public class ModEvents{
         }
     }
 
+    // ENGRAVING HANDLING STARTS HERE
+
     public static boolean recentlyActivatedPiston = false;
     public static byte recentlyActivatedPistonDelay = 0;
-    public static byte recentlyActivatedPistonDelayClient = 0;
-    public static boolean recentlyChangedDimension = false;
-    public static byte recentlyChangedDimensionDelay = 0;
-
-
-    // ENGRAVING HANDLING STARTS HERE
 
     @SubscribeEvent
     public static void updatePistonDelay( TickEvent.ServerTickEvent event ){

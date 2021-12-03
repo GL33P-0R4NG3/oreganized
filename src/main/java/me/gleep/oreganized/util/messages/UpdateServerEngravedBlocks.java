@@ -111,7 +111,7 @@ public class UpdateServerEngravedBlocks{
                     pLevel.setBlockAndUpdate( pos , pLevel.getBlockState( pos ).setValue( ISZAXISDOWN , !Objects.equals( pCap.getString( pos , EngravedBlocks.Face.DOWN_N ) , pCap.getString( pos , EngravedBlocks.Face.DOWN_S ) ) ) );
                 }
             }
-            CHANNEL.send( PacketDistributor.DIMENSION.with( pLevel::dimension ), new UpdateClientEngravedBlocks( pCap.getEngravedBlocks(), pCap.getEngravedFaces(), pCap.getEngravedColors() ) );
+            CHANNEL.send( PacketDistributor.ALL.noArg(), new UpdateClientEngravedBlocks( pCap.getEngravedBlocks(), pCap.getEngravedFaces(), pCap.getEngravedColors() ) );
         });
         context.setPacketHandled(true);
     }

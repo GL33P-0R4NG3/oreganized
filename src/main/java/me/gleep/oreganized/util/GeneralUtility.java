@@ -36,7 +36,7 @@ public class GeneralUtility{
     public static void handleClientEngravedBlocksSync( UpdateClientEngravedBlocks message ) {
         Level pLevel = Minecraft.getInstance().level;
         IEngravedBlocks pCap = pLevel.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
-        pCap.setEngravedBlocks( message.engravedBlocks );
+        pCap.setEngravedBlocks(message.engravedBlocks );
         pCap.setEngravedFaces(message.engravedFaces);
         pCap.setEngravedColors(message.engravedColors);
     }
