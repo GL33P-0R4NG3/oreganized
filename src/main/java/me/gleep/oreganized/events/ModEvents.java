@@ -189,12 +189,12 @@ public class ModEvents{
             if(event.getEntityLiving() instanceof Player player){
                 for(int i = 0; i < 9; i++){
                     if(ItemTags.getAllTags().getTag( new ResourceLocation( "forge" , "ingots/lead" ) ).contains( player.getInventory().items.get( i ).getItem() )){
-                        player.addEffect( new MobEffectInstance( ModPotions.STUNNING , 40 * 20 ) );
+                        player.addEffect( new MobEffectInstance( ModPotions.STUNNED , 40 * 20 ) );
                         return;
                     }
                 }
                 if(ItemTags.getAllTags().getTag( new ResourceLocation( "forge" , "ingots/lead" ) ).contains( player.getInventory().offhand.get( 0 ).getItem() )){
-                    player.addEffect( new MobEffectInstance( ModPotions.STUNNING , 40 * 20 ) );
+                    player.addEffect( new MobEffectInstance( ModPotions.STUNNED , 40 * 20 ) );
                 }
             }
         }
@@ -322,6 +322,15 @@ public class ModEvents{
 
     @SubscribeEvent
     public static void onPlayerLogin( PlayerEvent.PlayerLoggedInEvent event ){
+        ServerPlayer player = (ServerPlayer) event.getPlayer();
+        ServerLevel level = player.getLevel();
+        IEngravedBlocks cap = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
+        CHANNEL.send( PacketDistributor.PLAYER.with( () -> player ) ,
+                new UpdateClientEngravedBlocks( cap.getEngravedBlocks() , cap.getEngravedFaces() , cap.getEngravedColors() ) );
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLogin( PlayerEvent.PlayerChangedDimensionEvent event ){
         ServerPlayer player = (ServerPlayer) event.getPlayer();
         ServerLevel level = player.getLevel();
         IEngravedBlocks cap = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );

@@ -7,11 +7,9 @@ import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
-import me.gleep.oreganized.events.ModEvents;
 import me.gleep.oreganized.util.GeneralUtility;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -41,8 +39,7 @@ public class EngravedBlockOverlayRenderer{
             EngravedBlocks.Face.RIGHT
     };
     @SubscribeEvent
-    public static void renderEngravedBlocksOverlay( RenderWorldLastEvent ev )
-    {
+    public static void renderEngravedBlocksOverlay( RenderWorldLastEvent ev ){
         Minecraft mc = Minecraft.getInstance();
         Level level = mc.player.level;
         PoseStack matrix = ev.getMatrixStack();
@@ -52,8 +49,7 @@ public class EngravedBlockOverlayRenderer{
 
         if(capability.getEngravedBlocks().isEmpty()) return;
 
-        for(BlockPos pos : capability.getEngravedBlocks())
-        {
+        for(BlockPos pos : capability.getEngravedBlocks()){
             if(mc.gameRenderer.getRenderDistance() < sqrt(mc.player.distanceToSqr( new Vec3(pos.getX(), pos.getY(), pos.getZ()) ))) continue;
             for(EngravedBlocks.Face face : faces){
                 matrix.pushPose();
