@@ -1,8 +1,10 @@
 package me.gleep.oreganized;
 
 import me.gleep.oreganized.armors.STABase;
+import me.gleep.oreganized.capabilities.CapabilityHandler;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.RegistryHandler;
+import me.gleep.oreganized.util.SimpleNetwork;
 import me.gleep.oreganized.world.gen.CustomOreGen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -15,6 +17,7 @@ import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -35,15 +38,16 @@ public class Oreganized {
         //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::particleFactoryRegistrationEvent);
 
         RegistryHandler.init();
+        MinecraftForge.EVENT_BUS.register( new CapabilityHandler() );
     }
 
     private void setup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             CustomOreGen.registerOres();
         });
-        /*event.enqueueWork(() -> {
+        event.enqueueWork(() -> {
             SimpleNetwork.register();
-        });*/
+        });
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

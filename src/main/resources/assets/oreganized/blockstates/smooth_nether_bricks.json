@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "iszaxisup=true,iszaxisdown=true": {
+      "model": "oreganized:block/smooth_nether_bricks"
+    },
+    "iszaxisup=false,iszaxisdown=false": {
+      "model": "oreganized:block/smooth_nether_bricks",
+      "y": 90
+    },
+    "iszaxisup=true,iszaxisdown=false": {
+      "model": "oreganized:block/smooth_nether_bricks_rotated_bottom"
+    },
+    "iszaxisup=false,iszaxisdown=true": {
+      "model": "oreganized:block/smooth_nether_bricks_rotated_bottom",
+      "y": 90
+    }
+  }
+}

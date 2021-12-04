@@ -1,6 +1,5 @@
 package me.gleep.oreganized.util;
 
-import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.*;
 import me.gleep.oreganized.blocks.*;
 import me.gleep.oreganized.entities.tileentities.ExposerBlockEntity;
@@ -10,30 +9,38 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import static me.gleep.oreganized.Oreganized.MOD_ID;
+
 public class RegistryHandler {
     //Mod
     //public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Oreganized.MOD_ID);
-    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Oreganized.MOD_ID);
-    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Oreganized.MOD_ID);
-    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Oreganized.MOD_ID);
-    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Oreganized.MOD_ID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Oreganized.MOD_ID);
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Oreganized.MOD_ID);
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Oreganized.MOD_ID);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, MOD_ID);
+    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
+    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
+    public static final DeferredRegister<MenuType <?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, MOD_ID);
     //private static final DeferredRegister<IRecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, OreExpansion.MOD_ID);
 
     public static void init() {
@@ -62,9 +69,9 @@ public class RegistryHandler {
 
 
     /*//////////////////////////////////            SOUND EVENTS            //////////////////////////////////*/
-    public static final RegistryObject<SoundEvent> MUSIC_DISC_PILLAGED = SOUND_EVENTS.register("music_disc.pillaged", () -> new SoundEvent(new ResourceLocation(Oreganized.MOD_ID, "music_disc.pillaged")));
-    public static final RegistryObject<SoundEvent> MUSIC_DISC_18 = SOUND_EVENTS.register("music_disc.18", () -> new SoundEvent(new ResourceLocation(Oreganized.MOD_ID, "music_disc.18")));
-    public static final RegistryObject<SoundEvent> MUSIC_DISC_SHULK = SOUND_EVENTS.register("music_disc.shulk", () -> new SoundEvent(new ResourceLocation(Oreganized.MOD_ID, "music_disc.shulk")));
+    public static final RegistryObject<SoundEvent> MUSIC_DISC_PILLAGED = SOUND_EVENTS.register("music_disc.pillaged", () -> new SoundEvent(new ResourceLocation( MOD_ID, "music_disc.pillaged")));
+    public static final RegistryObject<SoundEvent> MUSIC_DISC_18 = SOUND_EVENTS.register("music_disc.18", () -> new SoundEvent(new ResourceLocation( MOD_ID, "music_disc.18")));
+    public static final RegistryObject<SoundEvent> MUSIC_DISC_SHULK = SOUND_EVENTS.register("music_disc.shulk", () -> new SoundEvent(new ResourceLocation( MOD_ID, "music_disc.shulk")));
 
 
     /*//////////////////////////////////            EFFECTS            //////////////////////////////////*/
@@ -136,6 +143,12 @@ public class RegistryHandler {
     public static final RegistryObject<Block> CUT_BLASTED_IRON_BLOCK = BLOCKS.register("cut_blasted_iron_block", () -> new Block(BlockBehaviour.Properties.copy(BLASTED_IRON_BLOCK.get())));
     public static final RegistryObject<Block> TECHNICAL_NETHERITE_BLOCK = BLOCKS.register("technical_netherite_block", TechnicalNetheriteBlock::new);
     public static final RegistryObject<Block> CUT_TECHNICAL_NETHERITE_BLOCK = BLOCKS.register("cut_technical_netherite_block", TechnicalNetheriteBlock::new);
+
+    //Smooth Bricks
+    public static final RegistryObject<Block> SMOOTH_NETHER_BRICKS = BLOCKS.register("smooth_nether_bricks",
+            () -> new ChiseledBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops()
+                    .strength(2.0F, 6.0F).sound(SoundType.NETHER_BRICKS)));
+
     //public static final RegistryObject<Block> STONE = BLOCKS.register("stone", () -> new StoneSign(BlockBehaviour.Properties.copy(Blocks.STONE)));
     //public static final RegistryObject<Block> STONE_BRICKS = BLOCKS.register("stone_bricks", () -> new StoneSign(BlockBehaviour.Properties.copy(Blocks.STONE_BRICKS)));
     //public static final RegistryObject<Block> POLISHED_BLACKSTONE_BRICKS = BLOCKS.register("polished_blackstone_bricks", () -> new StoneSign(AbstractBlock.Properties.from(Blocks.POLISHED_BLACKSTONE_BRICKS)));
@@ -283,7 +296,6 @@ public class RegistryHandler {
             StoneSignTileEntity::new, STONE.get(), STONE_BRICKS.get()).build(null)
     );*/
 
-
     /*//////////////////////////////////            TOOLS            //////////////////////////////////*/
     public static final RegistryObject<SwordItem> SILVER_TINTED_GOLDEN_SWORD = ITEMS.register("silver_tinted_golden_sword", () ->
             new STSBase(Tiers.GOLD, 3, -2.4F)
@@ -337,4 +349,7 @@ public class RegistryHandler {
             new STABase(ArmorMaterials.NETHERITE, EquipmentSlot.FEET)
     );
 
+    /*//////////////////////////////////            BLOCKTAGS            //////////////////////////////////*/
+    public static final Tag.Named<Block> ENGRAVEABLE_BLOCKTAG = BlockTags.bind(MOD_ID + ":engraveable");
+    public static final Tag.Named<Block> BRICKS_BLOCKTAG = BlockTags.bind(MOD_ID + ":bricks");
 }

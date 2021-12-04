@@ -1,30 +1,30 @@
 package me.gleep.oreganized.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.blocks.ModCauldron;
+import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBlocks;
+import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
 import me.gleep.oreganized.items.BushHammer;
 import me.gleep.oreganized.potion.ModPotions;
 import me.gleep.oreganized.tools.STSBase;
-import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
+import me.gleep.oreganized.util.messages.UpdateClientEngravedBlocks;
 import net.minecraft.client.Camera;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -32,79 +32,85 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.piston.PistonStructureResolver;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.event.world.NoteBlockEvent;
+import net.minecraftforge.event.world.PistonEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fmllegacy.network.PacketDistributor;
 
-@Mod.EventBusSubscriber(modid = Oreganized.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ModEvents {
+import static me.gleep.oreganized.Oreganized.MOD_ID;
+import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
+import static me.gleep.oreganized.util.SimpleNetwork.CHANNEL;
+
+@Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+public class ModEvents{
     /**
      * Event to handle Silver Tintend Swords break
      */
     @SubscribeEvent
-    public static void onToolBreakEvent(final PlayerDestroyItemEvent event) {
+    public static void onToolBreakEvent( final PlayerDestroyItemEvent event ){
         ItemStack stack = event.getOriginal();
         Player pl = event.getPlayer();
         ItemStack item = ItemStack.EMPTY;
 
-        if (stack.getItem() instanceof STSBase) {
-            int count = (int) Math.round(((double) stack.getOrCreateTag().getInt("TintedDamage") / (double) STSBase.MAX_TINT_DURABILITY) * 9D);
-            item = new ItemStack(RegistryHandler.SILVER_NUGGET.get(), count);
-        } else if (stack.getItem() instanceof STABase) {
-            int count = (int) Math.round(((double) stack.getOrCreateTag().getInt("TintedDamage") / (double) STABase.MAX_TINT_DURABILITY) * 9D);
-            item = new ItemStack(RegistryHandler.SILVER_NUGGET.get(), count);
+        if(stack.getItem() instanceof STSBase){
+            int count = (int) Math.round( ((double) stack.getOrCreateTag().getInt( "TintedDamage" ) / (double) STSBase.MAX_TINT_DURABILITY) * 9D );
+            item = new ItemStack( RegistryHandler.SILVER_NUGGET.get() , count );
+        }else if(stack.getItem() instanceof STABase){
+            int count = (int) Math.round( ((double) stack.getOrCreateTag().getInt( "TintedDamage" ) / (double) STABase.MAX_TINT_DURABILITY) * 9D );
+            item = new ItemStack( RegistryHandler.SILVER_NUGGET.get() , count );
         }
 
-        pl.drop(item, true);
+        pl.drop( item , true );
     }
 
     /**
      * Event to handle Cauldron replacement
      */
     @SubscribeEvent
-    public static void onPlayerRightClick(final PlayerInteractEvent.RightClickBlock event) {
+    public static void onPlayerRightClick( final PlayerInteractEvent.RightClickBlock event ){
         ItemStack item = event.getItemStack();
         BlockPos pos = event.getPos();
         Level level = event.getWorld();
 
-        if (level.getBlockState(pos).equals(Blocks.CAULDRON.defaultBlockState())) {
-            if (item.getItem().equals(RegistryHandler.LEAD_BLOCK_ITEM.get())) {
-                if (!level.isClientSide()) {
-                    level.removeBlock(pos, false);
-                    level.setBlockAndUpdate(pos, RegistryHandler.LEAD_CAULDRON.get().defaultBlockState());
-                    if (!event.getPlayer().isCreative()) item.shrink(1);
-                    level.playSound((Player) null, pos, SoundEvents.STONE_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    event.getPlayer().awardStat(Stats.USE_CAULDRON);
+        if(level.getBlockState( pos ).equals( Blocks.CAULDRON.defaultBlockState() )){
+            if(item.getItem().equals( RegistryHandler.LEAD_BLOCK_ITEM.get() )){
+                if(!level.isClientSide()){
+                    level.removeBlock( pos , false );
+                    level.setBlockAndUpdate( pos , RegistryHandler.LEAD_CAULDRON.get().defaultBlockState() );
+                    if(!event.getPlayer().isCreative()) item.shrink( 1 );
+                    level.playSound( (Player) null , pos , SoundEvents.STONE_PLACE , SoundSource.BLOCKS , 1.0F , 1.0F );
+                    event.getPlayer().awardStat( Stats.USE_CAULDRON );
                 }
 
-                if (event.isCancelable()) {
-                    event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide()));
-                    event.setCanceled(true);
+                if(event.isCancelable()){
+                    event.setCancellationResult( InteractionResult.sidedSuccess( level.isClientSide() ) );
+                    event.setCanceled( true );
                 }
-            } else if (item.getItem().equals(RegistryHandler.MOLTEN_LEAD_BUCKET.get())) {
-                if (!level.isClientSide()) {
-                    level.removeBlock(pos, false);
-                    level.setBlockAndUpdate(pos, RegistryHandler.LEAD_CAULDRON.get().defaultBlockState().setValue(ModCauldron.LEVEL, 3));
-                    if (!event.getPlayer().isCreative()) event.getPlayer().setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BUCKET, 1));
-                    level.playSound((Player) null, pos, SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    event.getPlayer().awardStat(Stats.USE_CAULDRON);
+            }else if(item.getItem().equals( RegistryHandler.MOLTEN_LEAD_BUCKET.get() )){
+                if(!level.isClientSide()){
+                    level.removeBlock( pos , false );
+                    level.setBlockAndUpdate( pos , RegistryHandler.LEAD_CAULDRON.get().defaultBlockState().setValue( ModCauldron.LEVEL , 3 ) );
+                    if(!event.getPlayer().isCreative())
+                        event.getPlayer().setItemInHand( InteractionHand.MAIN_HAND , new ItemStack( Items.BUCKET , 1 ) );
+                    level.playSound( (Player) null , pos , SoundEvents.BUCKET_EMPTY_LAVA , SoundSource.BLOCKS , 1.0F , 1.0F );
+                    event.getPlayer().awardStat( Stats.USE_CAULDRON );
                 }
 
-                if (event.isCancelable()) {
-                    event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide()));
-                    event.setCanceled(true);
+                if(event.isCancelable()){
+                    event.setCancellationResult( InteractionResult.sidedSuccess( level.isClientSide() ) );
+                    event.setCanceled( true );
                 }
             }
         }
@@ -157,20 +163,20 @@ public class ModEvents {
      */
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onBlockDestroyed(BlockEvent.BreakEvent event) {
+    public static void onBlockDestroyed( BlockEvent.BreakEvent event ){
         LevelAccessor world = event.getWorld();
         BlockPos pos = event.getPos();
-        BlockState state = world.getBlockState(pos);
-        ItemStack currentitem = event.getPlayer().getItemInHand(event.getPlayer().getUsedItemHand());
+        BlockState state = world.getBlockState( pos );
+        ItemStack currentitem = event.getPlayer().getItemInHand( event.getPlayer().getUsedItemHand() );
 
-        if (currentitem.getItem().equals(RegistryHandler.BUSH_HAMMER.get())) {
-            for (Block b : BushHammer.EFFECTIVE_ON.keySet()) {
-                if (state.getBlock().equals(b) && !event.getPlayer().isCreative()) {
-                    world.setBlock(pos, BushHammer.EFFECTIVE_ON.get(b).defaultBlockState(), 2);
-                    currentitem.hurtAndBreak(1, event.getPlayer(), (player) -> {
-                        player.broadcastBreakEvent(event.getPlayer().getUsedItemHand());
-                    });
-                    event.setCanceled(true);
+        if(currentitem.getItem().equals( RegistryHandler.BUSH_HAMMER.get() )){
+            for(Block b : BushHammer.EFFECTIVE_ON.keySet()){
+                if(state.getBlock().equals( b ) && !event.getPlayer().isCreative()){
+                    world.setBlock( pos , BushHammer.EFFECTIVE_ON.get( b ).defaultBlockState() , 2 );
+                    currentitem.hurtAndBreak( 1 , event.getPlayer() , ( player ) -> {
+                        player.broadcastBreakEvent( event.getPlayer().getUsedItemHand() );
+                    } );
+                    event.setCanceled( true );
                 }
             }
         }
@@ -178,17 +184,17 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void applyLeadEffect(LivingEntityUseItemEvent.Finish event){
+    public static void applyLeadEffect( LivingEntityUseItemEvent.Finish event ){
         if(event.getItem().getItem().isEdible()){
             if(event.getEntityLiving() instanceof Player player){
-                for(int i=0;i<9;i++){
-                    if(ItemTags.getAllTags().getTag(new ResourceLocation("forge","ingots/lead")).contains(player.getInventory().items.get(i).getItem())){
-                        player.addEffect(new MobEffectInstance(ModPotions.STUNNING,40*20));
+                for(int i = 0; i < 9; i++){
+                    if(ItemTags.getAllTags().getTag( new ResourceLocation( "forge" , "ingots/lead" ) ).contains( player.getInventory().items.get( i ).getItem() )){
+                        player.addEffect( new MobEffectInstance( ModPotions.STUNNED , 40 * 20 ) );
                         return;
                     }
                 }
-                if(ItemTags.getAllTags().getTag(new ResourceLocation("forge","ingots/lead")).contains(player.getInventory().offhand.get(0).getItem())){
-                    player.addEffect(new MobEffectInstance(ModPotions.STUNNING,40*20));
+                if(ItemTags.getAllTags().getTag( new ResourceLocation( "forge" , "ingots/lead" ) ).contains( player.getInventory().offhand.get( 0 ).getItem() )){
+                    player.addEffect( new MobEffectInstance( ModPotions.STUNNED , 40 * 20 ) );
                 }
             }
         }
@@ -199,14 +205,14 @@ public class ModEvents {
      */
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void getFogDensity(EntityViewRenderEvent.FogDensity event) {
+    public static void getFogDensity( EntityViewRenderEvent.FogDensity event ){
         Camera info = event.getInfo();
         BlockState blockState = info.getBlockAtCamera();
 
-        if (blockState.getBlock().equals(RegistryHandler.MOLTEN_LEAD_BLOCK.get())) {
+        if(blockState.getBlock().equals( RegistryHandler.MOLTEN_LEAD_BLOCK.get() )){
             RenderSystem.enableCull();
-            event.setDensity(1.4F);
-            event.setCanceled(true);
+            event.setDensity( 1.4F );
+            event.setCanceled( true );
         }
     }
 
@@ -215,37 +221,120 @@ public class ModEvents {
      */
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void getFogColor(EntityViewRenderEvent.FogColors event) {
+    public static void getFogColor( EntityViewRenderEvent.FogColors event ){
         Camera info = event.getInfo();
         BlockState blockState = info.getBlockAtCamera();
 
-        if (blockState.getBlock().equals(RegistryHandler.MOLTEN_LEAD_BLOCK.get())) {
-            event.setRed(57F / 256F);
-            event.setGreen(57F / 256F);
-            event.setBlue(95F / 256F);
+        if(blockState.getBlock().equals( RegistryHandler.MOLTEN_LEAD_BLOCK.get() )){
+            event.setRed( 57F / 256F );
+            event.setGreen( 57F / 256F );
+            event.setBlue( 95F / 256F );
         }
     }
 
     @SubscribeEvent
-    public static void onEntityDeath(LivingDeathEvent event) {
-        if (event.getSource().getDirectEntity() instanceof Player) {
+    public static void onEntityDeath( LivingDeathEvent event ){
+        if(event.getSource().getDirectEntity() instanceof Player){
             Player player = (Player) event.getSource().getDirectEntity();
             LivingEntity living = event.getEntityLiving();
 
-            if (living.isInvertedHealAndHarm()) {
+            if(living.isInvertedHealAndHarm()){
                 CompoundTag nbt = new CompoundTag();
-                nbt.putLong("t", player.level.getGameTime());
-                nbt.putBoolean("Shine", true);
+                nbt.putLong( "t" , player.level.getGameTime() );
+                nbt.putBoolean( "Shine" , true );
 
-                for (ItemStack stack: player.getInventory().items) {
-                    if (stack.getItem().equals(RegistryHandler.SILVER_INGOT.get())) stack.setTag(nbt);
+                for(ItemStack stack : player.getInventory().items){
+                    if(stack.getItem().equals( RegistryHandler.SILVER_INGOT.get() )) stack.setTag( nbt );
                 }
 
-                if (player.getInventory().offhand.get(0).getItem().equals(RegistryHandler.SILVER_INGOT.get())) {
-                    player.getInventory().offhand.get(0).setTag(nbt);
+                if(player.getInventory().offhand.get( 0 ).getItem().equals( RegistryHandler.SILVER_INGOT.get() )){
+                    player.getInventory().offhand.get( 0 ).setTag( nbt );
                 }
             }
         }
     }
 
+    // ENGRAVING HANDLING STARTS HERE
+
+    public static boolean recentlyActivatedPiston = false;
+    public static byte recentlyActivatedPistonDelay = 0;
+
+    @SubscribeEvent
+    public static void updatePistonDelay( TickEvent.ServerTickEvent event ){
+        if(recentlyActivatedPiston && recentlyActivatedPistonDelay == 0){
+            recentlyActivatedPistonDelay = 20;
+        }
+        if(recentlyActivatedPistonDelay > 0){
+            recentlyActivatedPistonDelay--;
+        }
+        if(recentlyActivatedPistonDelay == 0){
+            recentlyActivatedPiston = false;
+        }
+    }
+
+    @SubscribeEvent
+    public static void updateEngravedBlocks( TickEvent.PlayerTickEvent event ){
+        Level level = event.player.level;
+        if(!level.isClientSide()){
+            IEngravedBlocks capability = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY )
+                    .orElse( null );
+            for(BlockPos pos : capability.getEngravedBlocks()){
+                if(!ENGRAVEABLE_BLOCKTAG.contains( event.player.level.getBlockState( pos ).getBlock() ) && !recentlyActivatedPiston){
+                    capability.removeEngravedBlock( pos );
+                    CHANNEL.send( PacketDistributor.ALL.noArg() , new UpdateClientEngravedBlocks( capability.getEngravedBlocks() ,
+                            capability.getEngravedFaces() , capability.getEngravedColors() ) );
+                    break;
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEngravedBlockMoved( PistonEvent.Pre event ){
+        if(event.getWorld() instanceof Level){
+            Level level = (Level) event.getWorld();
+            if(!level.isClientSide()){
+                PistonStructureResolver pistonHelper = event.getStructureHelper();
+                pistonHelper.resolve();
+                Direction pushDirection = pistonHelper.getPushDirection();
+                for(BlockPos oldPos : pistonHelper.getToPush()){
+                    if(!(level.getBlockState( event.getPos() ).getBlock() == Blocks.PISTON && !event.getPistonMoveType().isExtend)){
+                        BlockPos newPos = oldPos.relative( pushDirection );
+                        IEngravedBlocks cap = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
+                        if(cap.isEngraved( oldPos )){
+                            cap.getEngravedBlocks().add( newPos );
+                            cap.getEngravedFaces().put( newPos , cap.getEngravedFaces().get( oldPos ) );
+                            cap.getEngravedColors().put( newPos , cap.getEngravedColors().get( oldPos ) );
+                            cap.getEngravedBlocks().remove( oldPos );
+                            cap.getEngravedFaces().remove( oldPos );
+                            cap.getEngravedColors().remove( oldPos );
+                            CHANNEL.send( PacketDistributor.ALL.noArg() ,
+                                    new UpdateClientEngravedBlocks( cap.getEngravedBlocks() , cap.getEngravedFaces() , cap.getEngravedColors() ) );
+                        }
+                    }
+                }
+                if(!pistonHelper.getToPush().isEmpty()){
+                    recentlyActivatedPiston = true;
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLogin( PlayerEvent.PlayerLoggedInEvent event ){
+        ServerPlayer player = (ServerPlayer) event.getPlayer();
+        ServerLevel level = player.getLevel();
+        IEngravedBlocks cap = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
+        CHANNEL.send( PacketDistributor.PLAYER.with( () -> player ) ,
+                new UpdateClientEngravedBlocks( cap.getEngravedBlocks() , cap.getEngravedFaces() , cap.getEngravedColors() ) );
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLogin( PlayerEvent.PlayerChangedDimensionEvent event ){
+        ServerPlayer player = (ServerPlayer) event.getPlayer();
+        ServerLevel level = player.getLevel();
+        IEngravedBlocks cap = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
+        CHANNEL.send( PacketDistributor.PLAYER.with( () -> player ) ,
+                new UpdateClientEngravedBlocks( cap.getEngravedBlocks() , cap.getEngravedFaces() , cap.getEngravedColors() ) );
+    }
 }

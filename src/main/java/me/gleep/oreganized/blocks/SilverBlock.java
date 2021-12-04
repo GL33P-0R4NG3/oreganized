@@ -1,6 +1,7 @@
 package me.gleep.oreganized.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -55,19 +56,25 @@ public class SilverBlock extends Block {
     }
 
     @Override
-    public void animateTick(BlockState p_49888_, Level p_49889_, BlockPos p_49890_, Random p_49891_) {
+    public void onPlace( BlockState pState , Level pLevel , BlockPos pPos , BlockState pOldState , boolean pIsMoving ){
+        pLevel.getBlockTicks().scheduleTick( pPos, pState.getBlock(), 1);
+        super.onPlace( pState , pLevel , pPos , pOldState , pIsMoving );
+    }
+
+    @Override
+    public void tick( BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
         int dist = 8;
 
-        List<Entity> list = p_49889_.getEntities((Entity) null,
-                new AABB(p_49890_.getX() + RANGE, p_49890_.getY() + RANGE, p_49890_.getZ() + RANGE,
-                        p_49890_.getX() - RANGE, p_49890_.getY() - RANGE, p_49890_.getZ() - RANGE), (Entity entity) -> entity instanceof LivingEntity
+        List<Entity> list = pLevel.getEntities((Entity) null,
+                new AABB(pPos.getX() + RANGE, pPos.getY() + RANGE, pPos.getZ() + RANGE,
+                        pPos.getX() - RANGE, pPos.getY() - RANGE, pPos.getZ() - RANGE), (Entity entity) -> entity instanceof LivingEntity
         );
 
         for (Entity e : list) {
             LivingEntity living = (LivingEntity) e;
             if (living.isInvertedHealAndHarm()) {
                 isUndeadNearby = true;
-                double distance = Math.sqrt(living.distanceToSqr(p_49890_.getX(), p_49890_.getY(), p_49890_.getZ()));
+                double distance = Math.sqrt(living.distanceToSqr(pPos.getX(), pPos.getY(), pPos.getZ()));
                 if (((int) Math.ceil(distance / (RANGE / 8))) < dist) {
                     dist = (int) Math.ceil(distance / (RANGE / 8));
 
@@ -81,6 +88,7 @@ public class SilverBlock extends Block {
         if (!isUndeadNearby) {
             dist = 8;
         }
-        p_49889_.setBlockAndUpdate(p_49890_, p_49888_.setValue(LEVEL, dist - 1));
+        pLevel.setBlockAndUpdate(pPos, pState.setValue(LEVEL, dist - 1));
+        pLevel.getBlockTicks().scheduleTick( pPos, pState.getBlock(), 1);
     }
 }

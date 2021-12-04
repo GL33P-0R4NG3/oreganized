@@ -1,8 +1,6 @@
-package me.gleep.oreganized.util.messages;
+package me.gleep.oreganized.util.messages.old;
 
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fmllegacy.network.ICustomPacket;
 import net.minecraftforge.fmllegacy.network.NetworkEvent;
 

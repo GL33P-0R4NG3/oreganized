@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "oreganized:block/smooth_nether_bricks",
+    "bottom": "oreganized:block/smooth_nether_bricks_rotated",
+    "side": "oreganized:block/smooth_nether_bricks"
+  }
+}

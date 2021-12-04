@@ -1,4 +1,4 @@
-package me.gleep.oreganized.util.messages;
+package me.gleep.oreganized.util.messages.old;
 
 import net.minecraft.core.BlockPos;
 
