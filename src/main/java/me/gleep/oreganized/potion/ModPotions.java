@@ -42,7 +42,7 @@ public class ModPotions{
 
         @Override
         public void applyEffectTick( LivingEntity pLivingEntity , int pAmplifier ){
-            pLivingEntity.setDeltaMovement( -pLivingEntity.getDeltaMovement().x  , -100 , -pLivingEntity.getDeltaMovement().z );
+            pLivingEntity.setDeltaMovement( -pLivingEntity.getDeltaMovement().x()  , -200 , -pLivingEntity.getDeltaMovement().z() );
             pLivingEntity.setOnGround( false );
         }
     };
