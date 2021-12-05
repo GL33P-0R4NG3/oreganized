@@ -206,6 +206,12 @@ public class ModEvents{
                             List<ItemStack> stacks = new ArrayList<>();
                             int resultCount = recipe.getResultItem().getCount();
 
+                            for (Block b : BlockTags.getAllTags().getTag(new ResourceLocation("minecraft", "stairs")).getValues()) {
+                                if (b.getRegistryName().getPath().equals(blockName)) {
+                                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), ingredients.get(0).getItems()[0]);
+                                }
+                            }
+
                             for (Ingredient i : ingredients) {
                                 boolean added = false;
 
@@ -221,15 +227,13 @@ public class ModEvents{
                                     if (added) break;
                                 }
 
-                                if (added) continue;
+                                if (added || i.getItems().length <= 0) continue;
 
-                                if (i.getItems().length > 0) {
-                                    int randItem = level.getRandom().nextInt(i.getItems().length);
-                                    ItemStack stack = new ItemStack(i.getItems()[randItem].getItem());
-                                    stack.setCount(1);
+                                int randItem = level.getRandom().nextInt(i.getItems().length);
+                                ItemStack stack = new ItemStack(i.getItems()[randItem].getItem());
+                                stack.setCount(1);
 
-                                    stacks.add(stack);
-                                }
+                                stacks.add(stack);
                             }
 
                             if (resultCount > 1) {
@@ -248,9 +252,11 @@ public class ModEvents{
                             }
 
                             for (ItemStack stack : stacks) {
+                                if (stack.getCount() == 0) continue;
+
                                 float amp = 0.3f;   // for future enchant implementation, smaller value means less loss
                                 int range = (int) ((stack.getCount() * amp) + 0.5f);
-                                stack.setCount(level.getRandom().nextInt(stack.getCount() - range) + range);
+                                if (range > 0) stack.setCount(stack.getCount() - level.getRandom().nextInt(range));
 
                                 if (stack.getCount() > 0) Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
                             }

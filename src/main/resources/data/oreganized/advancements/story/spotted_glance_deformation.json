@@ -1,15 +1,14 @@
 {
-  "parent": "oreganized:story/mine_silver_ore",
+  "parent": "minecraft:story/iron_tools",
   "display": {
     "icon": {
-      "item": "oreganized:silver_mirror",
-      "nbt": "{Dist:1}"
+      "item": "oreganized:silver_ore"
     },
     "title": {
-      "translate": "advancements.story.mirror_mirror.title"
+      "translate": "advancements.story.mine_silver_ore.title"
     },
     "description": {
-      "translate": "advancements.story.mirror_mirror.description"
+      "translate": "advancements.story.mine_silver_ore.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -17,13 +16,13 @@
     "hidden": false
   },
   "criteria": {
-    "shining_silver_mirror": {
+    "silver_ore": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "oreganized:silver_mirror"
+              "oreganized:silver_ore"
             ]
           }
         ]
@@ -32,7 +31,7 @@
   },
   "requirements": [
     [
-      "shining_silver_mirror"
+      "silver_ore"
     ]
   ]
 }
