@@ -223,11 +223,13 @@ public class ModEvents{
 
                                 if (added) continue;
 
-                                int randItem = level.getRandom().nextInt(i.getItems().length);
-                                ItemStack stack = new ItemStack(i.getItems()[randItem].getItem());
-                                stack.setCount(1);
+                                if (i.getItems().length > 0) {
+                                    int randItem = level.getRandom().nextInt(i.getItems().length);
+                                    ItemStack stack = new ItemStack(i.getItems()[randItem].getItem());
+                                    stack.setCount(1);
 
-                                stacks.add(stack);
+                                    stacks.add(stack);
+                                }
                             }
 
                             if (resultCount > 1) {
