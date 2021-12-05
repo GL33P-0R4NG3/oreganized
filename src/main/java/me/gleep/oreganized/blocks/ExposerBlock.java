@@ -90,7 +90,7 @@ public class ExposerBlock extends DirectionalBlock implements EntityBlock {
 
     private void startSignal(LevelAccessor worldIn, BlockPos pos) {
         if (!worldIn.isClientSide() && !worldIn.getBlockTicks().willTickThisTick(pos, this)) {
-            worldIn.getBlockTicks().scheduleTick(pos, this, 2);
+            worldIn.scheduleTick(pos, this, 2);
         }
     }
 

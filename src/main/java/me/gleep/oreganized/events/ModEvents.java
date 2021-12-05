@@ -47,7 +47,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.PistonEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmllegacy.network.PacketDistributor;
+import net.minecraftforge.network.PacketDistributor;
 
 import static me.gleep.oreganized.Oreganized.MOD_ID;
 import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
@@ -206,7 +206,7 @@ public class ModEvents{
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void getFogDensity( EntityViewRenderEvent.FogDensity event ){
-        Camera info = event.getInfo();
+        Camera info = event.getCamera();
         BlockState blockState = info.getBlockAtCamera();
 
         if(blockState.getBlock().equals( RegistryHandler.MOLTEN_LEAD_BLOCK.get() )){
@@ -222,7 +222,7 @@ public class ModEvents{
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void getFogColor( EntityViewRenderEvent.FogColors event ){
-        Camera info = event.getInfo();
+        Camera info = event.getCamera();
         BlockState blockState = info.getBlockAtCamera();
 
         if(blockState.getBlock().equals( RegistryHandler.MOLTEN_LEAD_BLOCK.get() )){

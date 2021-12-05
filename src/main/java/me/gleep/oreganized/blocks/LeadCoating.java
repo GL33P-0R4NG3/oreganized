@@ -93,7 +93,7 @@ public class LeadCoating extends Block {
 
     @Override
     public void handlePrecipitation(BlockState p_152450_, Level p_152451_, BlockPos p_152452_, Biome.Precipitation p_152453_) {
-        float f = p_152451_.getBiome(p_152452_).getTemperature(p_152452_);
+        float f = p_152451_.getBiome(p_152452_).getBaseTemperature();
         if (!(f < 0.15F)) {
             BlockState state = p_152451_.getBlockState(p_152452_);
 

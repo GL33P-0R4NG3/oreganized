@@ -1,24 +1,15 @@
 package me.gleep.oreganized.util.messages;
 
-import me.gleep.oreganized.blocks.ChiseledBlock;
-import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
-import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
 import me.gleep.oreganized.util.GeneralUtility;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.function.Supplier;
-
-import static me.gleep.oreganized.blocks.ChiseledBlock.ISZAXISDOWN;
-import static me.gleep.oreganized.blocks.ChiseledBlock.ISZAXISUP;
 
 public class UpdateClientEngravedBlocks{
 

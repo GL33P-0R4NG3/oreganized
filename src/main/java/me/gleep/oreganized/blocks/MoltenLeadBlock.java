@@ -7,40 +7,31 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.client.IBlockRenderProperties;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public class MoltenLeadBlock extends Block implements BucketPickup {
     public MoltenLeadBlock() {
@@ -116,9 +107,9 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
 
     @Override
     public VoxelShape getCollisionShape(BlockState p_60572_, BlockGetter p_60573_, BlockPos p_60574_, CollisionContext p_60575_) {
-        if (((EntityCollisionContext)p_60575_).getEntity().isPresent()) {
-            if (!(((EntityCollisionContext)p_60575_).getEntity().get() instanceof LivingEntity)) return Shapes.empty();
-            LivingEntity entity = (LivingEntity) ((EntityCollisionContext)p_60575_).getEntity().get();
+        if (((EntityCollisionContext)p_60575_).getEntity() != null) {
+            if (!(((EntityCollisionContext)p_60575_).getEntity() instanceof LivingEntity)) return Shapes.empty();
+            LivingEntity entity = (LivingEntity) ((EntityCollisionContext)p_60575_).getEntity();
             for (ItemStack item : entity.getArmorSlots()) {
                 if (item.getItem().equals(Items.IRON_BOOTS)) return Shapes.block();
             }
@@ -128,7 +119,7 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
 
     @Override
     public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        if (((EntityCollisionContext)p_60558_).getEntity().isPresent()) {
+        if (((EntityCollisionContext)p_60558_).getEntity() != null) {
             return p_60558_.isHoldingItem(Items.BUCKET)
                     || p_60558_.isHoldingItem(RegistryHandler.MOLTEN_LEAD_BUCKET.get()) ? Shapes.block() : Shapes.empty();
         }

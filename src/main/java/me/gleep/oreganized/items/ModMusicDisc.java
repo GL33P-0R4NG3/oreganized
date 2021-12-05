@@ -8,6 +8,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraftforge.registries.IRegistryDelegate;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 

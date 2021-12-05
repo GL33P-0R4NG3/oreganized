@@ -57,7 +57,7 @@ public class SilverBlock extends Block {
 
     @Override
     public void onPlace( BlockState pState , Level pLevel , BlockPos pPos , BlockState pOldState , boolean pIsMoving ){
-        pLevel.getBlockTicks().scheduleTick( pPos, pState.getBlock(), 1);
+        pLevel.scheduleTick( pPos, pState.getBlock(), 1);
         super.onPlace( pState , pLevel , pPos , pOldState , pIsMoving );
     }
 
@@ -89,6 +89,6 @@ public class SilverBlock extends Block {
             dist = 8;
         }
         pLevel.setBlockAndUpdate(pPos, pState.setValue(LEVEL, dist - 1));
-        pLevel.getBlockTicks().scheduleTick( pPos, pState.getBlock(), 1);
+        pLevel.scheduleTick( pPos, pState.getBlock(), 1);
     }
 }

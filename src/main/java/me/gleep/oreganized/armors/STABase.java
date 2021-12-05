@@ -153,23 +153,23 @@ public class STABase extends ArmorItem {
      * @return 0.0 for 100% (no damage / full bar), 1.0 for 0% (fully damaged / empty bar)
      */
     @Override
-    public double getDurabilityForDisplay(ItemStack stack) {
+    public int getBarWidth(ItemStack stack) {
         if (this.shouldDisplayTint) {
             return this.getSilverDurabilityForDisplay(stack);
         }
-        return (double) stack.getDamageValue() / (double) stack.getMaxDamage();
+        return stack.getDamageValue() / stack.getMaxDamage();
     }
 
-    public double getSilverDurabilityForDisplay(ItemStack stack) {
-        return stack.getOrCreateTag().getInt("TintedDamage") < 1 ? 0D : (double)  (MAX_TINT_DURABILITY - stack.getOrCreateTag().getInt("TintedDamage")) / (double) MAX_TINT_DURABILITY;
+    public int getSilverDurabilityForDisplay(ItemStack stack) {
+        return stack.getOrCreateTag().getInt("TintedDamage") < 1 ? 0 : (MAX_TINT_DURABILITY - stack.getOrCreateTag().getInt("TintedDamage")) / MAX_TINT_DURABILITY;
     }
 
     @Override
-    public int getRGBDurabilityForDisplay(ItemStack stack) {
+    public int getBarColor(ItemStack stack) {
         if (this.shouldDisplayTint) {
-            return Mth.hsvToRgb(200F / 360F, Math.max(0.0F, (float) this.getDurabilityForDisplay(stack)), 0.94F);
+            return Mth.hsvToRgb(200F / 360F, Math.max(0.0F, this.getBarWidth(stack)), 0.94F);
         }
-        return Mth.hsvToRgb(Math.max(0.0F, (float) (1.0F - this.getDurabilityForDisplay(stack))) / 3.0F, 1.0F, 1.0F);
+        return Mth.hsvToRgb(Math.max(0.0F, (float) (1.0F - this.getBarWidth(stack))) / 3.0F, 1.0F, 1.0F);
     }
 
     @Override
