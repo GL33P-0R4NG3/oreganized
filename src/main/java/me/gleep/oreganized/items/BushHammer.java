@@ -3,15 +3,27 @@ package me.gleep.oreganized.items;
 import com.google.common.collect.ImmutableMap;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
+import com.google.common.collect.*;
+import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.items.tiers.ModTier;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import me.gleep.oreganized.util.messages.BushHammerClickPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.Tag;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
@@ -20,6 +32,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -35,11 +49,11 @@ public class BushHammer extends DiggerItem{
     /**
      * Map where first element is the effective block and second element is the cracked version
      */
-    public static final Map <Block, Block> EFFECTIVE_ON = ImmutableMap.of(
-            Blocks.STONE , Blocks.COBBLESTONE ,
-            Blocks.STONE_BRICKS , Blocks.CRACKED_STONE_BRICKS ,
-            Blocks.POLISHED_BLACKSTONE_BRICKS , Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS ,
-            Blocks.NETHER_BRICKS , Blocks.CRACKED_NETHER_BRICKS
+    public static final Map<Block, Block> EFFECTIVE_ON = ImmutableMap.of(
+            Blocks.STONE, Blocks.COBBLESTONE,
+            Blocks.STONE_BRICKS, Blocks.CRACKED_STONE_BRICKS,
+            Blocks.POLISHED_BLACKSTONE_BRICKS, Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS,
+            Blocks.NETHER_BRICKS, Blocks.CRACKED_NETHER_BRICKS
     );
 
     /**
@@ -49,10 +63,24 @@ public class BushHammer extends DiggerItem{
             Blocks.STONE, RegistryHandler.STONE.get(),
             Blocks.STONE_BRICKS, RegistryHandler.STONE_BRICKS.get()
     );*/
-    public BushHammer(){
-        super( 2.5F , -3.1F , ModTier.LEAD , Tag.fromSet( EFFECTIVE_ON.keySet() ) ,
-                new Item.Properties().tab( CreativeModeTab.TAB_TOOLS ).stacksTo( 1 )
+
+    public BushHammer() {
+        super(2.5F, -2.8F, ModTier.LEAD, Tag.fromSet(EFFECTIVE_ON.keySet()),
+                new Properties().tab(CreativeModeTab.TAB_TOOLS).stacksTo(1)
         );
+    }
+
+    @Override
+    public float getDestroySpeed(ItemStack pStack, BlockState pState) {
+        Tag<Block> tag = BlockTags.getAllTags().getTag(new ResourceLocation(Oreganized.MOD_ID, "bush_hammer_breakable"));
+
+        if (tag == null) return super.getDestroySpeed(pStack, pState);
+
+        for (Block block : tag.getValues()) {
+            if (block.equals(pState.getBlock())) return this.speed;
+        }
+
+        return super.getDestroySpeed(pStack, pState);
     }
 
     @Override
@@ -78,19 +106,6 @@ public class BushHammer extends DiggerItem{
         return InteractionResult.PASS;
     }
 
-
-    /**
-     * Called each tick while using an item.
-     *
-     * @param stack  The Item being used
-     * @param player The Player using the item
-     * @param count  The amount of time in tick the item has been used for
-     */
-    /*@Override
-    public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
-
-    }*/
-
     /**
      * Reduce the durability of this item by the amount given.
      * This can be used to e.g. consume power from NBT before durability.
@@ -102,13 +117,13 @@ public class BushHammer extends DiggerItem{
      * @return The amount of damage to pass to the vanilla logic
      */
     @Override
-    public <T extends LivingEntity> int damageItem( ItemStack stack , int amount , T entity , Consumer <T> onBroken ){
-        return super.damageItem( stack , amount , entity , onBroken );
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+        return super.damageItem(stack, amount, entity, onBroken);
     }
 
-    private EngravedBlocks.Face getFaceFromDirection( Direction pClickedFace , Direction pLookingDirection ){
-        return switch(pClickedFace){
-            case DOWN -> switch(pLookingDirection){
+    private EngravedBlocks.Face getFaceFromDirection(Direction pClickedFace, Direction pLookingDirection) {
+        return switch(pClickedFace) {
+            case DOWN -> switch(pLookingDirection) {
                 case NORTH -> EngravedBlocks.Face.DOWN_N;
                 case SOUTH -> EngravedBlocks.Face.DOWN_S;
                 case WEST -> EngravedBlocks.Face.DOWN_W;
@@ -128,20 +143,4 @@ public class BushHammer extends DiggerItem{
             case EAST -> EngravedBlocks.Face.RIGHT;
         };
     }
-
-    /**
-     * Called when the player stops using an Item (stops holding the right mouse button).
-     */
-    /*@Override
-    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
-
-    }*/
-
-    /**
-     * Called when a Block is destroyed using this Item. Return true to trigger the "Use Item" statistic.
-     */
-    /*@Override
-    public boolean onBlockDestroyed(ItemStack stack, Level worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-        return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
-    }*/
 }
