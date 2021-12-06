@@ -63,7 +63,7 @@ public class OreganizedPlacedFeatures{
                 new BlockMatchRuleTest(Blocks.END_STONE), RegistryHandlerBlocks.AIR_CRYSTAL_BLOCK.get().getDefaultState(), 4)) //Vein Size
                 .range(128).square() //Spawn height start
                 .func_242731_b(64))); //Chunk spawn frequency*/
-        ORE_SILVER_DEEPSLATE_UP = ORE_SILVER_DEEP_UNDERGROUND.placed( List.of( CountPlacement.of( 2 ) , InSquarePlacement.spread() ,
+        ORE_SILVER_DEEPSLATE_UP = ORE_SILVER_DEEP_UNDERGROUND.placed( List.of( CountPlacement.of( 1 ) , InSquarePlacement.spread() ,
                 HeightRangePlacement.uniform( VerticalAnchor.absolute( -5 ) , VerticalAnchor.absolute( 5 ) ) ,
                 BiomeFilter.biome() ) );
 
