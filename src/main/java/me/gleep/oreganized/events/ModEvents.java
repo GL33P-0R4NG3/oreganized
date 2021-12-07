@@ -176,14 +176,14 @@ public class ModEvents{
         Level level = event.getPlayer().level;
         BlockPos pos = event.getPos();
         BlockState state = world.getBlockState(pos);
-        ItemStack currentitem = event.getPlayer().getItemInHand(event.getPlayer().getUsedItemHand());
+        ItemStack currentItem = event.getPlayer().getItemInHand(event.getPlayer().getUsedItemHand());
 
-        if (currentitem.getItem().equals(RegistryHandler.BUSH_HAMMER.get())) {
+        if (currentItem.getItem().equals(RegistryHandler.BUSH_HAMMER.get())) {
             if (event.getPlayer().isCrouching()) {
                 for (Block b : BushHammer.EFFECTIVE_ON.keySet()) {
                     if (state.getBlock().equals(b) && !event.getPlayer().isCreative()) {
                         world.setBlock(pos, BushHammer.EFFECTIVE_ON.get(b).defaultBlockState(), 2);
-                        currentitem.hurtAndBreak(1, event.getPlayer(), (player) -> {
+                        currentItem.hurtAndBreak(1, event.getPlayer(), (player) -> {
                             player.broadcastBreakEvent(event.getPlayer().getUsedItemHand());
                         });
                         event.setCanceled(true);
@@ -206,12 +206,21 @@ public class ModEvents{
                             List<ItemStack> stacks = new ArrayList<>();
                             int resultCount = recipe.getResultItem().getCount();
 
+                            // If the block is in minecraft:stairs tag drop only one ingredient
                             for (Block b : BlockTags.getAllTags().getTag(new ResourceLocation("minecraft", "stairs")).getValues()) {
                                 if (b.getRegistryName().getPath().equals(blockName)) {
                                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), ingredients.get(0).getItems()[0]);
+
+                                    world.setBlock(pos, Blocks.AIR.defaultBlockState(), 1);
+                                    currentItem.hurtAndBreak(1, event.getPlayer(), (player) -> {
+                                        player.broadcastBreakEvent(event.getPlayer().getUsedItemHand());
+                                    });
+                                    event.setCanceled(true);
+                                    return;
                                 }
                             }
 
+                            // Adding items to List<ItemStack> for calculation purposes
                             for (Ingredient i : ingredients) {
                                 boolean added = false;
 
@@ -236,6 +245,7 @@ public class ModEvents{
                                 stacks.add(stack);
                             }
 
+                            // If the result item count is greater than 1, recalculate item drops
                             if (resultCount > 1) {
                                 for (ItemStack stack : stacks) {
                                     float itemPerResult = (float) stack.getCount() / resultCount;
@@ -251,18 +261,32 @@ public class ModEvents{
                                 }
                             }
 
+                            // Drop items cycle
                             for (ItemStack stack : stacks) {
                                 if (stack.getCount() == 0) continue;
 
-                                float amp = 0.3f;   // for future enchant implementation, smaller value means less loss
-                                int range = (int) ((stack.getCount() * amp) + 0.5f);
-                                if (range > 0) stack.setCount(stack.getCount() - level.getRandom().nextInt(range));
+                                float amp = 0.3f;   // for enchant implementation, smaller value means less loss
+                                if (!currentItem.getEnchantmentTags().isEmpty()) {
+                                    // Enchantment cycle
+                                    for (int j = 0; j < currentItem.getEnchantmentTags().size(); j++) {
+                                        String enchantName = currentItem.getEnchantmentTags().getCompound(j).getString("id");
+                                        int lvl = currentItem.getEnchantmentTags().getCompound(j).getInt("lvl");
+
+                                        if (enchantName.equals("minecraft:fortune")) {
+                                            amp -= lvl <= 3 ? 0.1f * lvl : 0;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                 int range = (int) ((stack.getCount() * amp) + 0.5f);
+                                if (range > 0) stack.setCount(stack.getCount() - level.getRandom().nextInt(range + 1));
 
                                 if (stack.getCount() > 0) Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
                             }
 
                             world.setBlock(pos, Blocks.AIR.defaultBlockState(), 1);
-                            currentitem.hurtAndBreak(1, event.getPlayer(), (player) -> {
+                            currentItem.hurtAndBreak(1, event.getPlayer(), (player) -> {
                                 player.broadcastBreakEvent(event.getPlayer().getUsedItemHand());
                             });
                             event.setCanceled(true);
@@ -302,8 +326,8 @@ public class ModEvents{
         BlockState blockState = info.getBlockAtCamera();
 
         if (blockState.getBlock().equals(RegistryHandler.MOLTEN_LEAD_BLOCK.get())) {
-            RenderSystem.enableCull();
-            event.setDensity(1.4F);
+            RenderSystem.disableCull();
+            event.setDensity(1.2F);
             event.setCanceled(true);
         }
     }

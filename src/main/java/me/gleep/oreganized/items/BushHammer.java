@@ -3,38 +3,26 @@ package me.gleep.oreganized.items;
 import com.google.common.collect.ImmutableMap;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
-import com.google.common.collect.*;
-import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.items.tiers.ModTier;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import me.gleep.oreganized.util.messages.BushHammerClickPacket;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.Tag;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.List;
 import net.minecraftforge.fmllegacy.network.NetworkDirection;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -46,7 +34,7 @@ import static me.gleep.oreganized.util.RegistryHandler.BRICKS_BLOCKTAG;
 import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
 import static me.gleep.oreganized.util.SimpleNetwork.CHANNEL;
 
-public class BushHammer extends DiggerItem{
+public class BushHammer extends DiggerItem {
     /**
      * Map where first element is the effective block and second element is the cracked version
      */
