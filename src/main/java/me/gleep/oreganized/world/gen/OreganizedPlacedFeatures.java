@@ -1,17 +1,12 @@
 package me.gleep.oreganized.world.gen;
 
 import me.gleep.oreganized.Oreganized;
-import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -21,15 +16,17 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.gleep.oreganized.world.gen.OreganizedConfiguredFeatures.ORE_LEAD;
-import static me.gleep.oreganized.world.gen.OreganizedConfiguredFeatures.ORE_SILVER;
-import static net.minecraft.data.worldgen.features.OreFeatures.DEEPSLATE_ORE_REPLACEABLES;
-import static net.minecraft.data.worldgen.features.OreFeatures.STONE_ORE_REPLACEABLES;
+import static me.gleep.oreganized.world.gen.OreganizedConfiguredFeatures.*;
 
 @Mod.EventBusSubscriber
 public class OreganizedPlacedFeatures{
-    public static PlacedFeature ORE_SILVER_OVERWORLD;
-    public static PlacedFeature ORE_LEAD_OVERWORLD;
+    public static PlacedFeature ORE_SILVER_DEEPSLATE_UP;
+    public static PlacedFeature ORE_SILVER_DEEPSLATE_DOWN;
+    public static PlacedFeature ORE_SILVER_UP;
+    public static PlacedFeature ORE_SILVER_DOWN;
+    public static PlacedFeature ORE_LEAD_DEEPSLATE_UP;
+    public static PlacedFeature ORE_LEAD_DEEPSLATE_DOWN;
+    public static PlacedFeature ORE_LEAD_SAVANNA;
 
     private static final ArrayList <PlacedFeature> overworldOres = new ArrayList <>();
     //private static final ArrayList<ConfiguredFeature<?, ?>> netherOres = new ArrayList<ConfiguredFeature<?, ?>>();
@@ -66,16 +63,41 @@ public class OreganizedPlacedFeatures{
                 new BlockMatchRuleTest(Blocks.END_STONE), RegistryHandlerBlocks.AIR_CRYSTAL_BLOCK.get().getDefaultState(), 4)) //Vein Size
                 .range(128).square() //Spawn height start
                 .func_242731_b(64))); //Chunk spawn frequency*/
-        ORE_SILVER_OVERWORLD = ORE_SILVER.placed( List.of( CountPlacement.of( 16 ) , InSquarePlacement.spread() ,
-                HeightRangePlacement.uniform( VerticalAnchor.absolute( 32 ), VerticalAnchor.absolute( 256 ) ) ,
+        ORE_SILVER_DEEPSLATE_UP = ORE_SILVER_DEEP_UNDERGROUND.placed( List.of( CountPlacement.of( 1 ) , InSquarePlacement.spread() ,
+                HeightRangePlacement.uniform( VerticalAnchor.absolute( -5 ) , VerticalAnchor.absolute( 5 ) ) ,
                 BiomeFilter.biome() ) );
 
-        ORE_LEAD_OVERWORLD = ORE_LEAD.placed( List.of( CountPlacement.of( 4 ) , InSquarePlacement.spread() ,
-                HeightRangePlacement.uniform( VerticalAnchor.absolute( 32 ), VerticalAnchor.absolute( 256 ) ) ,
+        ORE_SILVER_DEEPSLATE_DOWN = ORE_SILVER_DEEP_UNDERGROUND.placed( List.of( CountPlacement.of( 2 ) , InSquarePlacement.spread() ,
+                HeightRangePlacement.uniform( VerticalAnchor.absolute( -15 ) , VerticalAnchor.absolute( -5 ) ) ,
                 BiomeFilter.biome() ) );
 
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(Oreganized.MOD_ID, "silver_ore"), ORE_SILVER_OVERWORLD);
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(Oreganized.MOD_ID, "lead_ore"), ORE_LEAD_OVERWORLD);
+        ORE_SILVER_UP = ORE_SILVER.placed( List.of( CountPlacement.of( 1 ) , InSquarePlacement.spread() ,
+                HeightRangePlacement.uniform( VerticalAnchor.absolute( 160 ) , VerticalAnchor.absolute( 180 ) ) ,
+                BiomeFilter.biome() ) );
+
+        ORE_SILVER_DOWN = ORE_SILVER.placed( List.of( CountPlacement.of( 1 ) , InSquarePlacement.spread() ,
+                HeightRangePlacement.uniform( VerticalAnchor.absolute( 140 ) , VerticalAnchor.absolute( 160 ) ) ,
+                BiomeFilter.biome() ) );
+
+        ORE_LEAD_DEEPSLATE_UP = ORE_LEAD_DEEP_UNDERGROUND.placed( List.of( CountPlacement.of( 1 ) , InSquarePlacement.spread() ,
+                HeightRangePlacement.triangle( VerticalAnchor.absolute( -33 ) , VerticalAnchor.absolute( -20 ) ) ,
+                BiomeFilter.biome() ) );
+
+        ORE_LEAD_DEEPSLATE_DOWN = ORE_LEAD_DEEP_UNDERGROUND.placed( List.of( CountPlacement.of( 2 ) , InSquarePlacement.spread() ,
+                HeightRangePlacement.triangle( VerticalAnchor.absolute( -40 ) , VerticalAnchor.absolute( -33 ) ) ,
+                BiomeFilter.biome() ) );
+
+        ORE_LEAD_SAVANNA = ORE_LEAD.placed( List.of( CountPlacement.of( 13 ) , InSquarePlacement.spread() ,
+                HeightRangePlacement.uniform( VerticalAnchor.absolute( 50 ) , VerticalAnchor.absolute( 80 ) ) ,
+                BiomeFilter.biome() ) );
+
+        Registry.register( BuiltinRegistries.PLACED_FEATURE , new ResourceLocation( Oreganized.MOD_ID , "silver_ore_deepslate_up" ) , ORE_SILVER_DEEPSLATE_UP );
+        Registry.register( BuiltinRegistries.PLACED_FEATURE , new ResourceLocation( Oreganized.MOD_ID , "silver_ore_deepslate_down" ) , ORE_SILVER_DEEPSLATE_DOWN );
+        Registry.register( BuiltinRegistries.PLACED_FEATURE , new ResourceLocation( Oreganized.MOD_ID , "silver_ore_up" ) , ORE_SILVER_UP );
+        Registry.register( BuiltinRegistries.PLACED_FEATURE , new ResourceLocation( Oreganized.MOD_ID , "silver_ore_down" ) , ORE_SILVER_DOWN );
+        Registry.register( BuiltinRegistries.PLACED_FEATURE , new ResourceLocation( Oreganized.MOD_ID , "lead_ore_deepslate_up" ) , ORE_LEAD_DEEPSLATE_UP );
+        Registry.register( BuiltinRegistries.PLACED_FEATURE , new ResourceLocation( Oreganized.MOD_ID , "lead_ore_deepslate_down" ) , ORE_LEAD_DEEPSLATE_DOWN );
+        Registry.register( BuiltinRegistries.PLACED_FEATURE , new ResourceLocation( Oreganized.MOD_ID , "lead_ore_savanna" ) , ORE_LEAD_SAVANNA );
     }
 
     @SubscribeEvent
@@ -90,10 +112,18 @@ public class OreganizedPlacedFeatures{
             /*for(ConfiguredFeature<?, ?> ore : endOres) {
                 if (ore != null) generation.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ore);
             }*/
+        }else if(event.getCategory().equals( Biome.BiomeCategory.SAVANNA )){
+            generation.getFeatures( GenerationStep.Decoration.UNDERGROUND_ORES ).add( () -> ORE_LEAD_SAVANNA );
         }else{
-            generation.getFeatures( GenerationStep.Decoration.UNDERGROUND_ORES ).add( () -> ORE_SILVER_OVERWORLD );
-            generation.getFeatures( GenerationStep.Decoration.UNDERGROUND_ORES ).add( () -> ORE_LEAD_OVERWORLD );
+            //generation.getFeatures( GenerationStep.Decoration.UNDERGROUND_ORES ).add( () -> ORE_SILVER_OVERWORLD );
+            generation.getFeatures( GenerationStep.Decoration.UNDERGROUND_ORES ).add( () -> ORE_SILVER_DEEPSLATE_UP );
+            generation.getFeatures( GenerationStep.Decoration.UNDERGROUND_ORES ).add( () -> ORE_SILVER_DEEPSLATE_DOWN );
+            generation.getFeatures( GenerationStep.Decoration.UNDERGROUND_ORES ).add( () -> ORE_SILVER_UP );
+            generation.getFeatures( GenerationStep.Decoration.UNDERGROUND_ORES ).add( () -> ORE_SILVER_DOWN );
+            generation.getFeatures( GenerationStep.Decoration.UNDERGROUND_ORES ).add( () -> ORE_LEAD_DEEPSLATE_UP );
+            generation.getFeatures( GenerationStep.Decoration.UNDERGROUND_ORES ).add( () -> ORE_LEAD_DEEPSLATE_DOWN );
         }
     }
 }
+
 
