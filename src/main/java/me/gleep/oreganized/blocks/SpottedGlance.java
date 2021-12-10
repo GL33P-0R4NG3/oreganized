@@ -35,14 +35,6 @@ public class SpottedGlance extends Block {
 
             ItemStack stack = new ItemStack(RegistryHandler.LEAD_NUGGET.get(), level.getRandom().nextInt(2) + 1);
             Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
-            /*
-            int x = level.getRandom().nextInt(2) + 1;
-            NonNullList<ItemStack> list = NonNullList.create();
-            for (int i = 0; i < x; i++) {
-                list.add(new ItemStack(RegistryHandler.LEAD_NUGGET.get(), 1));
-            }
-
-            Containers.dropContents(level, pos, list);*/
         }
 
         super.neighborChanged(p_60509_, level, pos, p_60512_, neighbourPos, p_60514_);

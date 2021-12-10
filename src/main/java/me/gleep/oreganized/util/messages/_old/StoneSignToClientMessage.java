@@ -1,4 +1,4 @@
-package me.gleep.oreganized.util.messages.old;
+package me.gleep.oreganized.util.messages._old;
 
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.fmllegacy.network.ICustomPacket;

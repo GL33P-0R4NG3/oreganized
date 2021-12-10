@@ -2,6 +2,7 @@ package me.gleep.oreganized.blocks;
 
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -18,8 +19,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -37,33 +40,21 @@ import java.util.Random;
 
 import static net.minecraft.world.phys.shapes.BooleanOp.ONLY_FIRST;
 
-public class ModCauldron extends Block {
+public class MoltenLeadCauldron extends AbstractCauldronBlock {
+    public static final IntegerProperty LEVEL = BlockStateProperties.LEVEL_CAULDRON;
 
-    public static final IntegerProperty LEVEL = BlockStateProperties.AGE_3;
-    private static final VoxelShape INSIDE = box(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
-    protected static final VoxelShape SHAPE = Shapes.join(Shapes.block(),
-            Shapes.or(box(0.0D, 0.0D, 4.0D, 16.0D, 3.0D, 12.0D),
-                      box(4.0D, 0.0D, 0.0D, 12.0D, 3.0D, 16.0D),
-                      box(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D),
-                      INSIDE), ONLY_FIRST);
-
-    public ModCauldron() {
+    public MoltenLeadCauldron() {
         super(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.STONE)
                 .requiresCorrectToolForDrops()
                 .strength(2.0F)
-                .noOcclusion());
-        registerDefaultState(this.getStateDefinition().any().setValue(LEVEL, Integer.valueOf(1)));
+                .noOcclusion(),
+                CauldronInteraction.LAVA
+        );
+        this.registerDefaultState(this.stateDefinition.any().setValue(LEVEL, Integer.valueOf(1)));
     }
 
     @Override
-    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        return SHAPE;
-    }
-
-    @Override
-    public VoxelShape getOcclusionShape(BlockState p_60578_, BlockGetter p_60579_, BlockPos p_60580_) {
-        return INSIDE;
-    }
+    protected double getContentHeight(BlockState pState) { return 0.9375D; }
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult p_60508_) {
@@ -112,6 +103,19 @@ public class ModCauldron extends Block {
         return true;
     }
 
+    /**
+     * @param pState
+     * @param pLevel
+     * @param pPos
+     * @deprecated call via {@link
+     * net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase#getAnalogOutputSignal(Level, BlockPos)} whenever possible.
+     * Implementing/overriding is fine.
+     */
+    @Override
+    public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
+        return pState.getValue(LEVEL);
+    }
+
     @Override
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, Random random) {
         this.tick(state, worldIn, pos, random);
@@ -146,4 +150,7 @@ public class ModCauldron extends Block {
     public boolean isPathfindable(BlockState p_60475_, BlockGetter p_60476_, BlockPos p_60477_, PathComputationType p_60478_) {
         return false;
     }
+
+    @Override
+    public boolean isFull(BlockState pState) { return true; }
 }

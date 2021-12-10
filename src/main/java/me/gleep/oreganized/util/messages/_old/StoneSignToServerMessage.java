@@ -1,11 +1,8 @@
-package me.gleep.oreganized.util.messages.old;
+package me.gleep.oreganized.util.messages._old;
 
 import net.minecraft.core.BlockPos;
 
 import java.util.Arrays;
-import java.util.function.Supplier;
-
-import static me.gleep.oreganized.Oreganized.LOGGER;
 
 public class StoneSignToServerMessage {
     //StoneSign properties

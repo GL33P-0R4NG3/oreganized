@@ -2,7 +2,7 @@ package me.gleep.oreganized.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.gleep.oreganized.armors.STABase;
-import me.gleep.oreganized.blocks.ModCauldron;
+import me.gleep.oreganized.blocks.MoltenLeadCauldron;
 import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
 import me.gleep.oreganized.items.BushHammer;
@@ -111,7 +111,7 @@ public class ModEvents{
             } else if (item.getItem().equals(RegistryHandler.MOLTEN_LEAD_BUCKET.get())) {
                 if (!level.isClientSide()) {
                     level.removeBlock(pos, false);
-                    level.setBlockAndUpdate(pos, RegistryHandler.LEAD_CAULDRON.get().defaultBlockState().setValue(ModCauldron.LEVEL, 3));
+                    level.setBlockAndUpdate(pos, RegistryHandler.LEAD_CAULDRON.get().defaultBlockState().setValue(MoltenLeadCauldron.LEVEL, 3));
                     if (!event.getPlayer().isCreative()) event.getPlayer().setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BUCKET, 1));
                     level.playSound((Player) null, pos, SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.BLOCKS, 1.0F, 1.0F);
                     event.getPlayer().awardStat(Stats.USE_CAULDRON);

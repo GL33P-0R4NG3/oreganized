@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -131,7 +130,7 @@ public class RegistryHandler {
     public static final RegistryObject<Block> MOLTEN_LEAD_BLOCK = BLOCKS.register("molten_lead_block", MoltenLeadBlock::new);
     public static final RegistryObject<Block> LEAD_COATING = BLOCKS.register("lead_coating", LeadCoating::new);
     public static final RegistryObject<Block> CUT_LEAD_COATING = BLOCKS.register("cut_lead_coating", CutLeadCoating::new);
-    public static final RegistryObject<Block> LEAD_CAULDRON = BLOCKS.register("cauldron", ModCauldron::new);
+    public static final RegistryObject<Block> LEAD_CAULDRON = BLOCKS.register("cauldron", MoltenLeadCauldron::new);
     public static final RegistryObject<Block> LIGHTENED_IRON_BLOCK = BLOCKS.register("lightened_iron_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL)
             .strength(4.0F, 5.0F).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK))
     );
