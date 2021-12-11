@@ -1,4 +1,4 @@
-# oreganized
+# Oreganized
 Oreganized Mod which expands ores and other items in vanilla minecraft
 
 **Currently added**
@@ -24,3 +24,5 @@ Oreganized Mod which expands ores and other items in vanilla minecraft
   - Generates naturally between level 50 and 70 with maximum vein size 12
 - Lead Ingot
 - Lead Nugget
+
+
