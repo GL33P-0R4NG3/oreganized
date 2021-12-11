@@ -1,5 +1,7 @@
 package me.gleep.oreganized;
 
+import com.zkryle.coopperative.lib.veins.VeinRegistry;
+import com.zkryle.coopperative.lib.veins.common.Vein;
 import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.capabilities.CapabilityHandler;
 import me.gleep.oreganized.tools.STSBase;
@@ -44,6 +46,10 @@ public class Oreganized {
             OreganizedPlacedFeatures.registerPlacedFeatures();
             SimpleNetwork.register();
         });
+        // Register Veins
+        // Example Vein:
+        // new Vein( RegistryHandler.GLANCE.get(), RegistryHandler.DEEPSLATE_LEAD_ORE.get(), RegistryHandler.RAW_LEAD_BLOCK.get(), -60, 4 )
+        VeinRegistry.registerVein( new Vein( RegistryHandler.GLANCE.get(), RegistryHandler.DEEPSLATE_LEAD_ORE.get(), RegistryHandler.RAW_LEAD_BLOCK.get(), -60, 4 ) );
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
