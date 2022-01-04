@@ -1,5 +1,7 @@
 package me.gleep.oreganized.blocks;
 
+import me.gleep.oreganized.Oreganized;
+import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
@@ -12,6 +14,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -55,6 +59,17 @@ public class MoltenLeadCauldron extends AbstractCauldronBlock {
 
     @Override
     protected double getContentHeight(BlockState pState) { return 0.9375D; }
+
+    @Override
+    public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
+        if (!(pEntity instanceof LivingEntity)) return;
+
+        if (this.isEntityInsideContent(pState, pPos, pEntity)) {
+            pEntity.setSecondsOnFire(10);
+            pEntity.hurt(ModDamageSource.MOLTEN_LEAD, 3.0F);
+        }
+
+    }
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult p_60508_) {
@@ -127,8 +142,8 @@ public class MoltenLeadCauldron extends AbstractCauldronBlock {
             if (!worldIn.isClientSide) {
                 BlockPos newPos = new BlockPos(pos.getX(), pos.getY() - 1.0D, pos.getZ());
                 BlockState block = worldIn.getBlockState(newPos);
-                ResourceLocation loc = new ResourceLocation("oreganized", "fire_source");
-                if (BlockTags.getAllTags().getTag(loc).contains(block.getBlock())) {
+
+                if (BlockTags.getAllTags().getTag(new ResourceLocation(Oreganized.MOD_ID, "fire_source")).contains(block.getBlock())) {
                     this.setLeadLevel(worldIn, pos, state, state.getValue(LEVEL) + 1);
                 } else {
                     this.setLeadLevel(worldIn, pos, state, 1);
