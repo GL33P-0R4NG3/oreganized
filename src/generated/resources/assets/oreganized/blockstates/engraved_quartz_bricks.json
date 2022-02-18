@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "iszaxisdown=false,iszaxisup=false": {
+      "model": "oreganized:block/engraved_quartz_bricks",
+      "y": 90
+    },
+    "iszaxisdown=true,iszaxisup=false": {
+      "model": "oreganized:block/engraved_deepslate_bricks_rotated_bottom",
+      "y": 90
+    },
+    "iszaxisdown=false,iszaxisup=true": {
+      "model": "oreganized:block/engraved_deepslate_bricks_rotated_bottom"
+    },
+    "iszaxisdown=true,iszaxisup=true": {
+      "model": "oreganized:block/engraved_quartz_bricks"
+    }
+  }
+}

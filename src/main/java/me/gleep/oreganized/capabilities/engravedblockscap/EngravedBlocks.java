@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.HashMap;
@@ -175,18 +174,18 @@ public class EngravedBlocks implements IEngravedBlocks, INBTSerializable<Compoun
 
 
     public enum Face{
-        UP_N(new Vector3f(0.05f,1.0002f,0.19f), new Vector3f(90f,0f,0f), Direction.UP),
-        UP_S(new Vector3f(0.95f,1.0002f,0.81f), new Vector3f(90f,0f,180f), Direction.UP),
-        UP_W(new Vector3f(0.19f,1.0002f,0.95f), new Vector3f(90f,0f,-90f), Direction.UP),
-        UP_E(new Vector3f(0.81f,1.0002f,0.05f), new Vector3f(90f,0f,90f), Direction.UP),
-        DOWN_N(new Vector3f(0.95f,-0.0002f,0.19f), new Vector3f(-90f,0f,180f), Direction.DOWN),
-        DOWN_S(new Vector3f(0.05f,-0.0002f,0.81f), new Vector3f(-90f,0f,0f), Direction.DOWN),
-        DOWN_E(new Vector3f(0.81f,-0.0002f,0.95f), new Vector3f(-90f,0f,90f), Direction.DOWN),
-        DOWN_W(new Vector3f(0.19f,-0.0002f,0.05f), new Vector3f(-90f,0f,-90f), Direction.DOWN),
-        LEFT(new Vector3f(-0.0002f,0.81f,0.05f), new Vector3f(0f,90f,180f), Direction.WEST),
-        RIGHT(new Vector3f(1.0002f,0.81f, 0.95f), new Vector3f(0f,-90f,180f), Direction.EAST),
-        FRONT(new Vector3f(0.95f,0.81f,-0.0002f), new Vector3f(0f,0f,180f), Direction.NORTH),
-        BACK(new Vector3f(0.05f,0.81f, 1.0002f), new Vector3f(0f,180f,180f), Direction.SOUTH);
+        UP_N(new Vector3f(0.05f,1.0007f,0.19f), new Vector3f(90f,0f,0f), Direction.UP),
+        UP_S(new Vector3f(0.95f,1.0007f,0.81f), new Vector3f(90f,0f,180f), Direction.UP),
+        UP_W(new Vector3f(0.19f,1.0007f,0.95f), new Vector3f(90f,0f,-90f), Direction.UP),
+        UP_E(new Vector3f(0.81f,1.0007f,0.05f), new Vector3f(90f,0f,90f), Direction.UP),
+        DOWN_N(new Vector3f(0.95f,-0.017f,0.19f), new Vector3f(-90f,0f,180f), Direction.DOWN),
+        DOWN_S(new Vector3f(0.05f,-0.017f,0.81f), new Vector3f(-90f,0f,0f), Direction.DOWN),
+        DOWN_E(new Vector3f(0.81f,-0.017f,0.95f), new Vector3f(-90f,0f,90f), Direction.DOWN),
+        DOWN_W(new Vector3f(0.19f,-0.017f,0.05f), new Vector3f(-90f,0f,-90f), Direction.DOWN),
+        LEFT(new Vector3f(-0.0007f,0.81f,0.05f), new Vector3f(0f,90f,180f), Direction.WEST),
+        RIGHT(new Vector3f(1.0007f,0.81f, 0.95f), new Vector3f(0f,-90f,180f), Direction.EAST),
+        FRONT(new Vector3f(0.95f,0.81f,-0.0007f), new Vector3f(0f,0f,180f), Direction.NORTH),
+        BACK(new Vector3f(0.05f,0.81f, 1.0007f), new Vector3f(0f,180f,180f), Direction.SOUTH);
 
         public Vector3f translation;
         public Vector3f rotation;

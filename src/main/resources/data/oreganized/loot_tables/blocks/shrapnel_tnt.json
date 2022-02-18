@@ -6,7 +6,8 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "oreganized:shrapnel_tnt"
+          "name": "minecraft:stone",
+          "_comment": "oreganized:shrapnel_tnt (Was slowing world loading qwq) zKryle 30/12/2021"
         }
       ]
     }

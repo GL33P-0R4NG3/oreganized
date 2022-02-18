@@ -1,6 +1,5 @@
 package me.gleep.oreganized.blocks;
 
-import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,14 +40,14 @@ public class LeadCoating extends Block {
     @Override
     public void setPlacedBy(Level p_49847_, BlockPos p_49848_, BlockState p_49849_, @Nullable LivingEntity p_49850_, ItemStack p_49851_) {
         BlockPos basePos = p_49848_.below();
-        while (p_49847_.getBlockState(basePos).getBlock().equals(RegistryHandler.LEAD_COATING.get())) basePos = basePos.below();
+        /*while (p_49847_.getBlockState(basePos).getBlock().equals(RegistryHandler.LEAD_COATING.get())) basePos = basePos.below()*/;
         basePos = basePos.above();
 
         BlockPos topPos = basePos.above();
-        while (p_49847_.getBlockState(topPos).getBlock().equals(RegistryHandler.LEAD_COATING.get())) {
+        /*while (p_49847_.getBlockState(topPos).getBlock().equals(RegistryHandler.LEAD_COATING.get())) {
             p_49847_.setBlockAndUpdate(topPos, p_49847_.getBlockState(topPos).setValue(IS_BASE, false).setValue(HEIGHT, basePos.getY()));
             topPos = topPos.above();
-        }
+        }*/
         topPos = topPos.below();
 
         BlockState baseState = p_49847_.getBlockState(basePos).setValue(IS_BASE, true).setValue(HEIGHT, topPos.getY());
@@ -58,13 +57,13 @@ public class LeadCoating extends Block {
 
     @Override
     public void destroy(LevelAccessor p_49860_, BlockPos p_49861_, BlockState p_49862_) {
-        if (p_49860_.getBlockState(p_49861_.above()).getBlock().equals(RegistryHandler.LEAD_COATING.get())) {
+        /*if (p_49860_.getBlockState(p_49861_.above()).getBlock().equals(RegistryHandler.LEAD_COATING.get())) {
             p_49860_.getBlockState(p_49861_.above()).getBlock().setPlacedBy((Level)p_49860_, p_49861_.above(), p_49860_.getBlockState(p_49861_.above()), null, ItemStack.EMPTY);
         }
 
         if (p_49860_.getBlockState(p_49861_.below()).getBlock().equals(RegistryHandler.LEAD_COATING.get())) {
             p_49860_.getBlockState(p_49861_.below()).getBlock().setPlacedBy((Level)p_49860_, p_49861_.below(), p_49860_.getBlockState(p_49861_.below()), null, ItemStack.EMPTY);
-        }
+        }*/
     }
 
     @Override

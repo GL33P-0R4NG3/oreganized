@@ -1,0 +1,12 @@
+{
+  "parent": "oreganized:block/cube_bottom_rotated",
+  "textures": {
+    "particle": "#side",
+    "down": "#bottom",
+    "up": "#top",
+    "north": "#side",
+    "east": "#side",
+    "south": "#side",
+    "west": "#side"
+  }
+}

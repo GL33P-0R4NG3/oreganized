@@ -4,9 +4,12 @@ import me.gleep.oreganized.util.ModDamageSource;
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -21,6 +24,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -32,42 +37,52 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.Random;
 
-public class MoltenLeadBlock extends Block implements BucketPickup {
-    public MoltenLeadBlock() {
-        super(BlockBehaviour.Properties.of((new Material.Builder(MaterialColor.COLOR_PURPLE)).noCollider().notSolidBlocking().nonSolid().liquid().build())
-                .strength(-1.0F, 3600000.0F)
+public class MoltenLeadBlock extends Block implements BucketPickup{
+
+    private static final BooleanProperty MOVING = BooleanProperty.create( "ismoving" );
+
+    public MoltenLeadBlock(){
+        super( BlockBehaviour.Properties.of( (new Material.Builder( MaterialColor.COLOR_PURPLE )).noCollider().notSolidBlocking().nonSolid().liquid().build() )
+                .strength( -1.0F , 3600000.0F )
                 .noDrops()
                 .requiresCorrectToolForDrops()
         );
     }
 
     @Override
-    public boolean skipRendering(BlockState p_60532_, BlockState p_60533_, Direction p_60534_) {
-        return super.skipRendering(p_60532_, p_60533_, p_60534_);
+    protected void createBlockStateDefinition( StateDefinition.Builder <Block, BlockState> pBuilder ){
+        pBuilder.add( MOVING );
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction p_60542_, BlockState neighbour, LevelAccessor level, BlockPos pos, BlockPos neighbourPos) {
-        if (level.isWaterAt(neighbourPos)) {
-            level.levelEvent(1501, pos, 0);
+    public boolean skipRendering( BlockState p_60532_ , BlockState p_60533_ , Direction p_60534_ ){
+        return super.skipRendering( p_60532_ , p_60533_ , p_60534_ );
+    }
 
+    @Override
+    public BlockState updateShape( BlockState pState , Direction pDirection , BlockState neighbour , LevelAccessor pLevel , BlockPos pPos , BlockPos neighbourPos ){
+        if(pLevel.isWaterAt( neighbourPos )){
+            pLevel.levelEvent( 1501 , pPos , 0 );
             return RegistryHandler.LEAD_BLOCK.get().defaultBlockState();
         }
-
-        return super.updateShape(state, p_60542_, neighbour, level, pos, neighbourPos);
+        if(pDirection == Direction.DOWN){
+            pLevel.scheduleTick( pPos , this , 30 );
+        }
+        return super.updateShape( pState , pDirection , neighbour , pLevel , pPos , neighbourPos );
     }
 
     @Override
-    public void neighborChanged(BlockState p_60509_, Level level, BlockPos pos, Block p_60512_, BlockPos neighbourPos, boolean p_60514_) {
-        if (level.getFluidState(neighbourPos).is(FluidTags.WATER)) {
-            level.setBlockAndUpdate(pos, RegistryHandler.LEAD_BLOCK.get().defaultBlockState());
+    public void neighborChanged( BlockState p_60509_ , Level level , BlockPos pos , Block p_60512_ , BlockPos neighbourPos , boolean p_60514_ ){
+        if(level.getFluidState( neighbourPos ).is( FluidTags.WATER )){
+            level.setBlockAndUpdate( pos , RegistryHandler.LEAD_BLOCK.get().defaultBlockState() );
 
-            level.levelEvent(1501, pos, 0);
+            level.levelEvent( 1501 , pos , 0 );
         } //else if (level.getFluidState(neighbourPos).is(FluidTags.LAVA)) {}
 
 
-        super.neighborChanged(p_60509_, level, pos, p_60512_, neighbourPos, p_60514_);
+        super.neighborChanged( p_60509_ , level , pos , p_60512_ , neighbourPos , p_60514_ );
     }
 
     /**
@@ -81,7 +96,7 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
      */
     @Nullable
     @Override
-    public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity) {
+    public BlockPathTypes getAiPathNodeType( BlockState state , BlockGetter world , BlockPos pos , @Nullable Mob entity ){
         return BlockPathTypes.WALKABLE;
     }
 
@@ -95,33 +110,33 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
      * @return True to allow the ender dragon to destroy this block
      */
     @Override
-    public boolean canEntityDestroy(BlockState state, BlockGetter world, BlockPos pos, Entity entity) {
+    public boolean canEntityDestroy( BlockState state , BlockGetter world , BlockPos pos , Entity entity ){
         return false;
     }
 
 
     @Override
-    public int getLightBlock(BlockState p_60585_, BlockGetter p_60586_, BlockPos p_60587_) {
+    public int getLightBlock( BlockState p_60585_ , BlockGetter p_60586_ , BlockPos p_60587_ ){
         return 8;
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState p_60572_, BlockGetter p_60573_, BlockPos p_60574_, CollisionContext p_60575_) {
-        if (((EntityCollisionContext)p_60575_).getEntity() != null) {
-            if (!(((EntityCollisionContext)p_60575_).getEntity() instanceof LivingEntity)) return Shapes.empty();
-            LivingEntity entity = (LivingEntity) ((EntityCollisionContext)p_60575_).getEntity();
-            for (ItemStack item : entity.getArmorSlots()) {
-                if (item.getItem().equals(Items.IRON_BOOTS)) return Shapes.block();
+    public VoxelShape getCollisionShape( BlockState p_60572_ , BlockGetter p_60573_ , BlockPos p_60574_ , CollisionContext p_60575_ ){
+        if(((EntityCollisionContext) p_60575_).getEntity() != null){
+            if(!(((EntityCollisionContext) p_60575_).getEntity() instanceof LivingEntity)) return Shapes.empty();
+            LivingEntity entity = (LivingEntity) ((EntityCollisionContext) p_60575_).getEntity();
+            for(ItemStack item : entity.getArmorSlots()){
+                if(item.getItem().equals( Items.IRON_BOOTS )) return Shapes.block();
             }
         }
         return Shapes.empty();
     }
 
     @Override
-    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        if (((EntityCollisionContext)p_60558_).getEntity() != null) {
-            return p_60558_.isHoldingItem(Items.BUCKET)
-                    || p_60558_.isHoldingItem(RegistryHandler.MOLTEN_LEAD_BUCKET.get()) ? Shapes.block() : Shapes.empty();
+    public VoxelShape getShape( BlockState p_60555_ , BlockGetter p_60556_ , BlockPos p_60557_ , CollisionContext p_60558_ ){
+        if(((EntityCollisionContext) p_60558_).getEntity() != null){
+            return p_60558_.isHoldingItem( Items.BUCKET )
+                    || p_60558_.isHoldingItem( RegistryHandler.MOLTEN_LEAD_BUCKET.get() ) ? Shapes.block() : Shapes.empty();
         }
 
         return Shapes.block();
@@ -137,34 +152,117 @@ public class MoltenLeadBlock extends Block implements BucketPickup {
      * @return True to spawn the drops
      */
     @Override
-    public boolean canHarvestBlock(BlockState state, BlockGetter world, BlockPos pos, Player player) {
+    public boolean canHarvestBlock( BlockState state , BlockGetter world , BlockPos pos , Player player ){
         return false;
     }
 
     @Override
-    public void entityInside(BlockState p_60495_, Level p_60496_, BlockPos p_60497_, Entity p_60498_) {
-        if (p_60498_ instanceof LivingEntity) {
-            p_60498_.setSecondsOnFire(10);
-            p_60498_.hurt(ModDamageSource.MOLTEN_LEAD, 3.0F);
-            p_60498_.makeStuckInBlock(p_60495_, new Vec3((double)0.7F, 1.0D, (double)0.7F));
+    public void entityInside( BlockState p_60495_ , Level p_60496_ , BlockPos p_60497_ , Entity p_60498_ ){
+        if(p_60498_ instanceof LivingEntity){
+            p_60498_.setSecondsOnFire( 10 );
+            p_60498_.hurt( ModDamageSource.MOLTEN_LEAD , 3.0F );
+            p_60498_.makeStuckInBlock( p_60495_ , new Vec3( (double) 0.7F , 1.0D , (double) 0.7F ) );
         }
 
-        super.entityInside(p_60495_, p_60496_, p_60497_, p_60498_);
+        super.entityInside( p_60495_ , p_60496_ , p_60497_ , p_60498_ );
     }
 
     @Override
-    public ItemStack pickupBlock(LevelAccessor p_152719_, BlockPos p_152720_, BlockState p_152721_) {
-        p_152719_.setBlock(p_152720_, Blocks.AIR.defaultBlockState(), 11);
-        if (!p_152719_.isClientSide()) {
-            p_152719_.levelEvent(2001, p_152720_, Block.getId(p_152721_));
+    public ItemStack pickupBlock( LevelAccessor p_152719_ , BlockPos p_152720_ , BlockState p_152721_ ){
+        p_152719_.setBlock( p_152720_ , Blocks.AIR.defaultBlockState() , 11 );
+        if(!p_152719_.isClientSide()){
+            p_152719_.levelEvent( 2001 , p_152720_ , Block.getId( p_152721_ ) );
         }
 
-        return new ItemStack(RegistryHandler.MOLTEN_LEAD_BUCKET.get(), 1);
+        return new ItemStack( RegistryHandler.MOLTEN_LEAD_BUCKET.get() , 1 );
     }
 
     @Override
-    public Optional<SoundEvent> getPickupSound() {
-        return Optional.of(SoundEvents.BUCKET_FILL_LAVA);
+    public Optional <SoundEvent> getPickupSound(){
+        return Optional.of( SoundEvents.BUCKET_FILL_LAVA );
     }
+
+    @Override
+    public void onPlace( BlockState pState , Level pLevel , BlockPos pPos , BlockState pOldState , boolean pIsMoving ){
+        if(pIsMoving){
+            if(!pOldState.getFluidState().is( FluidTags.WATER )){
+                scheduleFallingTick( pLevel , pPos , 30 );
+                pLevel.setBlock( pPos , pState.setValue( MOVING , true ) , 3 );
+            }else{
+                pLevel.levelEvent( 1501 , pPos , 0 );
+                pLevel.setBlock( pPos , RegistryHandler.LEAD_BLOCK.get().defaultBlockState() , 3 );
+            }
+        }else{
+            if(!pOldState.getFluidState().is( FluidTags.WATER )){
+                pLevel.setBlock( pPos , pState.setValue( MOVING , false ) , 3 );
+                pLevel.scheduleTick( pPos , this , 300 );
+            }else{
+                pLevel.levelEvent( 1501 , pPos , 0 );
+                pLevel.setBlock( pPos , RegistryHandler.LEAD_BLOCK.get().defaultBlockState() , 3 );
+            }
+        }
+    }
+
+    @Override
+    public void tick( BlockState pState , ServerLevel pLevel , BlockPos pPos , Random pRandom ){
+        if(pLevel.getBlockState( pPos.below() ).getBlock() == Blocks.AIR || BlockTags.REPLACEABLE_PLANTS.contains( pLevel.getBlockState( pPos.below() ).getBlock() )
+                || pLevel.getBlockState( pPos.below() ).getFluidState().getType().is( FluidTags.WATER )
+                || BlockTags.SMALL_FLOWERS.contains(  pLevel.getBlockState( pPos.below() ).getBlock())
+                || BlockTags.TALL_FLOWERS.contains(  pLevel.getBlockState( pPos.below() ).getBlock())){
+            pLevel.setBlock( pPos , Blocks.AIR.defaultBlockState() , 67 );
+            pLevel.setBlock( pPos.below() , RegistryHandler.MOLTEN_LEAD_BLOCK.get().defaultBlockState() , 67 );
+        }
+    }
+
+
+    public void animateTick( BlockState pState , Level pLevel , BlockPos pPos , Random pRand ){
+        if(!pState.getValue( MOVING )){
+            for(int i = 0; i < pRand.nextInt( 7 ) + 1; ++i){
+                this.trySpawnDripParticles( pLevel , pPos , pState );
+            }
+        }
+    }
+
+    private void trySpawnDripParticles( Level pLevel , BlockPos pPos , BlockState pState ){
+        if(pState.getFluidState().isEmpty() && !(pLevel.random.nextFloat() < 0.5F)){
+            VoxelShape voxelshape = RegistryHandler.LEAD_BLOCK.get().defaultBlockState().getCollisionShape( pLevel , pPos );
+            double d0 = voxelshape.max( Direction.Axis.Y );
+            if(d0 >= 1.0D){
+                double d1 = voxelshape.min( Direction.Axis.Y );
+                if(d1 > 0.0D){
+                    this.spawnParticle( pLevel , pPos , voxelshape , (double) pPos.getY() + d1 - 0.05D );
+                }else{
+                    BlockPos blockpos = pPos.below();
+                    BlockState blockstate = pLevel.getBlockState( blockpos );
+                    VoxelShape voxelshape1 = blockstate.getCollisionShape( pLevel , blockpos );
+                    double d2 = voxelshape1.max( Direction.Axis.Y );
+                    if((d2 < 1.0D || !blockstate.isCollisionShapeFullBlock( pLevel , blockpos )) && blockstate.getFluidState().isEmpty()){
+                        this.spawnParticle( pLevel , pPos , voxelshape , (double) pPos.getY() - 0.05D );
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void spawnParticle( Level pLevel , BlockPos pPos , VoxelShape pShape , double pY ){
+        this.spawnFluidParticle( pLevel , (double) pPos.getX() + pShape.min( Direction.Axis.X ) , (double) pPos.getX() + pShape.max( Direction.Axis.X ) , (double) pPos.getZ() + pShape.min( Direction.Axis.Z ) , (double) pPos.getZ() + pShape.max( Direction.Axis.Z ) , pY );
+    }
+
+    private void spawnFluidParticle( Level pParticleData , double pX1 , double pX2 , double pZ1 , double pZ2 , double pY ){
+        pParticleData.addParticle( RegistryHandler.DRIPPING_LEAD.get() , Mth.lerp( pParticleData.random.nextDouble() , pX1 , pX2 ) , pY , Mth.lerp( pParticleData.random.nextDouble() , pZ1 , pZ2 ) , 0.0D , 0.0D , 0.0D );
+    }
+
+    private boolean scheduleFallingTick( LevelAccessor pLevel , BlockPos pPos , int pDelay ){
+        if(pLevel.getBlockState( pPos.below() ).getBlock() == Blocks.AIR || BlockTags.REPLACEABLE_PLANTS.contains( pLevel.getBlockState( pPos.below() ).getBlock() )
+                || pLevel.getBlockState( pPos.below() ).getFluidState().getType().is( FluidTags.WATER )
+                || BlockTags.SMALL_FLOWERS.contains(  pLevel.getBlockState( pPos.below() ).getBlock())
+                || BlockTags.TALL_FLOWERS.contains(  pLevel.getBlockState( pPos.below() ).getBlock())){
+            pLevel.scheduleTick( pPos , this , pDelay );
+            return true;
+        }
+        return false;
+    }
+
 
 }

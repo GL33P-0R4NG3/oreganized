@@ -1,10 +1,7 @@
 package me.gleep.oreganized.util;
 
-import me.gleep.oreganized.blocks.ChiseledBlock;
 import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBlocks;
-import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
-import me.gleep.oreganized.events.ModEvents;
 import me.gleep.oreganized.screens.EngraveScreen;
 import me.gleep.oreganized.util.messages.BushHammerClickPacket;
 import me.gleep.oreganized.util.messages.UpdateClientEngravedBlocks;
@@ -13,24 +10,19 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import org.lwjgl.system.CallbackI;
+import net.minecraft.world.level.block.Blocks;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Objects;
-
-import static me.gleep.oreganized.blocks.ChiseledBlock.ISZAXISDOWN;
-import static me.gleep.oreganized.blocks.ChiseledBlock.ISZAXISUP;
 
 public class GeneralUtility{
     public static void openEngraveScreen( BushHammerClickPacket message ){
-        Minecraft.getInstance().setScreen( new EngraveScreen(  Minecraft.getInstance().player.level.
-                getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null ),
-                message.pos, message.face, message.block ) );
+        IEngravedBlocks cap = Minecraft.getInstance().player.level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
+            Minecraft.getInstance().setScreen(new EngraveScreen(cap,
+                    message.pos, message.face, message.block));
     }
 
     public static void handleClientEngravedBlocksSync( UpdateClientEngravedBlocks message ) {
@@ -44,35 +36,29 @@ public class GeneralUtility{
     public static int getBrightestColorFromBlock( Block block, BlockPos blockPos ){
         InputStream is;
         BufferedImage image;
+        Block localBlock = block;
+        if( block.getRegistryName().getPath().contains( "copper" ) ){
+            localBlock = Blocks.COPPER_BLOCK;
+        }
         try {
-            String id = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getTexture(block.defaultBlockState(), Minecraft.getInstance().level, blockPos).getName().getNamespace();
-            is = Minecraft.getInstance().getResourceManager().getResource((new ResourceLocation(id, "textures/block/" + block.getRegistryName().getPath() + ".png" ))).getInputStream();
+            String id = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getTexture(localBlock.defaultBlockState(), Minecraft.getInstance().level, blockPos).getName().getNamespace();
+            is = Minecraft.getInstance().getResourceManager().getResource((new ResourceLocation(id, "textures/block/" + localBlock.getRegistryName().getPath() + ".png" ))).getInputStream();
             image = ImageIO.read(is);
         }catch(IOException e){
             e.printStackTrace();
             return 0;
         }
-        int maxBrightness = 0;
-        for (int x = 0; x < 16; x++) {
-            for(int y = 0; y < 16; y++){
-                int[] colors = image.getRaster().getPixel( x, y, new int[4] );
-                int colorBrightness = colors[0] + colors[1] + colors[2];
-                if(colorBrightness > maxBrightness){
-                    maxBrightness = colorBrightness;
+        int color = 0;
+        for (int x = 0; x < image.getWidth(); x++) {
+            for(int y = 0; y < image.getHeight(); y++){
+                int c = image.getRGB( x, y);
+                int color1 = (((c >> 16) & 0xFF) << 16) + (((c >> 8) & 0xFF) << 8) + ((c) & 0xFF);
+                if(color1 > color){
+                    color = color1;
                 }
             }
         }
-        int[] brightestColorIntArr = new int[3];
-        for (int x = 0; x < 16; x++) {
-            for(int y = 0; y < 16; y++){
-                int[] colors = image.getRaster().getPixel( x, y, new int[4] );
-                int colorBrightness = colors[0] + colors[1] + colors[2];
-                if(colorBrightness == maxBrightness){
-                    brightestColorIntArr = colors;
-                }
-            }
-        }
-        return (brightestColorIntArr[0] << 16) + (brightestColorIntArr[1] << 8) + (brightestColorIntArr[2]);
+        return modifyColorBrightness(color, -0.068F);
     }
 
     public static int modifyColorBrightness(int color, float brightness){
@@ -80,6 +66,6 @@ public class GeneralUtility{
         int G = (color >> 8) & 0xff;
         int B = color & 0xff;
         float[] HSB = Color.RGBtoHSB( R, G, B, new float[4]);
-        return Color.HSBtoRGB( HSB[0], HSB[1], brightness );
+        return Color.HSBtoRGB( HSB[0], HSB[1], HSB[2] + brightness );
     }
 }

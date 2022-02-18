@@ -9,15 +9,13 @@ import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
 import me.gleep.oreganized.util.GeneralUtility;
 import me.gleep.oreganized.util.RegistryHandler;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.font.TextFieldHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -25,8 +23,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class EngraveScreen extends Screen{
@@ -42,6 +38,7 @@ public class EngraveScreen extends Screen{
     private final BlockPos blockPos;
     private final EngravedBlocks.Face clickedFace;
     private Block clickedBlock;
+    private int textColor;
 
     public EngraveScreen( IEngravedBlocks cap , BlockPos blockPos , EngravedBlocks.Face clickedFace, Block clickedBlock ){
         super( new TranslatableComponent( "engraving.edit" ) );
@@ -49,6 +46,7 @@ public class EngraveScreen extends Screen{
         this.blockPos = blockPos;
         this.clickedFace = clickedFace;
         this.clickedBlock = clickedBlock;
+        this.textColor = GeneralUtility.getBrightestColorFromBlock( Minecraft.getInstance().level.getBlockState( blockPos ).getBlock(), blockPos );
         int i = 0;
         for(String line : lines){
             this.lines[i] = "";
@@ -58,6 +56,7 @@ public class EngraveScreen extends Screen{
 
     @Override
     public boolean keyPressed( int pKeyCode , int pScanCode , int pModifiers ){
+        textColor = GeneralUtility.getBrightestColorFromBlock( Minecraft.getInstance().level.getBlockState( blockPos ).getBlock(), blockPos );
         if(pKeyCode == 265){
             this.currentLine = this.currentLine == 0 ? 6 : this.currentLine - 1;
             this.textField.setCursorToEnd();
@@ -167,8 +166,8 @@ public class EngraveScreen extends Screen{
                 }
 
                 float f3 = (float) (-this.minecraft.font.width( s ) / 2) - 0.5f;
-                this.minecraft.font.drawInBatch( s , f3+1f , (float) (i1 * 9 - this.lines.length * 5) + 0.4f , this.minecraft.level.getBlockState( blockPos ).getBlock() != RegistryHandler.SMOOTH_NETHER_BRICKS.get() ?  GeneralUtility.modifyColorBrightness(this.minecraft.level.getBlockState( blockPos ).getBlock().defaultMaterialColor().col, 1.65f) : 4991023 , false , matrix4f , multibuffersource$buffersource , false , 0 , 15728880 , false );
-                this.minecraft.font.drawInBatch( s , f3 , (float) (i1 * 9 - this.lines.length * 5) , this.minecraft.level.getBlockState( blockPos ).getBlock() != RegistryHandler.SMOOTH_NETHER_BRICKS.get() ? GeneralUtility.modifyColorBrightness(this.minecraft.level.getBlockState( blockPos ).getBlock().defaultMaterialColor().col, 1.2f) : 787976 , false , matrix4f , multibuffersource$buffersource , false , 0 , 15728880 , false );
+                this.minecraft.font.drawInBatch( s , f3+1f , (float) (i1 * 9 - this.lines.length * 5) + 0.4f , this.minecraft.level.getBlockState( blockPos ).getBlock() != RegistryHandler.ENGRAVED_NETHER_BRICKS.get() ?  textColor : 4991023 , false , matrix4f , multibuffersource$buffersource , false , 0 , 15728880 , false );
+                this.minecraft.font.drawInBatch( s , f3 , (float) (i1 * 9 - this.lines.length * 5) , this.minecraft.level.getBlockState( blockPos ).getBlock() != RegistryHandler.ENGRAVED_NETHER_BRICKS.get() ? GeneralUtility.modifyColorBrightness( textColor, -0.1f) : 787976 , false , matrix4f , multibuffersource$buffersource , false , 0 , 15728880 , false );
                 if(i1 == this.currentLine && j >= 0 && flag1){
                     int j1 = this.minecraft.font.width( s.substring( 0 , Math.max( Math.min( j , s.length() ) , 0 ) ) );
                     int k1 = j1 - this.minecraft.font.width( s ) / 2;
