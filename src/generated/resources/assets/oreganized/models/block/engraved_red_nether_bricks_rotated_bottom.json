@@ -1,0 +1,8 @@
+{
+  "parent": "oreganized:block/cube_rotated_bottom_top",
+  "textures": {
+    "top": "oreganized:block/engraved_red_nether_bricks",
+    "bottom": "oreganized:block/engraved_red_nether_bricks",
+    "side": "oreganized:block/engraved_red_nether_bricks"
+  }
+}

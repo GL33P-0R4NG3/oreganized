@@ -1,6 +1,6 @@
 package me.gleep.oreganized.util.messages;
 
-import me.gleep.oreganized.blocks.ChiseledBlock;
+import me.gleep.oreganized.blocks.EngravedBlock;
 import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
@@ -16,8 +16,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import static me.gleep.oreganized.blocks.ChiseledBlock.ISZAXISDOWN;
-import static me.gleep.oreganized.blocks.ChiseledBlock.ISZAXISUP;
+import static me.gleep.oreganized.blocks.EngravedBlock.ISZAXISDOWN;
+import static me.gleep.oreganized.blocks.EngravedBlock.ISZAXISUP;
 import static me.gleep.oreganized.util.SimpleNetwork.CHANNEL;
 
 public class UpdateServerEngravedBlocks{
@@ -106,7 +106,7 @@ public class UpdateServerEngravedBlocks{
                 }
                 pCap.getEngravedFaces().put( pos , message.engravedFaces.get( pos ) );
                 pCap.getEngravedColors().put( pos , message.engravedColors.get( pos ) );
-                if(pLevel.getBlockState( pos ).getBlock() instanceof ChiseledBlock){
+                if(pLevel.getBlockState( pos ).getBlock() instanceof EngravedBlock){
                     pLevel.setBlockAndUpdate( pos , pLevel.getBlockState( pos ).setValue( ISZAXISUP , !Objects.equals( pCap.getString( pos , EngravedBlocks.Face.UP_N ) , pCap.getString( pos , EngravedBlocks.Face.UP_S ) ) ) );
                     pLevel.setBlockAndUpdate( pos , pLevel.getBlockState( pos ).setValue( ISZAXISDOWN , !Objects.equals( pCap.getString( pos , EngravedBlocks.Face.DOWN_N ) , pCap.getString( pos , EngravedBlocks.Face.DOWN_S ) ) ) );
                 }

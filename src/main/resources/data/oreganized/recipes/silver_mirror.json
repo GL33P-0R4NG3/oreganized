@@ -1,16 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "xyx",
+    "x#x",
     "x#x",
     " x "
   ],
   "key": {
     "x": {
       "tag": "forge:ingots/gold"
-    },
-    "y": {
-      "item": "minecraft:glass_pane"
     },
     "#": {
       "tag": "forge:ingots/silver"

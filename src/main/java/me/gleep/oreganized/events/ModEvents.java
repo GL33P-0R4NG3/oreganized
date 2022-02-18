@@ -1,15 +1,23 @@
 package me.gleep.oreganized.events;
 
+import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.gleep.oreganized.armors.STABase;
+import me.gleep.oreganized.blocks.EngravedBlock;
+import me.gleep.oreganized.blocks.EngravedWeatheringCopperBlock;
 import me.gleep.oreganized.blocks.ModCauldron;
 import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBlocks;
+import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
+import me.gleep.oreganized.capabilities.stunning.CapabilityStunning;
+import me.gleep.oreganized.capabilities.stunning.IStunning;
 import me.gleep.oreganized.items.BushHammer;
 import me.gleep.oreganized.potion.ModPotions;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.util.messages.UpdateClientEngravedBlocks;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Camera;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,22 +32,29 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.piston.PistonStructureResolver;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -49,14 +64,34 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 
+import java.util.Map;
+
 import static me.gleep.oreganized.Oreganized.MOD_ID;
 import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
 import static me.gleep.oreganized.util.SimpleNetwork.CHANNEL;
 
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents{
+
     /**
-     * Event to handle Silver Tintend Swords break
+     * Event to handle Stunning effect properly
+     */
+    @SubscribeEvent
+    public static void tickEntityStunning( final LivingEvent.LivingUpdateEvent event ){
+        LivingEntity entity = event.getEntityLiving();
+        Level level = entity.getLevel();
+        IStunning stunningCap = entity.getCapability(CapabilityStunning.STUNNING_CAPABILITY, null ).orElse(null);
+        if(stunningCap != null){
+            if(stunningCap.getRemainingStunTime() > 0){
+                stunningCap.setRemainingStunTime(stunningCap.getRemainingStunTime() - 1);
+                BlockPos previousPos = stunningCap.getPreviousPos();
+                entity.setPos( previousPos.getX(), previousPos.getY(), previousPos.getZ());
+            }
+        }
+    }
+
+    /**
+     * Event to handle Silver Tinted Swords break
      */
     @SubscribeEvent
     public static void onToolBreakEvent( final PlayerDestroyItemEvent event ){
@@ -73,6 +108,57 @@ public class ModEvents{
         }
 
         pl.drop( item , true );
+    }
+
+    public static ImmutableBiMap <Block, EngravedWeatheringCopperBlock> ENGRAVED_WAXED_COPPER_BLOCKS;
+    public static ImmutableBiMap <Block, Block> WAXED_BLOCKS;
+    public static ImmutableList <Block> ENGRAVED_COPPER_BLOCKS;
+
+    @SubscribeEvent
+    public static void handleWaxingAndScraping( final PlayerInteractEvent.RightClickBlock event ){
+        BlockState blockState = event.getWorld().getBlockState( event.getPos() );
+        if(event.getItemStack().getItem() instanceof AxeItem){
+            if(ENGRAVED_WAXED_COPPER_BLOCKS.get( blockState.getBlock() ) != null || WAXED_BLOCKS.get( blockState.getBlock() ) != null){
+                if(!event.getWorld().isClientSide() && ENGRAVED_WAXED_COPPER_BLOCKS.get( blockState.getBlock() ) != null)
+                    event.getWorld().setBlock( event.getPos() , ENGRAVED_WAXED_COPPER_BLOCKS.get( blockState.getBlock() ).defaultBlockState()
+                            .setValue( EngravedBlock.ISZAXISDOWN , blockState.getValue( EngravedBlock.ISZAXISDOWN ) )
+                            .setValue( EngravedBlock.ISZAXISUP , blockState.getValue( EngravedBlock.ISZAXISUP ) ) , 11 );
+                if(WAXED_BLOCKS.get( blockState.getBlock() ) != null) {
+                    if(!event.getWorld().isClientSide()) event.getWorld().setBlock(event.getPos(), WAXED_BLOCKS.get(blockState.getBlock()).defaultBlockState(), 11);
+                    event.getPlayer().swing(event.getHand());
+                }
+                event.getWorld().playSound( event.getPlayer() , event.getPos() , SoundEvents.AXE_WAX_OFF , SoundSource.BLOCKS , 1.0F , 1.0F );
+                event.getWorld().levelEvent( event.getPlayer() , 3004 , event.getPos() , 0 );
+            }else{
+                if(blockState.getBlock() instanceof EngravedWeatheringCopperBlock copperBlock){
+                    if(EngravedWeatheringCopperBlock.PREVIOUS_BY_BLOCK.get().get( copperBlock ) != null){
+                        if(!event.getWorld().isClientSide())
+                            event.getWorld().setBlock( event.getPos() , EngravedWeatheringCopperBlock.PREVIOUS_BY_BLOCK.get().get( copperBlock ).defaultBlockState()
+                                    .setValue( EngravedBlock.ISZAXISDOWN , blockState.getValue( EngravedBlock.ISZAXISDOWN ) )
+                                    .setValue( EngravedBlock.ISZAXISUP , blockState.getValue( EngravedBlock.ISZAXISUP ) ) , 11 );
+                        event.getWorld().playSound( event.getPlayer() , event.getPos() , SoundEvents.AXE_SCRAPE , SoundSource.BLOCKS , 1.0F , 1.0F );
+                        event.getWorld().levelEvent( event.getPlayer() , 3005 , event.getPos() , 0 );
+                    }
+                }
+            }
+        }else if(event.getItemStack().getItem() == Items.HONEYCOMB){
+            if(ENGRAVED_COPPER_BLOCKS.contains( blockState.getBlock() ) || WAXED_BLOCKS.inverse().get( blockState.getBlock() ) != null){
+                if(event.getPlayer() instanceof ServerPlayer player){
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger( player , event.getPos() , event.getItemStack() );
+                }
+                event.getPlayer().swing(event.getHand());
+                event.getItemStack().shrink( 1 );
+                if(!event.getWorld().isClientSide() && ENGRAVED_COPPER_BLOCKS.contains( blockState.getBlock() )) {
+                    EngravedWeatheringCopperBlock copperBlock = (EngravedWeatheringCopperBlock) blockState.getBlock();
+                    event.getWorld().setBlock(event.getPos(), copperBlock.getWaxedBlock().defaultBlockState()
+                            .setValue(EngravedBlock.ISZAXISDOWN, blockState.getValue(EngravedBlock.ISZAXISDOWN))
+                            .setValue(EngravedBlock.ISZAXISUP, blockState.getValue(EngravedBlock.ISZAXISUP)), 11);
+                }
+                if(!event.getWorld().isClientSide() && WAXED_BLOCKS.inverse().get( blockState.getBlock() ) != null)
+                    event.getWorld().setBlock( event.getPos() , WAXED_BLOCKS.inverse().get( blockState.getBlock() ).defaultBlockState(), 11 );
+                event.getWorld().levelEvent( event.getPlayer() , 3003 , event.getPos() , 0 );
+            }
+        }
     }
 
     /**
@@ -93,7 +179,6 @@ public class ModEvents{
                     level.playSound( (Player) null , pos , SoundEvents.STONE_PLACE , SoundSource.BLOCKS , 1.0F , 1.0F );
                     event.getPlayer().awardStat( Stats.USE_CAULDRON );
                 }
-
                 if(event.isCancelable()){
                     event.setCancellationResult( InteractionResult.sidedSuccess( level.isClientSide() ) );
                     event.setCanceled( true );
@@ -190,11 +275,13 @@ public class ModEvents{
                 for(int i = 0; i < 9; i++){
                     if(ItemTags.getAllTags().getTag( new ResourceLocation( "forge" , "ingots/lead" ) ).contains( player.getInventory().items.get( i ).getItem() )){
                         player.addEffect( new MobEffectInstance( ModPotions.STUNNED , 40 * 20 ) );
+                        player.addEffect( new MobEffectInstance( MobEffects.POISON , 200 ) );
                         return;
                     }
                 }
                 if(ItemTags.getAllTags().getTag( new ResourceLocation( "forge" , "ingots/lead" ) ).contains( player.getInventory().offhand.get( 0 ).getItem() )){
                     player.addEffect( new MobEffectInstance( ModPotions.STUNNED , 40 * 20 ) );
+                    player.addEffect( new MobEffectInstance( MobEffects.POISON , 200 ) );
                 }
             }
         }
@@ -254,6 +341,7 @@ public class ModEvents{
         }
     }
 
+
     // ENGRAVING HANDLING STARTS HERE
 
     public static boolean recentlyActivatedPiston = false;
@@ -273,17 +361,24 @@ public class ModEvents{
     }
 
     @SubscribeEvent
-    public static void updateEngravedBlocks( TickEvent.PlayerTickEvent event ){
-        Level level = event.player.level;
+    public static void updateEngravedBlocks( TickEvent.WorldTickEvent event ){
+        Level level = event.world;
         if(!level.isClientSide()){
             IEngravedBlocks capability = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY )
                     .orElse( null );
-            for(BlockPos pos : capability.getEngravedBlocks()){
-                if(!ENGRAVEABLE_BLOCKTAG.contains( event.player.level.getBlockState( pos ).getBlock() ) && !recentlyActivatedPiston){
-                    capability.removeEngravedBlock( pos );
-                    CHANNEL.send( PacketDistributor.ALL.noArg() , new UpdateClientEngravedBlocks( capability.getEngravedBlocks() ,
-                            capability.getEngravedFaces() , capability.getEngravedColors() ) );
-                    break;
+            if(!recentlyActivatedPiston){
+                for(BlockPos pos : capability.getEngravedBlocks()){
+                    byte count = 0;
+                    for(Map.Entry <EngravedBlocks.Face, String> entry : capability.getEngravedFaces().get( pos ).entrySet()){
+                        String text = entry.getValue();
+                        if(text.equals( "" ) || text.equals( "\n\n\n\n\n\n\n" )) count++;
+                    }
+                    if(!ENGRAVEABLE_BLOCKTAG.contains( level.getBlockState( pos ).getBlock() ) || count == 12){
+                        capability.removeEngravedBlock( pos );
+                        CHANNEL.send( PacketDistributor.ALL.noArg() , new UpdateClientEngravedBlocks( capability.getEngravedBlocks() ,
+                                capability.getEngravedFaces() , capability.getEngravedColors() ) );
+                        break;
+                    }
                 }
             }
         }
@@ -291,8 +386,7 @@ public class ModEvents{
 
     @SubscribeEvent
     public static void onEngravedBlockMoved( PistonEvent.Pre event ){
-        if(event.getWorld() instanceof Level){
-            Level level = (Level) event.getWorld();
+        if(event.getWorld() instanceof Level level){
             if(!level.isClientSide()){
                 PistonStructureResolver pistonHelper = event.getStructureHelper();
                 pistonHelper.resolve();

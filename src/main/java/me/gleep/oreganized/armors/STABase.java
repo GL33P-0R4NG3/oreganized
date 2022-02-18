@@ -192,7 +192,7 @@ public class STABase extends ArmorItem {
      * @param stack  ItemStack for the equipped armor
      * @param entity The entity wearing the armor
      * @param slot   The slot the armor is in
-     * @param type   The subtype, can be null or "overlay"
+     * @param type   The subtype, can be null or "overlays"
      * @return Path of texture to bind, or null to use default
      */
     @Nullable

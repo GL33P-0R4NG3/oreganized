@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "side": "oreganized:block/glance_bricks",
+    "bottom": "oreganized:block/glance_bricks",
+    "top": "oreganized:block/glance_bricks"
+  }
+}

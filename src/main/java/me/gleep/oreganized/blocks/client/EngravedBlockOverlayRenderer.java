@@ -19,8 +19,6 @@ import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static java.lang.Math.sqrt;
-
 @Mod.EventBusSubscriber(modid = Oreganized.MOD_ID, value = Dist.CLIENT)
 public class EngravedBlockOverlayRenderer{
 
@@ -50,26 +48,28 @@ public class EngravedBlockOverlayRenderer{
         if(capability.getEngravedBlocks().isEmpty()) return;
 
         for(BlockPos pos : capability.getEngravedBlocks()){
-            if(mc.gameRenderer.getRenderDistance() < sqrt(mc.player.distanceToSqr( new Vec3(pos.getX(), pos.getY(), pos.getZ()) ))) continue;
+            if(mc.gameRenderer.getRenderDistance() * mc.gameRenderer.getRenderDistance() < mc.player.distanceToSqr( new Vec3(pos.getX(), pos.getY(), pos.getZ()) )) continue;
             for(EngravedBlocks.Face face : faces){
+                if(level.getBlockState(pos.relative( face.direction )).isSolidRender(level, pos.relative( face.direction ))) continue;
                 matrix.pushPose();
                 RenderSystem.enableDepthTest();
                 matrix.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
                 matrix.translate(pos.getX() + face.translation.x(),pos.getY() + face.translation.y(),pos.getZ() + face.translation.z());
                 matrix.scale( 0.01f, 0.01f, 0.01f );
+                matrix.scale( 1.0f, 1.0f, 1.0f );
+                matrix.translate(0.0f, 1.0f, 0.0f);
                 matrix.mulPose( Vector3f.XP.rotationDegrees( face.rotation.x() ) );
                 matrix.mulPose( Vector3f.YP.rotationDegrees( face.rotation.y() ) );
                 matrix.mulPose( Vector3f.ZP.rotationDegrees( face.rotation.z() ) );
-
                 if(capability.getStringArray( pos, face ) != null){
-                    int pPackedLight = ev.getLevelRenderer().getLightColor(level, pos.relative( face.direction ));
+                    int pPackedLight = ev.getLevelRenderer().getLightColor(level, level.getBlockState( pos ), pos.relative( face.direction ));
                     MultiBufferSource.BufferSource multibuffersource$buffersource = mc.renderBuffers().bufferSource();
                     int i = 0;
                     for(String s : capability.getStringArray( pos , face )){
                         matrix.translate(0.01,0.01,0.01);
-                        mc.font.drawInBatch( s , 45 - mc.font.width( s )/2 + 1.0f , i * 9 + 0.4f, level.getBlockState( pos ).getBlock() != RegistryHandler.SMOOTH_NETHER_BRICKS.get() ? capability.getColor( pos ) : 4991023, false, matrix.last().pose(), multibuffersource$buffersource,false, 0, pPackedLight,false );
+                        mc.font.drawInBatch( s , 45 - mc.font.width( s )/2 + 1.0f , i * 9 + 0.4f, level.getBlockState( pos ).getBlock() != RegistryHandler.ENGRAVED_NETHER_BRICKS.get() ? GeneralUtility.modifyColorBrightness(capability.getColor( pos ), -0.125f) : 4991023, false, matrix.last().pose(), multibuffersource$buffersource,false, 0, pPackedLight,false );
                         matrix.translate(-0.01,-0.01,-0.01);
-                        mc.font.drawInBatch( s , 45 - mc.font.width( s )/2 , i * 9 ,level.getBlockState( pos ).getBlock() != RegistryHandler.SMOOTH_NETHER_BRICKS.get() ? GeneralUtility.modifyColorBrightness( capability.getColor( pos ), 0.3f) : 787976, false, matrix.last().pose(), multibuffersource$buffersource,false, 0, pPackedLight,false );
+                        mc.font.drawInBatch( s , 45 - mc.font.width( s )/2 , i * 9 ,level.getBlockState( pos ).getBlock() != RegistryHandler.ENGRAVED_NETHER_BRICKS.get() ? GeneralUtility.modifyColorBrightness( capability.getColor( pos ), -0.225f) : 787976, false, matrix.last().pose(), multibuffersource$buffersource,false, 0, pPackedLight,false );
                         i++;
                     }
                     multibuffersource$buffersource.endBatch();

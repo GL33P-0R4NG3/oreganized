@@ -2,9 +2,12 @@ package me.gleep.oreganized.items;
 
 import com.google.common.collect.ImmutableMap;
 import me.gleep.oreganized.Oreganized;
+import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
+import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
 import me.gleep.oreganized.items.tiers.ModTier;
 import me.gleep.oreganized.util.messages.BushHammerClickPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -27,7 +30,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
 
-import static me.gleep.oreganized.util.RegistryHandler.BRICKS_BLOCKTAG;
+import static me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks.Face.*;
+import static me.gleep.oreganized.util.RegistryHandler.ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG;
 import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
 import static me.gleep.oreganized.util.SimpleNetwork.CHANNEL;
 
@@ -59,25 +63,67 @@ public class BushHammer extends DiggerItem{
     public InteractionResult useOn( UseOnContext pContext ){
         BlockPos pPos = pContext.getClickedPos();
         Level pLevel = pContext.getLevel();
-        if(BRICKS_BLOCKTAG.contains( pLevel.getBlockState( pPos ).getBlock() )){
+        if(ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG.contains( pLevel.getBlockState( pPos ).getBlock() )){
             String name = pLevel.getBlockState( pContext.getClickedPos() ).getBlock().getRegistryName().getPath();
-            pLevel.setBlockAndUpdate( pContext.getClickedPos() , ForgeRegistries.BLOCKS.getValue(
-                    new ResourceLocation( Oreganized.MOD_ID , "smooth_" + name ) )
-                    .defaultBlockState() );
-        }
-        if(ENGRAVEABLE_BLOCKTAG.contains( pLevel.getBlockState( pContext.getClickedPos() ).getBlock() )){
-            EngravedBlocks.Face clickedFace = getFaceFromDirection( pContext.getClickedFace() , pContext.getHorizontalDirection() );
-            if(!pLevel.isClientSide()){
-                ServerPlayer player = (ServerPlayer) pContext.getPlayer();
-                CHANNEL.sendTo( new BushHammerClickPacket( pPos , clickedFace , player.level.getBlockState( pPos ).getBlock() ) ,
-                        player.connection.getConnection() , NetworkDirection.PLAY_TO_CLIENT );
-                if (!player.gameMode.isCreative()) pContext.getItemInHand().hurt( 5 , new Random() , player );
+            String modid = pLevel.getBlockState( pContext.getClickedPos() ).getBlock().getRegistryName().getNamespace();
+            Block blockToConvert;
+            if( modid.equals( "minecraft" ) ){
+                blockToConvert = ForgeRegistries.BLOCKS.getValue(
+                        new ResourceLocation( Oreganized.MOD_ID, "engraved_" + name ) );
+            } else if( modid.equals( "quark" ) ){
+                Block quarkBlock = ForgeRegistries.BLOCKS.getValue(
+                        new ResourceLocation( Oreganized.MOD_ID, "engraved_" + name ) );
+                if(quarkBlock == null) {
+                   blockToConvert = ForgeRegistries.BLOCKS.getValue(
+                            new ResourceLocation( modid, "engraved_" + name ) );
+                } else blockToConvert = quarkBlock;
+            } else {
+                blockToConvert = ForgeRegistries.BLOCKS.getValue(
+                        new ResourceLocation( modid, "engraved_" + name ) );
             }
-            return InteractionResult.SUCCESS;
+            if (blockToConvert != Blocks.AIR) pLevel.setBlockAndUpdate( pContext.getClickedPos() , blockToConvert.defaultBlockState());
+        }
+        if(ENGRAVEABLE_BLOCKTAG.contains( pLevel.getBlockState( pContext.getClickedPos() ).getBlock() )) {
+            IEngravedBlocks cap = Minecraft.getInstance().player.level.getCapability(CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY).orElse(null);
+            EngravedBlocks.Face clickedFace = getFaceFromDirection(pContext.getClickedFace(), pContext.getHorizontalDirection());
+            if (cap.getEngravedFaces().get(pContext.getClickedPos()) == null ||( evaluateFace(cap, clickedFace, pContext.getClickedPos()) && (cap.getEngravedFaces().get(pContext.getClickedPos()).get(clickedFace).equals("")
+                    || cap.getEngravedFaces().get(pContext.getClickedPos()).get(clickedFace).equals("\n\n\n\n\n\n\n")))) {
+                if (!pLevel.isClientSide()) {
+                    ServerPlayer player = (ServerPlayer) pContext.getPlayer();
+                    CHANNEL.sendTo(new BushHammerClickPacket(pPos, clickedFace, player.level.getBlockState(pPos).getBlock()),
+                            player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
+                    if (!player.gameMode.isCreative()) pContext.getItemInHand().hurt(5, new Random(), player);
+                }
+                return InteractionResult.SUCCESS;
+            }
         }
         return InteractionResult.PASS;
     }
 
+    private boolean evaluateFace(IEngravedBlocks cap, EngravedBlocks.Face face, BlockPos clickedPos){
+            if (face.direction == Direction.UP) {
+                return (cap.getEngravedFaces().get(clickedPos).get(UP_N).equals("") ||
+                        cap.getEngravedFaces().get(clickedPos).get(UP_N).equals("\n\n\n\n\n\n\n")) &&
+                        (cap.getEngravedFaces().get(clickedPos).get(UP_S).equals("") ||
+                                cap.getEngravedFaces().get(clickedPos).get(UP_S).equals("\n\n\n\n\n\n\n")) &&
+                        (cap.getEngravedFaces().get(clickedPos).get(UP_E).equals("") ||
+                                cap.getEngravedFaces().get(clickedPos).get(UP_E).equals("\n\n\n\n\n\n\n")) &&
+                        (cap.getEngravedFaces().get(clickedPos).get(UP_W).equals("") ||
+                                cap.getEngravedFaces().get(clickedPos).get(UP_W).equals("\n\n\n\n\n\n\n"));
+            } else if (face.direction == Direction.DOWN) {
+            return (cap.getEngravedFaces().get(clickedPos).get(DOWN_N).equals("") ||
+                    cap.getEngravedFaces().get(clickedPos).get(DOWN_N).equals("\n\n\n\n\n\n\n")) &&
+                    (cap.getEngravedFaces().get(clickedPos).get(DOWN_S).equals("") ||
+                    cap.getEngravedFaces().get(clickedPos).get(DOWN_S).equals("\n\n\n\n\n\n\n")) &&
+                    (cap.getEngravedFaces().get(clickedPos).get(DOWN_E).equals("") ||
+                    cap.getEngravedFaces().get(clickedPos).get(DOWN_E).equals("\n\n\n\n\n\n\n")) &&
+                    (cap.getEngravedFaces().get(clickedPos).get(DOWN_W).equals("") ||
+                    cap.getEngravedFaces().get(clickedPos).get(DOWN_W).equals("\n\n\n\n\n\n\n"));
+        } else {
+                return (cap.getEngravedFaces().get(clickedPos).get(face).equals("")
+                        || cap.getEngravedFaces().get(clickedPos).get(face).equals("\n\n\n\n\n\n\n"));
+            }
+    }
 
     /**
      * Called each tick while using an item.
@@ -116,11 +162,11 @@ public class BushHammer extends DiggerItem{
                 default -> EngravedBlocks.Face.DOWN_N;
             };
             case UP -> switch(pLookingDirection){
-                case NORTH -> EngravedBlocks.Face.UP_N;
-                case SOUTH -> EngravedBlocks.Face.UP_S;
+                case NORTH -> UP_N;
+                case SOUTH -> UP_S;
                 case WEST -> EngravedBlocks.Face.UP_W;
-                case EAST -> EngravedBlocks.Face.UP_E;
-                default -> EngravedBlocks.Face.UP_N;
+                case EAST -> UP_E;
+                default -> UP_N;
             };
             case NORTH -> EngravedBlocks.Face.FRONT;
             case SOUTH -> EngravedBlocks.Face.BACK;

@@ -1,5 +1,6 @@
 package me.gleep.oreganized.util.messages;
 
+import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -44,7 +45,9 @@ public class BushHammerClickPacket{
 
     public static void handle(BushHammerClickPacket message, Supplier <NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> openEngraveScreen(message) );
+        context.enqueueWork(() -> {
+            openEngraveScreen(message);
+        } );
         context.setPacketHandled(true);
     }
 }

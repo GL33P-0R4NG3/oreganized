@@ -1,6 +1,8 @@
 package me.gleep.oreganized.potion;
 
 import me.gleep.oreganized.Oreganized;
+import me.gleep.oreganized.capabilities.stunning.CapabilityStunning;
+import me.gleep.oreganized.capabilities.stunning.IStunning;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffect;
@@ -12,6 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 import net.minecraftforge.event.RegistryEvent;
@@ -24,31 +27,22 @@ import java.util.Random;
 public class ModPotions{
 
     public static MobEffect STUNNED = new MobEffect( MobEffectCategory.HARMFUL , 0x3B3B63 ){
-    	private short time;
         @Override
         public boolean isDurationEffectTick( int pDuration , int pAmplifier ){
-            System.out.println(time);
             int k = 300;
-            if(pDuration % k == 0){
-                time = (short) (Math.max( 4, (int) new Random().nextFloat() * 8 ) * 20 >> pAmplifier);
-            }
-            if(time > 0){
-            	time--;
-            	return true;
-			}
-            return false;
+            return pDuration % k == 0;
         }
-
 
         @Override
         public void applyEffectTick( LivingEntity pLivingEntity , int pAmplifier ){
-            pLivingEntity.setDeltaMovement( -pLivingEntity.getDeltaMovement().x()  , -200 , -pLivingEntity.getDeltaMovement().z() );
-            pLivingEntity.setOnGround( false );
+            Level level = pLivingEntity.level;
+            IStunning stunningCap = pLivingEntity.getCapability(CapabilityStunning.STUNNING_CAPABILITY, null ).orElse(null);
+            if(stunningCap != null){
+                stunningCap.setPreviousPos( pLivingEntity.blockPosition() );
+                stunningCap.setRemainingStunTime(Math.max( 5, (int) Math.random() * 12 ) * 20);
+            }
+            super.applyEffectTick( pLivingEntity, pAmplifier );
         }
-    };
-    public static MobEffect STUNNING = new MobEffect( MobEffectCategory.HARMFUL , 0x3B3B63 ){
-
-
     };
 
     public static Potion STUNNING_POTION = new Potion( "stunning_potion" , new MobEffectInstance( STUNNED , 40 * 20 ) );
