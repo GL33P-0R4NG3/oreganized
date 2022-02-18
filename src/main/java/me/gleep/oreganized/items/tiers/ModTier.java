@@ -8,7 +8,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
 public enum ModTier implements Tier {
-    LEAD(0, 150, 6.0F, 1.5F, 7, () -> {
+    LEAD(0, 150, 7.0F, 1.5F, 7, () -> {
             return Ingredient.of(ItemTags.getAllTags().getTag(new ResourceLocation("forge:ingots/lead")));
     });
 
