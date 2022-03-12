@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X#X",
+    "#X#",
+    "X#X"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "minecraft:gold_ingot"
+      }
+    ],
+    "X": {
+      "item": "oreganized:silver_ingot"
+    }
+  },
+  "result": {
+    "item": "oreganized:electrum_ingot"
+  }
+}
