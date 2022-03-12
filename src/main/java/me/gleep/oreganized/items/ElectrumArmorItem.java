@@ -41,7 +41,7 @@ public class ElectrumArmorItem extends ArmorItem {
             @Nullable
             @Override
             public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
-                return new ElectrumArmorModel<>(ElectrumArmorModel.createBodyLayer().bakeRoot());
+                return new ElectrumArmorModel<>(ElectrumArmorModel.createBodyLayer().bakeRoot(), armorSlot);
             }
         });
     }
