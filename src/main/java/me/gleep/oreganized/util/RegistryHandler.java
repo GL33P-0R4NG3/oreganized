@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -104,10 +105,12 @@ public class RegistryHandler {
     /*//////////////////////////////////            ITEMS            //////////////////////////////////*/
     public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", SilverIngot::new);
     public static final RegistryObject<Item> LEAD_INGOT = ITEMS.register("lead_ingot", ItemBase::new);
+    public static final RegistryObject<Item> ELECTRUM_INGOT = ITEMS.register("electrum_ingot", ItemBase::new);
     public static final RegistryObject<Item> RAW_SILVER = ITEMS.register("raw_silver", ItemBase::new);
     public static final RegistryObject<Item> RAW_LEAD = ITEMS.register("raw_lead", ItemBase::new);
     public static final RegistryObject<Item> SILVER_NUGGET = ITEMS.register("silver_nugget", ItemBase::new);
     public static final RegistryObject<Item> LEAD_NUGGET = ITEMS.register("lead_nugget", ItemBase::new);
+    public static final RegistryObject<Item> ELECTRUM_NUGGET = ITEMS.register("electrum_nugget", ItemBase::new);
     public static final RegistryObject<Item> NETHERITE_NUGGET = ITEMS.register("netherite_nugget", () -> new ItemBase(true));
     public static final RegistryObject<Item> MOLTEN_LEAD_BUCKET = ITEMS.register("molten_lead_bucket", () -> new SolidBucketItem(RegistryHandler.MOLTEN_LEAD_BLOCK.get(),
             SoundEvents.BUCKET_EMPTY_LAVA, new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS).stacksTo(1))
@@ -138,6 +141,7 @@ public class RegistryHandler {
     public static final RegistryObject<Block> LEAD_BLOCK = BLOCKS.register("lead_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL)
             .strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL))
     );
+    public static final RegistryObject<Block> ELECTRUM_BLOCK = BLOCKS.register("electrum_block", () -> new Block(BlockBehaviour.Properties.of(Material.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops().sound(SoundType.METAL)));
     public static final RegistryObject<Block> GLANCE = BLOCKS.register("glance", () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIORITE)));
     public static final RegistryObject<SlabBlock> GLANCE_SLAB = BLOCKS.register("glance_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(GLANCE.get())));
     public static final RegistryObject<SlabBlock> GLANCE_BRICKS_SLAB = BLOCKS.register("glance_bricks_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(GLANCE.get())));
@@ -312,6 +316,7 @@ public class RegistryHandler {
     //Blocks
     public static final RegistryObject<Item> SILVER_BLOCK_ITEM = ITEMS.register("silver_block", () -> new BlockItemBase(SILVER_BLOCK.get()));
     public static final RegistryObject<Item> LEAD_BLOCK_ITEM = ITEMS.register("lead_block", () -> new BlockItemBase(LEAD_BLOCK.get()));
+    public static final RegistryObject<Item> ELECTURM_BLOCK_ITEM = ITEMS.register("electrum_block", () -> new BlockItemBase(ELECTRUM_BLOCK.get()));
     //public static final RegistryObject <Item> LEAD_COATING_ITEM = ITEMS.register("lead_coating", () -> new BlockItemBase(LEAD_COATING.get(), 1));
     //public static final RegistryObject<Item> CUT_LEAD_COATING_ITEM = ITEMS.register("cut_lead_coating", () -> new BlockItemBase(CUT_LEAD_COATING.get(), 1));
     //public static final RegistryObject<Item> LIGHTENED_IRON_BLOCK_ITEM = ITEMS.register("lightened_iron_block", () -> new BlockItemBase(LIGHTENED_IRON_BLOCK.get()));

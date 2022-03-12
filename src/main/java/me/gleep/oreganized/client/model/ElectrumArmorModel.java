@@ -82,6 +82,10 @@ public class ElectrumArmorModel<T extends LivingEntity> extends HumanoidModel<T>
 		if (slot == EquipmentSlot.HEAD) {
 			poseStack.pushPose();
 			this.Head.copyFrom(this.head);
+			if (this.young) {
+				poseStack.scale(0.75F, 0.75F, 0.75F);
+				this.Head.setPos(0.0F, 15.0F, 0.0F);
+			}
 			this.Head.render(poseStack, buffer, packedLight, packedOverlay);
 			poseStack.popPose();
 		}
@@ -90,6 +94,12 @@ public class ElectrumArmorModel<T extends LivingEntity> extends HumanoidModel<T>
 			this.Body.copyFrom(this.body);
 			this.RightArm.copyFrom(this.rightArm);
 			this.LeftArm.copyFrom(this.leftArm);
+			if (this.young) {
+				poseStack.scale(0.5F, 0.5F, 0.5F);
+				this.Body.setPos(0.0F, 24.0F, 0.0F);
+				this.RightArm.setPos(-5.0F, 24.0F, 0.0F);
+				this.LeftArm.setPos(5.0F, 24.0F, 0.0F);
+			}
 			this.RightArm.render(poseStack, buffer, packedLight, packedOverlay);
 			this.LeftArm.render(poseStack, buffer, packedLight, packedOverlay);
 			this.Body.render(poseStack, buffer, packedLight, packedOverlay);
@@ -99,6 +109,11 @@ public class ElectrumArmorModel<T extends LivingEntity> extends HumanoidModel<T>
 			poseStack.pushPose();
 			this.RightLeg.copyFrom(this.rightLeg);
 			this.LeftLeg.copyFrom(this.leftLeg);
+			if (this.young) {
+				poseStack.scale(0.5F, 0.5F, 0.5F);
+				this.LeftLeg.setPos(2.0F, 36.0F, 0.0F);
+				this.RightLeg.setPos(-2.0F, 36.0F, 0.0F);
+			}
 			this.RightLeg.render(poseStack, buffer, packedLight, packedOverlay);
 			this.LeftLeg.render(poseStack, buffer, packedLight, packedOverlay);
 			poseStack.popPose();
@@ -107,6 +122,11 @@ public class ElectrumArmorModel<T extends LivingEntity> extends HumanoidModel<T>
 			poseStack.pushPose();
 			this.RightBoot.copyFrom(this.rightLeg);
 			this.LeftBoot.copyFrom(this.leftLeg);
+			if (this.young) {
+				poseStack.scale(0.5F, 0.5F, 0.5F);
+				this.LeftBoot.setPos(2.0F, 37.0F, 0.0F);
+				this.RightBoot.setPos(-2.0F, 37.0F, 0.0F);
+			}
 			this.RightBoot.render(poseStack, buffer, packedLight, packedOverlay);
 			this.LeftBoot.render(poseStack, buffer, packedLight, packedOverlay);
 			poseStack.popPose();
