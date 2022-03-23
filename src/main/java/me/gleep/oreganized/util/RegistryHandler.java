@@ -16,6 +16,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -120,6 +121,10 @@ public class RegistryHandler {
     public static final RegistryObject<Item> MUSIC_DISC_18_ITEM = ITEMS.register("music_disc_18", () -> new ModMusicDisc(14, MUSIC_DISC_18));
     public static final RegistryObject<Item> MUSIC_DISC_SHULK_ITEM = ITEMS.register("music_disc_shulk", () -> new ModMusicDisc(15, MUSIC_DISC_SHULK));
 
+    public static final RegistryObject<Item> ELECTURM_HELMET = ITEMS.register("electrum_helmet", () -> new ElectrumArmorItem(EquipmentSlot.HEAD, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<Item> ELECTURM_CHESTPLATE = ITEMS.register("electrum_chestplate", () -> new ElectrumArmorItem(EquipmentSlot.CHEST, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<Item> ELECTURM_LEGGINGS = ITEMS.register("electrum_leggings", () -> new ElectrumArmorItem(EquipmentSlot.LEGS, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static final RegistryObject<Item> ELECTURM_BOOTS = ITEMS.register("electrum_boots", () -> new ElectrumArmorItem(EquipmentSlot.FEET, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
 
     /*//////////////////////////////////            BLOCKS            //////////////////////////////////*/
     //Ores
