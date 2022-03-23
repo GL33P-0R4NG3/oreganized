@@ -103,7 +103,6 @@ public class Oreganized {
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CRYSTAL_GLASS.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CYAN_CRYSTAL_GLASS.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GREEN_CRYSTAL_GLASS.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GRAY_CRYSTAL_GLASS.get(), RenderType.translucent());
@@ -121,7 +120,6 @@ public class Oreganized {
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CYAN_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GREEN_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GRAY_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
