@@ -39,7 +39,7 @@ public class ModPotions{
             IStunning stunningCap = pLivingEntity.getCapability(CapabilityStunning.STUNNING_CAPABILITY, null ).orElse(null);
             if(stunningCap != null){
                 stunningCap.setPreviousPos( pLivingEntity.blockPosition() );
-                stunningCap.setRemainingStunTime(Math.max( 5, (int) Math.random() * 12 ) * 20);
+                stunningCap.setRemainingStunTime((int) Math.floor((Math.max( 5, Math.floor(Math.random() * 12) ) * 20) * ((3f/4f)*(pAmplifier+1))));
             }
             super.applyEffectTick( pLivingEntity, pAmplifier );
         }

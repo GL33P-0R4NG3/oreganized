@@ -1,0 +1,436 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside"
+      }
+    },
+    {
+      "when": {
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_alt"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_alt",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post"
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_alt",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "west": "false",
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post"
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "east": "false",
+        "type": "0"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_alt"
+      }
+    },
+    {
+      "when": {
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_rot"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_rot"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_rot"
+      }
+    },
+    {
+      "when": {
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_rot"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_alt_rot"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_alt_rot",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_rot"
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_alt_rot",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "west": "false",
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_rot",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_rot"
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_rot",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "east": "false",
+        "type": "1"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_alt_rot"
+      }
+    },
+    {
+      "when": {
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_in"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_in"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_in"
+      }
+    },
+    {
+      "when": {
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_in"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_alt_in"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_alt_in",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_in"
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_alt_in",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "west": "false",
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_in",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_in"
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_in",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "east": "false",
+        "type": "2"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_alt_in"
+      }
+    },
+    {
+      "when": {
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_out"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_out"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_out"
+      }
+    },
+    {
+      "when": {
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_out"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_alt_out"
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_alt_out",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_out"
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_alt_out",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "west": "false",
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_out",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_post_out"
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_side_out",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "east": "false",
+        "type": "3"
+      },
+      "apply": {
+        "model": "oreganized:block/cyan_crystal_glass_pane_noside_alt_out"
+      }
+    }
+  ]
+}
