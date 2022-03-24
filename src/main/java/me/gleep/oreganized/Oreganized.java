@@ -2,8 +2,6 @@ package me.gleep.oreganized;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
-import com.zkryle.coopperative.lib.veins.VeinRegistry;
-import com.zkryle.coopperative.lib.veins.common.Vein;
 import me.gleep.oreganized.blocks.client.ShrapnelBombRenderer;
 import me.gleep.oreganized.capabilities.CapabilityHandler;
 import me.gleep.oreganized.events.ModEvents;
@@ -85,11 +83,6 @@ public class Oreganized {
                 Map.entry(RegistryHandler.WAXED_BLACK_CONCRETE_POWDER.get(), Blocks.BLACK_CONCRETE_POWDER),
                 Map.entry(RegistryHandler.WAXED_SPOTTED_GLANCE.get(), RegistryHandler.SPOTTED_GLANCE.get())
         );
-
-        // Register Veins
-        // Example Vein:
-        // new Vein( RegistryHandler.GLANCE.get(), RegistryHandler.DEEPSLATE_LEAD_ORE.get(), RegistryHandler.RAW_LEAD_BLOCK.get(), -60, 4 )
-        VeinRegistry.registerVein( new Vein( RegistryHandler.GLANCE.get(), RegistryHandler.DEEPSLATE_LEAD_ORE.get(), RegistryHandler.RAW_LEAD_BLOCK.get(), -60, 4 ) );
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
