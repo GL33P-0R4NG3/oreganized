@@ -38,11 +38,3 @@ Expands vanilla stuff.
     versionRange="[1.18,1.19)"
     ordering="NONE"
     side="BOTH"
-
-[[dependencies.oreganized]]
-    modId="coopperative"
-    mandatory=true
-    # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[1.1,1.2)"
-    ordering="NONE"
-    side="BOTH"
