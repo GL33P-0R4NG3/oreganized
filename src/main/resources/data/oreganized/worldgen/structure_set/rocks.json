@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "oreganized:rocks",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "spacing": 3,
+    "separation": 1,
+    "salt": 533453253,
+    "type": "minecraft:random_spread"
+  }
+}

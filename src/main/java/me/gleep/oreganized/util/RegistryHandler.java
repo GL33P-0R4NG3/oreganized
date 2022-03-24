@@ -5,29 +5,31 @@ import me.gleep.oreganized.blocks.*;
 import me.gleep.oreganized.entities.PrimedShrapnelBomb;
 import me.gleep.oreganized.entities.tileentities.ExposerBlockEntity;
 import me.gleep.oreganized.items.*;
+import me.gleep.oreganized.world.gen.BoulderStructures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SolidBucketItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -39,7 +41,8 @@ import static me.gleep.oreganized.Oreganized.MOD_ID;
 
 public class RegistryHandler {
     //Mod
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Oreganized.MOD_ID);
+    public static final DeferredRegister<StructureFeature<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MOD_ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
@@ -52,6 +55,7 @@ public class RegistryHandler {
 
     public static void init() {
         FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        STRUCTURES.register(FMLJavaModLoadingContext.get().getModEventBus());
         EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         PARTICLES.register(FMLJavaModLoadingContext.get().getModEventBus());
         SOUND_EVENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -78,6 +82,7 @@ public class RegistryHandler {
     public static final RegistryObject<SimpleParticleType> LANDING_LEAD = PARTICLES.register("landing_lead", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> LEAD_SHRAPNEL = PARTICLES.register( "lead_shrapnel", () -> new SimpleParticleType(true));
 
+
     /*//////////////////////////////////            SOUND EVENTS            //////////////////////////////////*/
     public static final RegistryObject<SoundEvent> MUSIC_DISC_PILLAGED = SOUND_EVENTS.register("music_disc.pillaged", () -> new SoundEvent(new ResourceLocation(MOD_ID, "music_disc.pillaged")));
     public static final RegistryObject<SoundEvent> MUSIC_DISC_18 = SOUND_EVENTS.register("music_disc.18", () -> new SoundEvent(new ResourceLocation(MOD_ID, "music_disc.18")));
@@ -102,6 +107,10 @@ public class RegistryHandler {
                     LeadNuggetEntity::new, MobCategory.MISC
             ).fireImmune().sized(1.0F, 1.0F).clientTrackingRange(4).updateInterval(20).build("lead_nugget")
     );*/
+
+
+    /*//////////////////////////////////            STRUCTURES            //////////////////////////////////*/
+    public static final RegistryObject<StructureFeature<?>> ROCKS = STRUCTURES.register("rocks", BoulderStructures::new);
 
 
     /*//////////////////////////////////            ITEMS            //////////////////////////////////*/
@@ -474,8 +483,14 @@ public class RegistryHandler {
     );*/
 
     /*//////////////////////////////////            BLOCKTAGS            //////////////////////////////////*/
-    public static final Tag.Named<Block> ENGRAVEABLE_BLOCKTAG = BlockTags.bind(MOD_ID + ":engraveable");
-    public static final Tag.Named<Block> ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG = BlockTags.bind(MOD_ID + ":engraved_textured_blocks");
+    //Oreganized
+    public static final TagKey<Block> BUSH_HAMMER_BREAKABLE_BLOCKTAG = BlockTags.create(new ResourceLocation(MOD_ID, "bush_hammer_breakable"));
+    public static final TagKey<Block> ENGRAVEABLE_BLOCKTAG = BlockTags.create(new ResourceLocation(MOD_ID, "engraveable"));
+    public static final TagKey<Block> ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG = BlockTags.create(new ResourceLocation(MOD_ID, "engraved_textured_blocks"));
+    public static final TagKey<Block> FIRE_SOURCE_BLOCKTAG = BlockTags.create(new ResourceLocation(MOD_ID, "fire_source"));
+
+    //Forge
+    public static final TagKey<Item> LEAD_INGOTS_ITEMTAG = ItemTags.create(new ResourceLocation("forge", "ingots/lead"));
 
     public static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
         return (boolean)false;

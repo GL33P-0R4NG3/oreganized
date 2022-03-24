@@ -1,0 +1,10 @@
+{
+  "type": "oreganized:rocks",
+  "config": {
+    "start_pool": "oreganized:rocks",
+    "size": 1
+  },
+  "biomes": "#oreganized:has_structure/rocks",
+  "adapt_noise": false,
+  "spawn_overrides": {}
+}

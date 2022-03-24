@@ -22,32 +22,26 @@ import net.minecraft.client.Camera;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.piston.PistonStructureResolver;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
@@ -68,6 +62,7 @@ import java.util.Map;
 
 import static me.gleep.oreganized.Oreganized.MOD_ID;
 import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
+import static me.gleep.oreganized.util.RegistryHandler.LEAD_INGOTS_ITEMTAG;
 import static me.gleep.oreganized.util.SimpleNetwork.CHANNEL;
 
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -254,9 +249,9 @@ public class ModEvents{
         BlockState state = world.getBlockState( pos );
         ItemStack currentitem = event.getPlayer().getItemInHand( event.getPlayer().getUsedItemHand() );
 
-        if(currentitem.getItem().equals( RegistryHandler.BUSH_HAMMER.get() )){
-            for(Block b : BushHammer.EFFECTIVE_ON.keySet()){
-                if(state.getBlock().equals( b ) && !event.getPlayer().isCreative()){
+        if (currentitem.getItem().equals(RegistryHandler.BUSH_HAMMER.get())) {
+            for (Block b : BushHammer.EFFECTIVE_ON.keySet()) {
+                if (state.getBlock().equals( b ) && !event.getPlayer().isCreative()){
                     world.setBlock( pos , BushHammer.EFFECTIVE_ON.get( b ).defaultBlockState() , 2 );
                     currentitem.hurtAndBreak( 1 , event.getPlayer() , ( player ) -> {
                         player.broadcastBreakEvent( event.getPlayer().getUsedItemHand() );
@@ -269,17 +264,17 @@ public class ModEvents{
     }
 
     @SubscribeEvent
-    public static void applyLeadEffect( LivingEntityUseItemEvent.Finish event ){
-        if(event.getItem().getItem().isEdible()){
-            if(event.getEntityLiving() instanceof Player player){
-                for(int i = 0; i < 9; i++){
-                    if(ItemTags.getAllTags().getTag( new ResourceLocation( "forge" , "ingots/lead" ) ).contains( player.getInventory().items.get( i ).getItem() )){
+    public static void applyLeadEffect( LivingEntityUseItemEvent.Finish event ) {
+        if (event.getItem().getItem().isEdible()) {
+            if (event.getEntityLiving() instanceof Player player) {
+                for (int i = 0; i < 9; i++){
+                    if (player.getInventory().items.get( i ).is(LEAD_INGOTS_ITEMTAG)) {
                         player.addEffect( new MobEffectInstance( ModPotions.STUNNED , 40 * 20 ) );
                         player.addEffect( new MobEffectInstance( MobEffects.POISON , 200 ) );
                         return;
                     }
                 }
-                if(ItemTags.getAllTags().getTag( new ResourceLocation( "forge" , "ingots/lead" ) ).contains( player.getInventory().offhand.get( 0 ).getItem() )){
+                if (player.getInventory().offhand.get( 0 ).is(LEAD_INGOTS_ITEMTAG)) {
                     player.addEffect( new MobEffectInstance( ModPotions.STUNNED , 40 * 20 ) );
                     player.addEffect( new MobEffectInstance( MobEffects.POISON , 200 ) );
                 }
@@ -373,7 +368,7 @@ public class ModEvents{
                         String text = entry.getValue();
                         if(text.equals( "" ) || text.equals( "\n\n\n\n\n\n\n" )) count++;
                     }
-                    if(!ENGRAVEABLE_BLOCKTAG.contains( level.getBlockState( pos ).getBlock() ) || count == 12){
+                    if(!level.getBlockState( pos ).is(ENGRAVEABLE_BLOCKTAG) || count == 12){
                         capability.removeEngravedBlock( pos );
                         CHANNEL.send( PacketDistributor.ALL.noArg() , new UpdateClientEngravedBlocks( capability.getEngravedBlocks() ,
                                 capability.getEngravedFaces() , capability.getEngravedColors() ) );
