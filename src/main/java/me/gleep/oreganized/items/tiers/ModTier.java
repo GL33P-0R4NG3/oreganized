@@ -1,15 +1,15 @@
 package me.gleep.oreganized.items.tiers;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
+import static me.gleep.oreganized.util.RegistryHandler.LEAD_INGOTS_ITEMTAG;
+
 public enum ModTier implements Tier {
     LEAD(0, 150, 7.0F, 1.5F, 7, () -> {
-            return Ingredient.of(ItemTags.getAllTags().getTag(new ResourceLocation("forge:ingots/lead")));
+            return Ingredient.of(LEAD_INGOTS_ITEMTAG);
     });
 
     private final int harvestLevel;

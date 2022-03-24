@@ -205,10 +205,10 @@ public class MoltenLeadBlock extends Block implements BucketPickup{
 
     @Override
     public void tick( BlockState pState , ServerLevel pLevel , BlockPos pPos , Random pRandom ){
-        if(pLevel.getBlockState( pPos.below() ).getBlock() == Blocks.AIR || BlockTags.REPLACEABLE_PLANTS.contains( pLevel.getBlockState( pPos.below() ).getBlock() )
-                || pLevel.getBlockState( pPos.below() ).getFluidState().getType().is( FluidTags.WATER )
-                || BlockTags.SMALL_FLOWERS.contains(  pLevel.getBlockState( pPos.below() ).getBlock())
-                || BlockTags.TALL_FLOWERS.contains(  pLevel.getBlockState( pPos.below() ).getBlock())){
+        if (pLevel.getBlockState(pPos.below()).getBlock() == Blocks.AIR || pLevel.getBlockState(pPos.below()).is(BlockTags.REPLACEABLE_PLANTS)
+                || pLevel.getBlockState(pPos.below()).getFluidState().is(FluidTags.WATER)
+                || pLevel.getBlockState(pPos.below()).is(BlockTags.SMALL_FLOWERS)
+                || pLevel.getBlockState(pPos.below()).is(BlockTags.TALL_FLOWERS)){
             pLevel.setBlock( pPos , Blocks.AIR.defaultBlockState() , 67 );
             pLevel.setBlock( pPos.below() , RegistryHandler.MOLTEN_LEAD_BLOCK.get().defaultBlockState() , 67 );
         }
@@ -254,10 +254,10 @@ public class MoltenLeadBlock extends Block implements BucketPickup{
     }
 
     private boolean scheduleFallingTick( LevelAccessor pLevel , BlockPos pPos , int pDelay ){
-        if(pLevel.getBlockState( pPos.below() ).getBlock() == Blocks.AIR || BlockTags.REPLACEABLE_PLANTS.contains( pLevel.getBlockState( pPos.below() ).getBlock() )
-                || pLevel.getBlockState( pPos.below() ).getFluidState().getType().is( FluidTags.WATER )
-                || BlockTags.SMALL_FLOWERS.contains(  pLevel.getBlockState( pPos.below() ).getBlock())
-                || BlockTags.TALL_FLOWERS.contains(  pLevel.getBlockState( pPos.below() ).getBlock())){
+        if(pLevel.getBlockState( pPos.below() ).getBlock() == Blocks.AIR || pLevel.getBlockState(pPos.below()).is(BlockTags.REPLACEABLE_PLANTS)
+                || pLevel.getBlockState( pPos.below() ).getFluidState().is(FluidTags.WATER)
+                || pLevel.getBlockState( pPos.below() ).is(BlockTags.SMALL_FLOWERS)
+                || pLevel.getBlockState(pPos.below()).is(BlockTags.TALL_FLOWERS)){
             pLevel.scheduleTick( pPos , this , pDelay );
             return true;
         }
