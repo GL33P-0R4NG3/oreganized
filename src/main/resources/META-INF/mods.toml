@@ -8,7 +8,7 @@ issueTrackerURL="https://github.com/GL33P-0R4NG3/oreganized/issues/" #optional
 
 [[mods]] #mandatory
 modId="oreganized" #mandatory
-version="1.18.1-1.0.0-alpha-10" #mandatory
+version="1.18.2-1.0.0-alpha-12" #mandatory
 displayName="Oreganized Mod" #mandatory
 updateJSONURL="https://www.curseforge.com/minecraft/mc-mods/oreganized-mod/files" #optional
 displayURL="https://www.curseforge.com/minecraft/mc-mods/oreganized-mod" #optional
@@ -36,13 +36,5 @@ Expands vanilla stuff.
     mandatory=true
     # This version range declares a minimum of the current minecraft version up to but not including the next major version
     versionRange="[1.18,1.19)"
-    ordering="NONE"
-    side="BOTH"
-
-[[dependencies.oreganized]]
-    modId="coopperative"
-    mandatory=true
-    # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[1.1,1.2)"
     ordering="NONE"
     side="BOTH"
