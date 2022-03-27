@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "oreganized:block/red_crystal_glass_out"
+  }
+}

@@ -5,26 +5,31 @@ import me.gleep.oreganized.blocks.*;
 import me.gleep.oreganized.entities.PrimedShrapnelBomb;
 import me.gleep.oreganized.entities.tileentities.ExposerBlockEntity;
 import me.gleep.oreganized.items.*;
+import me.gleep.oreganized.world.gen.BoulderStructures;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SolidBucketItem;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.client.IItemRenderProperties;
@@ -37,7 +42,8 @@ import static me.gleep.oreganized.Oreganized.MOD_ID;
 
 public class RegistryHandler {
     //Mod
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Oreganized.MOD_ID);
+    public static final DeferredRegister<StructureFeature<?>> STRUCTURES = DeferredRegister.create(ForgeRegistries.STRUCTURE_FEATURES, MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MOD_ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, MOD_ID);
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MOD_ID);
@@ -50,6 +56,7 @@ public class RegistryHandler {
 
     public static void init() {
         FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        STRUCTURES.register(FMLJavaModLoadingContext.get().getModEventBus());
         EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         PARTICLES.register(FMLJavaModLoadingContext.get().getModEventBus());
         SOUND_EVENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -76,6 +83,7 @@ public class RegistryHandler {
     public static final RegistryObject<SimpleParticleType> LANDING_LEAD = PARTICLES.register("landing_lead", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> LEAD_SHRAPNEL = PARTICLES.register( "lead_shrapnel", () -> new SimpleParticleType(true));
 
+
     /*//////////////////////////////////            SOUND EVENTS            //////////////////////////////////*/
     public static final RegistryObject<SoundEvent> MUSIC_DISC_PILLAGED = SOUND_EVENTS.register("music_disc.pillaged", () -> new SoundEvent(new ResourceLocation(MOD_ID, "music_disc.pillaged")));
     public static final RegistryObject<SoundEvent> MUSIC_DISC_18 = SOUND_EVENTS.register("music_disc.18", () -> new SoundEvent(new ResourceLocation(MOD_ID, "music_disc.18")));
@@ -100,6 +108,10 @@ public class RegistryHandler {
                     LeadNuggetEntity::new, MobCategory.MISC
             ).fireImmune().sized(1.0F, 1.0F).clientTrackingRange(4).updateInterval(20).build("lead_nugget")
     );*/
+
+
+    /*//////////////////////////////////            STRUCTURES            //////////////////////////////////*/
+    public static final RegistryObject<StructureFeature<?>> ROCKS = STRUCTURES.register("rocks", BoulderStructures::new);
 
 
     /*//////////////////////////////////            ITEMS            //////////////////////////////////*/
@@ -169,8 +181,8 @@ public class RegistryHandler {
     //public static final RegistryObject<Block> CUT_CAST_IRON_BLOCK = BLOCKS.register("cut_cast_iron_block", () -> new Block(BlockBehaviour.Properties.copy(CAST_IRON_BLOCK.get())));
     //public static final RegistryObject<Block> BLASTED_IRON_BLOCK = BLOCKS.register("blasted_iron_block", BlastedIronBlock::new);
     //public static final RegistryObject<Block> CUT_BLASTED_IRON_BLOCK = BLOCKS.register("cut_blasted_iron_block", () -> new Block(BlockBehaviour.Properties.copy(BLASTED_IRON_BLOCK.get())));
-    public static final RegistryObject<Block> TECHNICAL_NETHERITE_BLOCK = BLOCKS.register("technical_netherite_block", TechnicalNetheriteBlock::new);
-    public static final RegistryObject<Block> CUT_TECHNICAL_NETHERITE_BLOCK = BLOCKS.register("cut_technical_netherite_block", TechnicalNetheriteBlock::new);
+    //public static final RegistryObject<Block> TECHNICAL_NETHERITE_BLOCK = BLOCKS.register("technical_netherite_block", TechnicalNetheriteBlock::new);
+    //public static final RegistryObject<Block> CUT_TECHNICAL_NETHERITE_BLOCK = BLOCKS.register("cut_technical_netherite_block", TechnicalNetheriteBlock::new);
 
     //Engraved Bricks
     public static final RegistryObject<EngravedBlock> ENGRAVED_NETHER_BRICKS = BLOCKS.register("engraved_nether_bricks",
@@ -238,20 +250,20 @@ public class RegistryHandler {
     //public static final RegistryObject<Block> CUT_CAST_IRON_STAIRS = BLOCKS.register("cut_cast_iron_stairs", () -> new StairBlock(CAST_IRON_BLOCK.get()::defaultBlockState, BlockBehaviour.Properties.copy(CAST_IRON_BLOCK.get())));
     //public static final RegistryObject<Block> BLASTED_IRON_STAIRS = BLOCKS.register("blasted_iron_stairs", () -> new StairBlock(BLASTED_IRON_BLOCK.get()::defaultBlockState, BlockBehaviour.Properties.copy(BLASTED_IRON_BLOCK.get())));
     //public static final RegistryObject<Block> CUT_BLASTED_IRON_STAIRS = BLOCKS.register("cut_blasted_iron_stairs", () -> new StairBlock(CUT_BLASTED_IRON_BLOCK.get()::defaultBlockState, BlockBehaviour.Properties.copy(CUT_BLASTED_IRON_BLOCK.get())));
-    public static final RegistryObject<Block> TECHNICAL_NETHERITE_STAIRS = BLOCKS.register("technical_netherite_stairs", () -> new StairBlock(TECHNICAL_NETHERITE_BLOCK.get()::defaultBlockState, BlockBehaviour.Properties.copy(TECHNICAL_NETHERITE_BLOCK.get())));
-    public static final RegistryObject<Block> CUT_TECHNICAL_NETHERITE_STAIRS = BLOCKS.register("cut_technical_netherite_stairs", () -> new StairBlock(CUT_TECHNICAL_NETHERITE_BLOCK.get()::defaultBlockState, BlockBehaviour.Properties.copy(CUT_TECHNICAL_NETHERITE_BLOCK.get())));
+    //public static final RegistryObject<Block> TECHNICAL_NETHERITE_STAIRS = BLOCKS.register("technical_netherite_stairs", () -> new StairBlock(TECHNICAL_NETHERITE_BLOCK.get()::defaultBlockState, BlockBehaviour.Properties.copy(TECHNICAL_NETHERITE_BLOCK.get())));
+    //public static final RegistryObject<Block> CUT_TECHNICAL_NETHERITE_STAIRS = BLOCKS.register("cut_technical_netherite_stairs", () -> new StairBlock(CUT_TECHNICAL_NETHERITE_BLOCK.get()::defaultBlockState, BlockBehaviour.Properties.copy(CUT_TECHNICAL_NETHERITE_BLOCK.get())));
     //Slabs
     //public static final RegistryObject<Block> LIGHTENED_IRON_SLAB = BLOCKS.register("lightened_iron_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(LIGHTENED_IRON_BLOCK.get())));
     //public static final RegistryObject<Block> CUT_CAST_IRON_SLAB = BLOCKS.register("cut_cast_iron_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(CAST_IRON_BLOCK.get())));
     //public static final RegistryObject<Block> BLASTED_IRON_SLAB = BLOCKS.register("blasted_iron_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(BLASTED_IRON_BLOCK.get())));
     //public static final RegistryObject<Block> CUT_BLASTED_IRON_SLAB = BLOCKS.register("cut_blasted_iron_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(CUT_BLASTED_IRON_BLOCK.get())));
-    public static final RegistryObject<Block> TECHNICAL_NETHERITE_SLAB = BLOCKS.register("technical_netherite_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(TECHNICAL_NETHERITE_BLOCK.get())));
-    public static final RegistryObject<Block> CUT_TECHNICAL_NETHERITE_SLAB = BLOCKS.register("cut_technical_netherite_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(CUT_TECHNICAL_NETHERITE_BLOCK.get())));
+    //public static final RegistryObject<Block> TECHNICAL_NETHERITE_SLAB = BLOCKS.register("technical_netherite_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(TECHNICAL_NETHERITE_BLOCK.get())));
+    //public static final RegistryObject<Block> CUT_TECHNICAL_NETHERITE_SLAB = BLOCKS.register("cut_technical_netherite_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(CUT_TECHNICAL_NETHERITE_BLOCK.get())));
     //Glass
     public static final RegistryObject<Block> BLACK_CRYSTAL_GLASS = BLOCKS.register("black_crystal_glass", () -> new CrystalGlassColored(DyeColor.BLACK));
     public static final RegistryObject<Block> BLUE_CRYSTAL_GLASS = BLOCKS.register("blue_crystal_glass", () -> new CrystalGlassColored(DyeColor.BLUE));
     public static final RegistryObject<Block> BROWN_CRYSTAL_GLASS = BLOCKS.register("brown_crystal_glass", () -> new CrystalGlassColored(DyeColor.BROWN));
-    public static final RegistryObject<Block> CRYSTAL_GLASS = BLOCKS.register("crystal_glass", CrystalGlassBase::new);
+    //public static final RegistryObject<Block> CRYSTAL_GLASS = BLOCKS.register("crystal_glass", CrystalGlassBase::new);
     public static final RegistryObject<Block> CYAN_CRYSTAL_GLASS = BLOCKS.register("cyan_crystal_glass", () -> new CrystalGlassColored(DyeColor.CYAN));
     public static final RegistryObject<Block> GRAY_CRYSTAL_GLASS = BLOCKS.register("gray_crystal_glass", () -> new CrystalGlassColored(DyeColor.GRAY));
     public static final RegistryObject<Block> GREEN_CRYSTAL_GLASS = BLOCKS.register("green_crystal_glass", () -> new CrystalGlassColored(DyeColor.GREEN));
@@ -269,7 +281,7 @@ public class RegistryHandler {
     public static final RegistryObject<Block> BLACK_CRYSTAL_GLASS_PANE = BLOCKS.register("black_crystal_glass_pane", () -> new CrystalGlassPaneColored(DyeColor.BLACK));
     public static final RegistryObject<Block> BLUE_CRYSTAL_GLASS_PANE = BLOCKS.register("blue_crystal_glass_pane", () -> new CrystalGlassPaneColored(DyeColor.BLUE));
     public static final RegistryObject<Block> BROWN_CRYSTAL_GLASS_PANE = BLOCKS.register("brown_crystal_glass_pane", () -> new CrystalGlassPaneColored(DyeColor.BROWN));
-    public static final RegistryObject<Block> CRYSTAL_GLASS_PANE = BLOCKS.register("crystal_glass_pane", CrystalGlassPaneBase::new);
+    //public static final RegistryObject<Block> CRYSTAL_GLASS_PANE = BLOCKS.register("crystal_glass_pane", CrystalGlassPaneBase::new);
     public static final RegistryObject<Block> CYAN_CRYSTAL_GLASS_PANE = BLOCKS.register("cyan_crystal_glass_pane", () -> new CrystalGlassPaneColored(DyeColor.CYAN));
     public static final RegistryObject<Block> GRAY_CRYSTAL_GLASS_PANE = BLOCKS.register("gray_crystal_glass_pane", () -> new CrystalGlassPaneColored(DyeColor.GRAY));
     public static final RegistryObject<Block> GREEN_CRYSTAL_GLASS_PANE = BLOCKS.register("green_crystal_glass_pane", () -> new CrystalGlassPaneColored(DyeColor.GREEN));
@@ -324,8 +336,8 @@ public class RegistryHandler {
     //public static final RegistryObject<Item> CUT_CAST_IRON_BLOCK_ITEM = ITEMS.register("cut_cast_iron_block", () -> new BlockItemBase(CUT_CAST_IRON_BLOCK.get()));
     //public static final RegistryObject<Item> BLASTED_IRON_BLOCK_ITEM = ITEMS.register("blasted_iron_block", () -> new BlockItemBase(BLASTED_IRON_BLOCK.get()));
     //public static final RegistryObject<Item> CUT_BLASTED_IRON_BLOCK_ITEM = ITEMS.register("cut_blasted_iron_block", () -> new BlockItemBase(CUT_BLASTED_IRON_BLOCK.get()));
-    public static final RegistryObject<Item> TECHNICAL_NETHERITE_BLOCK_ITEM = ITEMS.register("technical_netherite_block", () -> new TechnicalNetheriteBlockItem(TECHNICAL_NETHERITE_BLOCK.get()));
-    public static final RegistryObject<Item> CUT_TECHNICAL_NETHERITE_BLOCK_ITEM = ITEMS.register("cut_technical_netherite_block", () -> new TechnicalNetheriteBlockItem(CUT_TECHNICAL_NETHERITE_BLOCK.get()));
+    //public static final RegistryObject<Item> TECHNICAL_NETHERITE_BLOCK_ITEM = ITEMS.register("technical_netherite_block", () -> new TechnicalNetheriteBlockItem(TECHNICAL_NETHERITE_BLOCK.get()));
+    //public static final RegistryObject<Item> CUT_TECHNICAL_NETHERITE_BLOCK_ITEM = ITEMS.register("cut_technical_netherite_block", () -> new TechnicalNetheriteBlockItem(CUT_TECHNICAL_NETHERITE_BLOCK.get()));
     public static final RegistryObject<Item> GLANCE_ITEM = ITEMS.register("glance", () -> new BlockItemBase(GLANCE.get()));
     public static final RegistryObject<Item> POLISHED_GLANCE_ITEM = ITEMS.register("polished_glance", () -> new BlockItemBase(POLISHED_GLANCE.get()));
     public static final RegistryObject<Item> GLANCE_BRICKS_ITEM = ITEMS.register("glance_bricks", () -> new BlockItemBase(GLANCE_BRICKS.get()));
@@ -339,8 +351,8 @@ public class RegistryHandler {
     //public static final RegistryObject<Item> CUT_BLASTED_IRON_STAIRS_ITEM = ITEMS.register("cut_blasted_iron_stairs", () -> new BlockItemBase(CUT_BLASTED_IRON_STAIRS.get()));
     public static final RegistryObject<Item> GLANCE_STAIRS_ITEM = ITEMS.register("glance_stairs", () -> new BlockItemBase(GLANCE_STAIRS.get()));
     public static final RegistryObject<Item> GLANCE_BRICKS_STAIRS_ITEM = ITEMS.register("glance_bricks_stairs", () -> new BlockItemBase(GLANCE_BRICKS_STAIRS.get()));
-    public static final RegistryObject<Item> TECHNICAL_NETHERITE_STAIRS_ITEM = ITEMS.register("technical_netherite_stairs", () -> new TechnicalNetheriteBlockItem(TECHNICAL_NETHERITE_STAIRS.get()));
-    public static final RegistryObject<Item> CUT_TECHNICAL_NETHERITE_STAIRS_ITEM = ITEMS.register("cut_technical_netherite_stairs", () -> new TechnicalNetheriteBlockItem(CUT_TECHNICAL_NETHERITE_STAIRS.get()));
+    //public static final RegistryObject<Item> TECHNICAL_NETHERITE_STAIRS_ITEM = ITEMS.register("technical_netherite_stairs", () -> new TechnicalNetheriteBlockItem(TECHNICAL_NETHERITE_STAIRS.get()));
+    //public static final RegistryObject<Item> CUT_TECHNICAL_NETHERITE_STAIRS_ITEM = ITEMS.register("cut_technical_netherite_stairs", () -> new TechnicalNetheriteBlockItem(CUT_TECHNICAL_NETHERITE_STAIRS.get()));
     //Slabs
     //public static final RegistryObject<Item> LIGHTENED_IRON_SLAB_ITEM = ITEMS.register("lightened_iron_slab", () -> new BlockItemBase(LIGHTENED_IRON_SLAB.get()));
     //public static final RegistryObject<Item> CUT_CAST_IRON_SLAB_ITEM = ITEMS.register("cut_cast_iron_slab", () -> new BlockItemBase(CUT_CAST_IRON_SLAB.get()));
@@ -348,8 +360,8 @@ public class RegistryHandler {
     //public static final RegistryObject<Item> CUT_BLASTED_IRON_SLAB_ITEM = ITEMS.register("cut_blasted_iron_slab", () -> new BlockItemBase(CUT_BLASTED_IRON_SLAB.get()));
     public static final RegistryObject<Item> GLANCE_SLAB_ITEM = ITEMS.register("glance_slab", () -> new BlockItemBase(GLANCE_SLAB.get()));
     public static final RegistryObject<Item> GLANCE_BRICKS_SLAB_ITEM = ITEMS.register("glance_bricks_slab", () -> new BlockItemBase(GLANCE_BRICKS_SLAB.get()));
-    public static final RegistryObject<Item> TECHNICAL_NETHERITE_SLAB_ITEM = ITEMS.register("technical_netherite_slab", () -> new TechnicalNetheriteBlockItem(TECHNICAL_NETHERITE_SLAB.get()));
-    public static final RegistryObject<Item> CUT_TECHNICAL_NETHERITE_SLAB_ITEM = ITEMS.register("cut_technical_netherite_slab", () -> new TechnicalNetheriteBlockItem(CUT_TECHNICAL_NETHERITE_SLAB.get()));
+    //public static final RegistryObject<Item> TECHNICAL_NETHERITE_SLAB_ITEM = ITEMS.register("technical_netherite_slab", () -> new TechnicalNetheriteBlockItem(TECHNICAL_NETHERITE_SLAB.get()));
+    //public static final RegistryObject<Item> CUT_TECHNICAL_NETHERITE_SLAB_ITEM = ITEMS.register("cut_technical_netherite_slab", () -> new TechnicalNetheriteBlockItem(CUT_TECHNICAL_NETHERITE_SLAB.get()));
     //Walls
     public static final RegistryObject<Item> GLANCE_WALL_ITEM = ITEMS.register("glance_wall", () -> new BlockItemBase(GLANCE_WALL.get()));
     public static final RegistryObject<Item> GLANCE_BRICKS_WALL_ITEM = ITEMS.register("glance_bricks_wall", () -> new BlockItemBase(GLANCE_BRICKS_WALL.get()));
@@ -357,7 +369,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> BLACK_CRYSTAL_GLASS_ITEM = ITEMS.register("black_crystal_glass", () -> new BlockItemBase(BLACK_CRYSTAL_GLASS.get()));
     public static final RegistryObject<Item> BLUE_CRYSTAL_GLASS_ITEM = ITEMS.register("blue_crystal_glass", () -> new BlockItemBase(BLUE_CRYSTAL_GLASS.get()));
     public static final RegistryObject<Item> BROWN_CRYSTAL_GLASS_ITEM = ITEMS.register("brown_crystal_glass", () -> new BlockItemBase(BROWN_CRYSTAL_GLASS.get()));
-    public static final RegistryObject<Item> CRYSTAL_GLASS_ITEM = ITEMS.register("crystal_glass", () -> new BlockItemBase(CRYSTAL_GLASS.get()));
+    //public static final RegistryObject<Item> CRYSTAL_GLASS_ITEM = ITEMS.register("crystal_glass", () -> new BlockItemBase(CRYSTAL_GLASS.get()));
     public static final RegistryObject<Item> CYAN_CRYSTAL_GLASS_ITEM = ITEMS.register("cyan_crystal_glass", () -> new BlockItemBase(CYAN_CRYSTAL_GLASS.get()));
     public static final RegistryObject<Item> GRAY_CRYSTAL_GLASS_ITEM = ITEMS.register("gray_crystal_glass", () -> new BlockItemBase(GRAY_CRYSTAL_GLASS.get()));
     public static final RegistryObject<Item> GREEN_CRYSTAL_GLASS_ITEM = ITEMS.register("green_crystal_glass", () -> new BlockItemBase(GREEN_CRYSTAL_GLASS.get()));
@@ -375,7 +387,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> BLACK_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("black_crystal_glass_pane", () -> new BlockItemBase(BLACK_CRYSTAL_GLASS_PANE.get(), 1));
     public static final RegistryObject<Item> BLUE_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("blue_crystal_glass_pane", () -> new BlockItemBase(BLUE_CRYSTAL_GLASS_PANE.get(), 1));
     public static final RegistryObject<Item> BROWN_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("brown_crystal_glass_pane", () -> new BlockItemBase(BROWN_CRYSTAL_GLASS_PANE.get(), 1));
-    public static final RegistryObject<Item> CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("crystal_glass_pane", () -> new BlockItemBase(CRYSTAL_GLASS_PANE.get(), 1));
+    //public static final RegistryObject<Item> CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("crystal_glass_pane", () -> new BlockItemBase(CRYSTAL_GLASS_PANE.get(), 1));
     public static final RegistryObject<Item> CYAN_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("cyan_crystal_glass_pane", () -> new BlockItemBase(CYAN_CRYSTAL_GLASS_PANE.get(), 1));
     public static final RegistryObject<Item> GRAY_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("gray_crystal_glass_pane", () -> new BlockItemBase(GRAY_CRYSTAL_GLASS_PANE.get(), 1));
     public static final RegistryObject<Item> GREEN_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("green_crystal_glass_pane", () -> new BlockItemBase(GREEN_CRYSTAL_GLASS_PANE.get(), 1));
@@ -389,7 +401,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> RED_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("red_crystal_glass_pane", () -> new BlockItemBase(RED_CRYSTAL_GLASS_PANE.get(), 1));
     public static final RegistryObject<Item> WHITE_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("white_crystal_glass_pane", () -> new BlockItemBase(WHITE_CRYSTAL_GLASS_PANE.get(), 1));
     public static final RegistryObject<Item> YELLOW_CRYSTAL_GLASS_PANE_ITEM = ITEMS.register("yellow_crystal_glass_pane", () -> new BlockItemBase(YELLOW_CRYSTAL_GLASS_PANE.get(), 1));
-    //Waxed Powder Concrete
+    //SugarCoated Powder Concrete
     public static final RegistryObject<Item> WAXED_WHITE_CONCRETE_POWDER_ITEM = ITEMS.register("waxed_white_concrete_powder", () -> new BlockItemBase(WAXED_WHITE_CONCRETE_POWDER.get(), 1));
     public static final RegistryObject<Item> WAXED_ORANGE_CONCRETE_POWDER_ITEM = ITEMS.register("waxed_orange_concrete_powder", () -> new BlockItemBase(WAXED_ORANGE_CONCRETE_POWDER.get(), 1));
     public static final RegistryObject<Item> WAXED_MAGENTA_CONCRETE_POWDER_ITEM = ITEMS.register("waxed_magenta_concrete_powder", () -> new BlockItemBase(WAXED_MAGENTA_CONCRETE_POWDER.get(), 1));
@@ -476,6 +488,20 @@ public class RegistryHandler {
     );*/
 
     /*//////////////////////////////////            BLOCKTAGS            //////////////////////////////////*/
-    public static final Tag.Named<Block> ENGRAVEABLE_BLOCKTAG = BlockTags.bind(MOD_ID + ":engraveable");
-    public static final Tag.Named<Block> ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG = BlockTags.bind(MOD_ID + ":engraved_textured_blocks");
+    //Oreganized
+    public static final TagKey<Block> BUSH_HAMMER_BREAKABLE_BLOCKTAG = BlockTags.create(new ResourceLocation(MOD_ID, "bush_hammer_breakable"));
+    public static final TagKey<Block> ENGRAVEABLE_BLOCKTAG = BlockTags.create(new ResourceLocation(MOD_ID, "engraveable"));
+    public static final TagKey<Block> ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG = BlockTags.create(new ResourceLocation(MOD_ID, "engraved_textured_blocks"));
+    public static final TagKey<Block> FIRE_SOURCE_BLOCKTAG = BlockTags.create(new ResourceLocation(MOD_ID, "fire_source"));
+
+    //Forge
+    public static final TagKey<Item> LEAD_INGOTS_ITEMTAG = ItemTags.create(new ResourceLocation("forge", "ingots/lead"));
+
+    public static Boolean never(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
+        return (boolean)false;
+    }
+
+    public static boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
+        return false;
+    }
 }

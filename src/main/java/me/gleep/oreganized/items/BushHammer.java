@@ -5,34 +5,20 @@ import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
-import com.google.common.collect.*;
-import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.items.tiers.ModTier;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import me.gleep.oreganized.util.messages.BushHammerClickPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.Tag;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DiggerItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,8 +31,7 @@ import java.util.Random;
 import java.util.function.Consumer;
 
 import static me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks.Face.*;
-import static me.gleep.oreganized.util.RegistryHandler.ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG;
-import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
+import static me.gleep.oreganized.util.RegistryHandler.*;
 import static me.gleep.oreganized.util.SimpleNetwork.CHANNEL;
 
 public class BushHammer extends DiggerItem{
@@ -69,21 +54,14 @@ public class BushHammer extends DiggerItem{
     );*/
 
     public BushHammer() {
-        super(2.5F, -2.8F, ModTier.LEAD, Tag.fromSet(EFFECTIVE_ON.keySet()),
+        super(2.5F, -2.8F, ModTier.LEAD, BUSH_HAMMER_BREAKABLE_BLOCKTAG,
                 new Properties().tab(CreativeModeTab.TAB_TOOLS).stacksTo(1)
         );
     }
 
     @Override
     public float getDestroySpeed(ItemStack pStack, BlockState pState) {
-        Tag<Block> tag = BlockTags.getAllTags().getTag(new ResourceLocation(Oreganized.MOD_ID, "bush_hammer_breakable"));
-
-        if (tag == null) return super.getDestroySpeed(pStack, pState);
-
-        for (Block block : tag.getValues()) {
-            if (block.equals(pState.getBlock())) return this.speed;
-        }
-
+        if (EFFECTIVE_ON.containsKey(pState.getBlock())) return this.speed;
         return super.getDestroySpeed(pStack, pState);
     }
 
@@ -91,7 +69,7 @@ public class BushHammer extends DiggerItem{
     public InteractionResult useOn( UseOnContext pContext ){
         BlockPos pPos = pContext.getClickedPos();
         Level pLevel = pContext.getLevel();
-        if(ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG.contains( pLevel.getBlockState( pPos ).getBlock() )){
+        if (pLevel.getBlockState( pPos ).is(ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG)){
             String name = pLevel.getBlockState( pContext.getClickedPos() ).getBlock().getRegistryName().getPath();
             String modid = pLevel.getBlockState( pContext.getClickedPos() ).getBlock().getRegistryName().getNamespace();
             Block blockToConvert;
@@ -111,7 +89,7 @@ public class BushHammer extends DiggerItem{
             }
             if (blockToConvert != Blocks.AIR) pLevel.setBlockAndUpdate( pContext.getClickedPos() , blockToConvert.defaultBlockState());
         }
-        if(ENGRAVEABLE_BLOCKTAG.contains( pLevel.getBlockState( pContext.getClickedPos() ).getBlock() )) {
+        if (pLevel.getBlockState(pContext.getClickedPos()).is(ENGRAVEABLE_BLOCKTAG)) {
             IEngravedBlocks cap = Minecraft.getInstance().player.level.getCapability(CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY).orElse(null);
             EngravedBlocks.Face clickedFace = getFaceFromDirection(pContext.getClickedFace(), pContext.getHorizontalDirection());
             if (cap.getEngravedFaces().get(pContext.getClickedPos()) == null ||( evaluateFace(cap, clickedFace, pContext.getClickedPos()) && (cap.getEngravedFaces().get(pContext.getClickedPos()).get(clickedFace).equals("")

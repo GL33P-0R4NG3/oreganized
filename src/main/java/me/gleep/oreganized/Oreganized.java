@@ -2,12 +2,9 @@ package me.gleep.oreganized;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
-import com.zkryle.coopperative.lib.veins.VeinRegistry;
-import com.zkryle.coopperative.lib.veins.common.Vein;
 import me.gleep.oreganized.blocks.client.ShrapnelBombRenderer;
 import me.gleep.oreganized.capabilities.CapabilityHandler;
 import me.gleep.oreganized.events.ModEvents;
-import me.gleep.oreganized.screens.StunnedOverlayRenderer;
 import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.util.SimpleNetwork;
 import me.gleep.oreganized.world.gen.OreganizedConfiguredFeatures;
@@ -19,7 +16,6 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -87,11 +83,6 @@ public class Oreganized {
                 Map.entry(RegistryHandler.WAXED_BLACK_CONCRETE_POWDER.get(), Blocks.BLACK_CONCRETE_POWDER),
                 Map.entry(RegistryHandler.WAXED_SPOTTED_GLANCE.get(), RegistryHandler.SPOTTED_GLANCE.get())
         );
-
-        // Register Veins
-        // Example Vein:
-        // new Vein( RegistryHandler.GLANCE.get(), RegistryHandler.DEEPSLATE_LEAD_ORE.get(), RegistryHandler.RAW_LEAD_BLOCK.get(), -60, 4 )
-        VeinRegistry.registerVein( new Vein( RegistryHandler.GLANCE.get(), RegistryHandler.DEEPSLATE_LEAD_ORE.get(), RegistryHandler.RAW_LEAD_BLOCK.get(), -60, 4 ) );
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -103,7 +94,6 @@ public class Oreganized {
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CRYSTAL_GLASS.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CYAN_CRYSTAL_GLASS.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GREEN_CRYSTAL_GLASS.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GRAY_CRYSTAL_GLASS.get(), RenderType.translucent());
@@ -121,7 +111,6 @@ public class Oreganized {
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLACK_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BLUE_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BROWN_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CYAN_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GREEN_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GRAY_CRYSTAL_GLASS_PANE.get(), RenderType.translucent());

@@ -3,8 +3,6 @@ package me.gleep.oreganized.potion;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.capabilities.stunning.CapabilityStunning;
 import me.gleep.oreganized.capabilities.stunning.IStunning;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -21,7 +19,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Random;
+import static me.gleep.oreganized.util.RegistryHandler.LEAD_INGOTS_ITEMTAG;
 
 @Mod.EventBusSubscriber(modid = Oreganized.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModPotions{
@@ -39,7 +37,7 @@ public class ModPotions{
             IStunning stunningCap = pLivingEntity.getCapability(CapabilityStunning.STUNNING_CAPABILITY, null ).orElse(null);
             if(stunningCap != null){
                 stunningCap.setPreviousPos( pLivingEntity.blockPosition() );
-                stunningCap.setRemainingStunTime(Math.max( 5, (int) Math.random() * 12 ) * 20);
+                stunningCap.setRemainingStunTime((int) Math.floor((Math.max( 5, Math.floor(Math.random() * 12) ) * 20) * ((3f/4f)*(pAmplifier+1))));
             }
             super.applyEffectTick( pLivingEntity, pAmplifier );
         }
@@ -71,12 +69,12 @@ public class ModPotions{
 
             @Override
             public boolean isIngredient( ItemStack ingredient ){
-                return ItemTags.getAllTags().getTag( new ResourceLocation( "forge" , "ingots/lead" ) ).contains( ingredient.getItem() );
+                return ingredient.is(LEAD_INGOTS_ITEMTAG);
             }
 
             @Override
             public ItemStack getOutput( ItemStack input , ItemStack ingredient ){
-                if(PotionUtils.getPotion( input ) == Potions.WATER && ItemTags.getAllTags().getTag( new ResourceLocation( "forge" , "ingots/lead" ) ).contains( ingredient.getItem() )){
+                if(PotionUtils.getPotion( input ) == Potions.WATER && ingredient.is(LEAD_INGOTS_ITEMTAG) ){
                     ItemStack out = new ItemStack( Items.POTION );
                     PotionUtils.setPotion( out , STUNNING_POTION );
                     return out;

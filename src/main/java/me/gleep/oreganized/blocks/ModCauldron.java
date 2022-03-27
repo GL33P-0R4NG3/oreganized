@@ -2,12 +2,10 @@ package me.gleep.oreganized.blocks;
 
 import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -35,6 +33,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Random;
 
+import static me.gleep.oreganized.util.RegistryHandler.FIRE_SOURCE_BLOCKTAG;
 import static net.minecraft.world.phys.shapes.BooleanOp.ONLY_FIRST;
 
 public class ModCauldron extends Block {
@@ -123,8 +122,7 @@ public class ModCauldron extends Block {
             if (!worldIn.isClientSide) {
                 BlockPos newPos = new BlockPos(pos.getX(), pos.getY() - 1.0D, pos.getZ());
                 BlockState block = worldIn.getBlockState(newPos);
-                ResourceLocation loc = new ResourceLocation("oreganized", "fire_source");
-                if (BlockTags.getAllTags().getTag(loc).contains(block.getBlock())) {
+                if (block.is(FIRE_SOURCE_BLOCKTAG)) {
                     this.setLeadLevel(worldIn, pos, state, state.getValue(LEVEL) + 1);
                 } else {
                     this.setLeadLevel(worldIn, pos, state, 1);
