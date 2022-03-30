@@ -6,7 +6,10 @@ import me.gleep.oreganized.capabilities.engravedblockscap.CapabilityEngravedBloc
 import me.gleep.oreganized.capabilities.engravedblockscap.EngravedBlocks;
 import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
 import me.gleep.oreganized.items.tiers.ModTier;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import me.gleep.oreganized.util.messages.BushHammerClickPacket;
 import net.minecraft.client.Minecraft;
@@ -66,14 +69,14 @@ public class BushHammer extends DiggerItem{
     }
 
     @Override
-    public InteractionResult useOn( UseOnContext pContext ){
+    public InteractionResult useOn( UseOnContext pContext ) {
         BlockPos pPos = pContext.getClickedPos();
         Level pLevel = pContext.getLevel();
-        if (pLevel.getBlockState( pPos ).is(ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG)){
+        if (pLevel.getBlockState( pPos ).is(ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG)) {
             String name = pLevel.getBlockState( pContext.getClickedPos() ).getBlock().getRegistryName().getPath();
             String modid = pLevel.getBlockState( pContext.getClickedPos() ).getBlock().getRegistryName().getNamespace();
             Block blockToConvert;
-            if( modid.equals( "minecraft" ) ){
+            if ( modid.equals( "minecraft" ) ) {
                 blockToConvert = ForgeRegistries.BLOCKS.getValue(
                         new ResourceLocation( Oreganized.MOD_ID, "engraved_" + name ) );
             } else if( modid.equals( "quark" ) ){
@@ -101,6 +104,12 @@ public class BushHammer extends DiggerItem{
                     if (!player.gameMode.isCreative()) pContext.getItemInHand().hurt(5, new Random(), player);
                 }
                 return InteractionResult.SUCCESS;
+            }
+        } else {
+            if (pContext.getPlayer() != null) {
+                TextComponent mes = new TextComponent("This surface isn't smooth enough for engraving");
+                mes.setStyle(mes.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GRAY)).withObfuscated(true).withBold(true));
+                pContext.getPlayer().displayClientMessage(mes,true);
             }
         }
         return InteractionResult.PASS;

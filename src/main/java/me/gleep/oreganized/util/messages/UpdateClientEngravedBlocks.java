@@ -26,7 +26,7 @@ public class UpdateClientEngravedBlocks{
     public void encode( FriendlyByteBuf buffer ) {
         CompoundTag tag = new CompoundTag();
         int i = 0;
-        for(BlockPos pos: engravedBlocks){
+        for (BlockPos pos: engravedBlocks) {
             CompoundTag blockpos = new CompoundTag();
             CompoundTag coords = new CompoundTag();
             CompoundTag faces = new CompoundTag();
