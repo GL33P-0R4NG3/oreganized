@@ -2,6 +2,10 @@
   "replace": false,
   "values": [
     "minecraft:plains",
-    "minecraft:meadow"
+    "minecraft:meadow",
+    "minecraft:savanna",
+    "minecraft:windswept_savanna",
+    "minecraft:savanna_plateau",
+    "minecraft:stony_shore"
   ]
 }

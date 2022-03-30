@@ -2,10 +2,9 @@ package me.gleep.oreganized.datagen;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
-import me.gleep.oreganized.blocks.CrystalGlassColored;
-import me.gleep.oreganized.blocks.CrystalGlassPaneColored;
 import me.gleep.oreganized.blocks.EngravedBlock;
 import me.gleep.oreganized.util.RegistryHandler;
+import me.gleep.oreganized.blocks.*;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
@@ -609,9 +608,9 @@ public class Datagen {
                     pExperience, pCookingTime, pRecipeName, "_from_blasting");
         }
 
-        private static void oreCooking(Consumer<FinishedRecipe> pFinishedRecipeConsumer, SimpleCookingSerializer<
+        protected static void oreCooking(Consumer<FinishedRecipe> pFinishedRecipeConsumer, SimpleCookingSerializer<
                 ?> pCookingSerializer, List<ItemLike> pIngredients, ItemLike pResult, float pExperience,
-                                       int pCookingTime, String pGroup, String pRecipeName) {
+                                         int pCookingTime, String pGroup, String pRecipeName) {
             for (ItemLike itemlike : pIngredients) {
                 SimpleCookingRecipeBuilder.cooking(Ingredient.of(itemlike), pResult, pExperience, pCookingTime
                         , pCookingSerializer).group(pGroup).unlockedBy(getHasName(itemlike), has(itemlike)).save(pFinishedRecipeConsumer, getItemName(pResult) + pRecipeName + "_" + getItemName(itemlike));

@@ -1,12 +1,12 @@
 {
   "name": "oreganized:rocks",
-  "fallback": "minecraft:empty",
+  "fallback": "oreganized:rocks",
   "elements": [
     {
       "weight": 1,
       "element": {
         "location": "oreganized:rocks/rock1",
-        "processors": "minecraft:empty",
+        "processors": "oreganized:rocks",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -15,7 +15,7 @@
       "weight": 1,
       "element": {
         "location": "oreganized:rocks/rock2",
-        "processors": "minecraft:empty",
+        "processors": "oreganized:rocks",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -24,7 +24,7 @@
       "weight": 1,
       "element": {
         "location": "oreganized:rocks/rock3",
-        "processors": "minecraft:empty",
+        "processors": "oreganized:rocks",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -33,7 +33,7 @@
       "weight": 1,
       "element": {
         "location": "oreganized:rocks/rock4",
-        "processors": "minecraft:empty",
+        "processors": "oreganized:rocks",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -42,7 +42,7 @@
       "weight": 1,
       "element": {
         "location": "oreganized:rocks/rock5",
-        "processors": "minecraft:empty",
+        "processors": "oreganized:rocks",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -51,7 +51,7 @@
       "weight": 1,
       "element": {
         "location": "oreganized:rocks/rock6",
-        "processors": "minecraft:empty",
+        "processors": "oreganized:rocks",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -60,7 +60,7 @@
       "weight": 1,
       "element": {
         "location": "oreganized:rocks/rock7",
-        "processors": "minecraft:empty",
+        "processors": "oreganized:rocks",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -69,7 +69,7 @@
       "weight": 1,
       "element": {
         "location": "oreganized:rocks/rock8",
-        "processors": "minecraft:empty",
+        "processors": "oreganized:rocks",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
@@ -78,7 +78,7 @@
       "weight": 1,
       "element": {
         "location": "oreganized:rocks/rock9",
-        "processors": "minecraft:empty",
+        "processors": "oreganized:rocks",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }

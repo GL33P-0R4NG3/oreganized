@@ -33,7 +33,7 @@ public class BoulderStructures extends StructureFeature<JigsawConfiguration> {
      */
     @Override
     public GenerationStep.Decoration step() {
-        return GenerationStep.Decoration.SURFACE_STRUCTURES;
+        return GenerationStep.Decoration.UNDERGROUND_DECORATION;
     }
 
     /*
@@ -85,7 +85,7 @@ public class BoulderStructures extends StructureFeature<JigsawConfiguration> {
         // Find the top Y value of the land and then offset our structure to 60 blocks above that.
         // WORLD_SURFACE_WG will stop at top water so we don't accidentally put our structure into the ocean if it is a super deep ocean.
         int topLandY = context.chunkGenerator().getFirstFreeHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor());
-        blockpos = blockpos.above(topLandY - 4);
+        blockpos = blockpos.above(topLandY - 7);
 
         Optional<PieceGenerator<JigsawConfiguration>> structurePiecesGenerator =
                 JigsawPlacement.addPieces(
