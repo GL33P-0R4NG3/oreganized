@@ -2,6 +2,7 @@ package me.gleep.oreganized.events;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.gleep.oreganized.armors.STABase;
 import me.gleep.oreganized.blocks.EngravedBlock;
@@ -13,6 +14,7 @@ import me.gleep.oreganized.capabilities.engravedblockscap.IEngravedBlocks;
 import me.gleep.oreganized.capabilities.stunning.CapabilityStunning;
 import me.gleep.oreganized.capabilities.stunning.IStunning;
 import me.gleep.oreganized.items.BushHammer;
+import me.gleep.oreganized.items.ElectrumArmorItem;
 import me.gleep.oreganized.potion.ModPotions;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.RegistryHandler;
@@ -31,9 +33,15 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -45,6 +53,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -58,7 +67,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.UUID;
 
 import static me.gleep.oreganized.Oreganized.MOD_ID;
 import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
@@ -66,7 +77,8 @@ import static me.gleep.oreganized.util.RegistryHandler.LEAD_INGOTS_ITEMTAG;
 import static me.gleep.oreganized.util.SimpleNetwork.CHANNEL;
 
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ModEvents{
+public class ModEvents {
+    private static final UUID ELECTRUM_BOOST_MODIFIER = UUID.fromString("ea10ee7a-da1a-4153-a4ae-53b5d2a09dbb");
 
     /**
      * Event to handle Stunning effect properly
@@ -81,6 +93,30 @@ public class ModEvents{
                 stunningCap.setRemainingStunTime(stunningCap.getRemainingStunTime() - 1);
                 BlockPos previousPos = stunningCap.getPreviousPos();
                 entity.setPos( previousPos.getX(), previousPos.getY(), previousPos.getZ());
+            }
+        }
+        AttributeInstance attributeInstance = entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (attributeInstance != null) {
+            boolean flag = false;
+            float boostPerSlot = 0.0F;
+            for (ItemStack stack : entity.getArmorSlots()) {
+                if (stack.getItem() instanceof ElectrumArmorItem) {
+                    boostPerSlot+=0.005F;
+                    flag = true;
+                }
+            }
+            AttributeModifier attributeModifier = new AttributeModifier(ELECTRUM_BOOST_MODIFIER, "Electrum boost", boostPerSlot, AttributeModifier.Operation.ADDITION);
+            if (flag) {
+                if (!attributeInstance.hasModifier(attributeModifier)) {
+                    attributeInstance.addPermanentModifier(attributeModifier);
+                } else {
+                    if (boostPerSlot <= 0.02F) {
+                        attributeInstance.removeModifier(attributeModifier);
+                        attributeInstance.addPermanentModifier(attributeModifier);
+                    }
+                }
+            } else {
+                attributeInstance.removeModifier(attributeModifier);
             }
         }
     }
