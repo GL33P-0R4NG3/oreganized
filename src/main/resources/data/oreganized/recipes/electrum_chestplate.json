@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "minecraft:diamond_chestplate"
+  },
+  "addition": {
+    "item": "oreganized:electrum_ingot"
+  },
+  "result": {
+    "item": "oreganized:electrum_chestplate"
+  }
+}

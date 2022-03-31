@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "electrum_ingot",
+  "pattern":
+  [
+    "xxx",
+    "xxx",
+    "xxx"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "oreganized:electrum_nugget"
+    }
+  },
+  "result":
+  {
+    "item": "oreganized:electrum_ingot",
+    "count": 1
+  }
+}

@@ -1,5 +1,6 @@
 package me.gleep.oreganized.items.tiers;
 
+import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -10,6 +11,9 @@ import static me.gleep.oreganized.util.RegistryHandler.LEAD_INGOTS_ITEMTAG;
 public enum ModTier implements Tier {
     LEAD(0, 150, 7.0F, 1.5F, 7, () -> {
             return Ingredient.of(LEAD_INGOTS_ITEMTAG);
+    }),
+    ELECTRUM(4, 1411, 8.2F, 4.0F, 15, () -> {
+        return Ingredient.of(RegistryHandler.ELECTRUM_INGOT.get());
     });
 
     private final int harvestLevel;

@@ -124,6 +124,7 @@
   "block.oreganized.white_crystal_glass_pane": "White Crystal Glass Pane",
   "block.oreganized.yellow_crystal_glass": "Yellow Crystal Glass",
   "block.oreganized.yellow_crystal_glass_pane": "Yellow Crystal Glass Pane",
+  "block.oreganized.electrum_block": "Block of Electrum",
   "death.attack.molten_lead": "%1$s tried to walk on Molten Lead",
   "item.oreganized.molten_lead_bucket": "Molten Lead Bucket",
   "item.oreganized.lead_ingot": "Lead Ingot",
@@ -132,6 +133,8 @@
   "item.oreganized.silver_ingot": "Silver Ingot",
   "item.oreganized.silver_mirror": "Silver Mirror",
   "item.oreganized.silver_nugget": "Silver Nugget",
+  "item.oreganized.electrum_ingot": "Electrum Ingot",
+  "item.oreganized.electrum_nugget": "Electrum Nugget",
   "item.oreganized.silver_tinted_diamond_boots": "Silver Tinted Diamond Boots",
   "item.oreganized.silver_tinted_diamond_chestplate": "Silver Tinted Diamond Chestplate",
   "item.oreganized.silver_tinted_diamond_helmet": "Silver Tinted Diamond Helmet",
@@ -146,5 +149,10 @@
   "item.oreganized.silver_tinted_netherite_chestplate": "Silver Tinted Netherite Chestplate",
   "item.oreganized.silver_tinted_netherite_helmet": "Silver Tinted Netherite Helmet",
   "item.oreganized.silver_tinted_netherite_leggings": "Silver Tinted Netherite Leggings",
-  "item.oreganized.silver_tinted_netherite_sword": "Silver Tinted Netherite Sword"
+  "item.oreganized.silver_tinted_netherite_sword": "Silver Tinted Netherite Sword",
+  "item.oreganized.electrum_sword": "Electrum Sword",
+  "item.oreganized.electrum_shovel": "Electrum Shovel",
+  "item.oreganized.electrum_pickaxe": "Electrum Pickaxe",
+  "item.oreganized.electrum_axe": "Electrum Axe",
+  "item.oreganized.electrum_hoe": "Electrum Hoe"
 }

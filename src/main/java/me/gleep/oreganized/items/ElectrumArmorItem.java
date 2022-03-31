@@ -2,6 +2,7 @@ package me.gleep.oreganized.items;
 
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.client.model.ElectrumArmorModel;
+import me.gleep.oreganized.util.RegistryHandler;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -23,8 +24,8 @@ public class ElectrumArmorItem extends ArmorItem {
     private static final ElectrumArmorMaterial material = new ElectrumArmorMaterial();
     private static final String TEXTURE = Oreganized.MOD_ID + ":textures/entity/electrum_armor.png";
 
-    public ElectrumArmorItem(EquipmentSlot pSlot, Properties pProperties) {
-        super(material, pSlot, pProperties);
+    public ElectrumArmorItem(EquipmentSlot slot, Properties properties) {
+        super(material, slot, properties);
     }
 
     @Nullable
@@ -37,8 +38,6 @@ public class ElectrumArmorItem extends ArmorItem {
     @OnlyIn(Dist.CLIENT)
     public void initializeClient(Consumer<IItemRenderProperties> consumer) {
         consumer.accept(new IItemRenderProperties() {
-
-            @Nullable
             @Override
             public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
                 return new ElectrumArmorModel<>(ElectrumArmorModel.createBodyLayer().bakeRoot(), armorSlot);
@@ -47,20 +46,22 @@ public class ElectrumArmorItem extends ArmorItem {
     }
 
     private static class ElectrumArmorMaterial implements ArmorMaterial {
+        private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
 
         @Override
-        public int getDurabilityForSlot(EquipmentSlot pSlot) {
-            return 0;
+        public int getDurabilityForSlot(EquipmentSlot slot) {
+            return HEALTH_PER_SLOT[slot.getIndex()] * 37;
         }
 
         @Override
-        public int getDefenseForSlot(EquipmentSlot pSlot) {
-            return 0;
+        public int getDefenseForSlot(EquipmentSlot slot) {
+            int[] defensePerSlot = {3, 6, 8, 3};
+            return defensePerSlot[slot.getIndex()];
         }
 
         @Override
         public int getEnchantmentValue() {
-            return 0;
+            return 15;
         }
 
         @Override
@@ -70,7 +71,7 @@ public class ElectrumArmorItem extends ArmorItem {
 
         @Override
         public Ingredient getRepairIngredient() {
-            return null;
+            return Ingredient.of(RegistryHandler.ELECTRUM_INGOT.get());
         }
 
         @Override
@@ -80,12 +81,12 @@ public class ElectrumArmorItem extends ArmorItem {
 
         @Override
         public float getToughness() {
-            return 0;
+            return 3.0F;
         }
 
         @Override
         public float getKnockbackResistance() {
-            return 0;
+            return 0.0F;
         }
     }
 
