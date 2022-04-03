@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "oreganized:lead_coating"
-  },
-  "result": "oreganized:cut_lead_coating",
-  "count": 1
-}

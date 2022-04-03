@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "oreganized:block/technical_netherite_block",
-    "top": "oreganized:block/technical_netherite_block",
-    "side": "oreganized:block/technical_netherite_block"
-  }
-}

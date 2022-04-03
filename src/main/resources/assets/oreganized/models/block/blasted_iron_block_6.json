@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "oreganized:block/blasted_iron_block_without_side"
-  }
-}

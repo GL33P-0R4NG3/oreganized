@@ -13,9 +13,11 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.recipes.*;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCookingSerializer;
@@ -32,6 +34,7 @@ import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -134,6 +137,7 @@ public class Datagen {
                             RegistryHandler.GLANCE_BRICKS_STAIRS_ITEM.get());
                     this.tag(ItemTags.WALLS).add(RegistryHandler.GLANCE_WALL_ITEM.get(),
                             RegistryHandler.GLANCE_BRICKS_WALL_ITEM.get());
+                    this.tag(RegistryHandler.EDIBLE_ITEMTAG).add(ForgeRegistries.ITEMS.getValues().stream().filter(Item::isEdible).toList().toArray(new Item[20]));
                 }
             });
 

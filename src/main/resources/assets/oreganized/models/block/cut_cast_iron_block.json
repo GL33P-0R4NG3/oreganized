@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "oreganized:block/cut_cast_iron_block"
-  }
-}

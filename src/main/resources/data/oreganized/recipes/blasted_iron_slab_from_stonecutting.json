@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "oreganized:blasted_iron_block"
-  },
-  "result": "oreganized:blasted_iron_slab",
-  "count": 2
-}

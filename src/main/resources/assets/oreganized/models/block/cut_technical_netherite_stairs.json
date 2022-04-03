@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "oreganized:block/cut_technical_netherite_block",
-    "top": "oreganized:block/cut_technical_netherite_block",
-    "side": "oreganized:block/cut_technical_netherite_block"
-  }
-}

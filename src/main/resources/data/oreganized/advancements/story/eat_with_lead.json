@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:story/upgrade_tools",
+  "display": {
+    "icon": {
+      "item": "oreganized:raw_lead"
+    },
+    "title": {
+      "translate": "advancements.story.eat_with_lead.title"
+    },
+    "description": {
+      "translate": "advancements.story.eat_with_lead.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "have_lead": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "oreganized:lead_ingot",
+              "oreganized:raw_lead",
+              "oreganized:lead_nugget",
+              "oreganized:raw_lead_block",
+              "oreganized:lead_block"
+            ]
+          }
+        ]
+      }
+    },
+    "eat": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "tag": "oreganized:edible"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "have_lead",
+      "eat"
+    ]
+  ]
+}

@@ -6,7 +6,7 @@
     ]
   },
   "criteria": {
-    "has_netherite_ingot": {
+    "has_electrum_ingot": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [

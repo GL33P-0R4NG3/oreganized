@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "oreganized:block/lightened_iron_block",
-    "top": "oreganized:block/lightened_iron_block",
-    "side": "oreganized:block/lightened_iron_block"
-  }
-}

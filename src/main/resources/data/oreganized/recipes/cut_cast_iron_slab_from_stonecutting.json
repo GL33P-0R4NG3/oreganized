@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "oreganized:cut_cast_iron_block"
-  },
-  "result": "oreganized:cut_cast_iron_slab",
-  "count": 2
-}

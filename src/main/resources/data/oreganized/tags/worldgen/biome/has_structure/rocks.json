@@ -6,6 +6,7 @@
     "minecraft:savanna",
     "minecraft:windswept_savanna",
     "minecraft:savanna_plateau",
-    "minecraft:stony_shore"
+    "minecraft:stony_shore",
+    "#minecraft:is_beach"
   ]
 }

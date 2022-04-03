@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "oreganized:block/cut_cast_iron_block",
-    "top": "oreganized:block/cut_cast_iron_block",
-    "side": "oreganized:block/cut_cast_iron_block"
-  }
-}
