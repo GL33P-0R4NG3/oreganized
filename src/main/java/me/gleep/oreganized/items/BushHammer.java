@@ -10,6 +10,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import me.gleep.oreganized.util.messages.BushHammerClickPacket;
 import net.minecraft.client.Minecraft;
@@ -107,8 +108,8 @@ public class BushHammer extends DiggerItem{
             }
         } else {
             if (pContext.getPlayer() != null) {
-                TextComponent mes = new TextComponent("This surface isn't smooth enough for engraving");
-                mes.setStyle(mes.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GRAY)).withObfuscated(true).withBold(true));
+                TranslatableComponent mes = new TranslatableComponent("engraving.fail");
+                mes.setStyle(mes.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.WHITE)).withBold(true));
                 pContext.getPlayer().displayClientMessage(mes,true);
             }
         }

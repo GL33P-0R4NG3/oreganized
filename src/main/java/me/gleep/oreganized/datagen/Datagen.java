@@ -8,6 +8,7 @@ import me.gleep.oreganized.blocks.*;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.recipes.*;
@@ -382,6 +383,7 @@ public class Datagen {
                     }
                 }
             });
+
             //items
             event.getGenerator().addProvider(new ItemModelProvider(event.getGenerator(), MOD_ID,
                     event.getExistingFileHelper()) {

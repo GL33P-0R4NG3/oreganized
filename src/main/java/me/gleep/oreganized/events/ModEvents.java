@@ -21,6 +21,7 @@ import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.util.messages.UpdateClientEngravedBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -89,10 +90,21 @@ public class ModEvents {
         Level level = entity.getLevel();
         IStunning stunningCap = entity.getCapability(CapabilityStunning.STUNNING_CAPABILITY, null ).orElse(null);
         if(stunningCap != null){
-            if(stunningCap.getRemainingStunTime() > 0){
+            if(stunningCap.getRemainingStunTime() > 0) {
                 stunningCap.setRemainingStunTime(stunningCap.getRemainingStunTime() - 1);
                 BlockPos previousPos = stunningCap.getPreviousPos();
-                entity.setPos( previousPos.getX(), previousPos.getY(), previousPos.getZ());
+                entity.setSpeed(0);
+                /*if (entity.equals(Minecraft.getInstance().player)) {
+                    Minecraft.getInstance().player.input.up = false;
+                    Minecraft.getInstance().player.input.down = false;
+                    Minecraft.getInstance().player.input.left = false;
+                    Minecraft.getInstance().player.input.right = false;
+                    Minecraft.getInstance().player.input.jumping = false;
+                    Minecraft.getInstance().player.input.shiftKeyDown = false;
+                    Minecraft.getInstance().player.input.forwardImpulse = 0.0f;
+                    Minecraft.getInstance().player.input.leftImpulse = 0.0f;
+                } else entity.setSpeed(0);*/
+                //entity.setPos( previousPos.getX(), previousPos.getY(), previousPos.getZ());
             }
         }
         AttributeInstance attributeInstance = entity.getAttribute(Attributes.MOVEMENT_SPEED);

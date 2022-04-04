@@ -43,7 +43,9 @@
   },
   "requirements": [
     [
-      "have_lead",
+      "have_lead"
+    ],
+    [
       "eat"
     ]
   ]
