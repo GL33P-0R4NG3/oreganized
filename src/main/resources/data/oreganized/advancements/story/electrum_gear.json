@@ -1,17 +1,17 @@
 {
-  "parent": "oreganized:story/mine_silver_ore",
+  "parent": "oreganized:story/obtain_silver",
   "display": {
     "icon": {
-      "item": "oreganized:silver_tinted_golden_chestplate",
+      "item": "oreganized:electrum_chestplate",
       "nbt": "{Damage:0}"
     },
     "title": {
-      "translate": "advancements.story.no_protection.title"
+      "translate": "advancements.story.electrum_gear.title"
     },
     "description": {
-      "translate": "advancements.story.no_protection.description"
+      "translate": "advancements.story.electrum_gear.description"
     },
-    "frame": "goal",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -23,7 +23,7 @@
         "items": [
           {
             "items": [
-              "oreganized:silver_tinted_golden_helmet"
+              "oreganized:electrum_helmet"
             ]
           }
         ]
@@ -35,7 +35,7 @@
         "items": [
           {
             "items": [
-              "oreganized:silver_tinted_golden_chestplate"
+              "oreganized:electrum_chestplate"
             ]
           }
         ]
@@ -47,7 +47,7 @@
         "items": [
           {
             "items": [
-              "oreganized:silver_tinted_golden_leggings"
+              "oreganized:electrum_leggings"
             ]
           }
         ]
@@ -59,19 +59,7 @@
         "items": [
           {
             "items": [
-              "oreganized:silver_tinted_golden_boots"
-            ]
-          }
-        ]
-      }
-    },
-    "silver_tinted_golden_sword": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "oreganized:silver_tinted_golden_sword"
+              "oreganized:electrum_boots"
             ]
           }
         ]
@@ -90,9 +78,6 @@
     ],
     [
       "silver_tinted_golden_boots"
-    ],
-    [
-      "silver_tinted_golden_sword"
     ]
   ]
 }

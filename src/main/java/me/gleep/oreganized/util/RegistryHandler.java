@@ -418,6 +418,7 @@ public class RegistryHandler {
     public static final TagKey<Block> ENGRAVED_TEXTURED_BLOCKS_BLOCKTAG = BlockTags.create(new ResourceLocation(MOD_ID, "engraved_textured_blocks"));
     public static final TagKey<Block> FIRE_SOURCE_BLOCKTAG = BlockTags.create(new ResourceLocation(MOD_ID, "fire_source"));
 
+    public static final TagKey<Item> LEAD_SOURCE_ITEMTAG = ItemTags.create(new ResourceLocation(MOD_ID, "lead_source"));
     public static final TagKey<Item> EDIBLE_ITEMTAG = ItemTags.create(new ResourceLocation(MOD_ID, "edible"));
 
     //Forge

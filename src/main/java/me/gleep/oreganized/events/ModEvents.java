@@ -19,12 +19,17 @@ import me.gleep.oreganized.potion.ModPotions;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.util.messages.UpdateClientEngravedBlocks;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementList;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -51,6 +56,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.piston.PistonStructureResolver;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
@@ -73,8 +79,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static me.gleep.oreganized.Oreganized.MOD_ID;
-import static me.gleep.oreganized.util.RegistryHandler.ENGRAVEABLE_BLOCKTAG;
-import static me.gleep.oreganized.util.RegistryHandler.LEAD_INGOTS_ITEMTAG;
+import static me.gleep.oreganized.util.RegistryHandler.*;
 import static me.gleep.oreganized.util.SimpleNetwork.CHANNEL;
 
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -89,22 +94,11 @@ public class ModEvents {
         LivingEntity entity = event.getEntityLiving();
         Level level = entity.getLevel();
         IStunning stunningCap = entity.getCapability(CapabilityStunning.STUNNING_CAPABILITY, null ).orElse(null);
-        if(stunningCap != null){
+        if (stunningCap != null) {
             if(stunningCap.getRemainingStunTime() > 0) {
                 stunningCap.setRemainingStunTime(stunningCap.getRemainingStunTime() - 1);
                 BlockPos previousPos = stunningCap.getPreviousPos();
-                entity.setSpeed(0);
-                /*if (entity.equals(Minecraft.getInstance().player)) {
-                    Minecraft.getInstance().player.input.up = false;
-                    Minecraft.getInstance().player.input.down = false;
-                    Minecraft.getInstance().player.input.left = false;
-                    Minecraft.getInstance().player.input.right = false;
-                    Minecraft.getInstance().player.input.jumping = false;
-                    Minecraft.getInstance().player.input.shiftKeyDown = false;
-                    Minecraft.getInstance().player.input.forwardImpulse = 0.0f;
-                    Minecraft.getInstance().player.input.leftImpulse = 0.0f;
-                } else entity.setSpeed(0);*/
-                //entity.setPos( previousPos.getX(), previousPos.getY(), previousPos.getZ());
+                entity.setPos(previousPos.getX(), previousPos.getY(), previousPos.getZ());
             }
         }
         AttributeInstance attributeInstance = entity.getAttribute(Attributes.MOVEMENT_SPEED);
@@ -316,13 +310,13 @@ public class ModEvents {
         if (event.getItem().getItem().isEdible()) {
             if (event.getEntityLiving() instanceof Player player) {
                 for (int i = 0; i < 9; i++){
-                    if (player.getInventory().items.get( i ).is(LEAD_INGOTS_ITEMTAG)) {
+                    if (player.getInventory().items.get( i ).is(LEAD_INGOTS_ITEMTAG) || player.getInventory().items.get( i ).is(LEAD_SOURCE_ITEMTAG)) {
                         player.addEffect( new MobEffectInstance( ModPotions.STUNNED , 40 * 20 ) );
                         player.addEffect( new MobEffectInstance( MobEffects.POISON , 200 ) );
                         return;
                     }
                 }
-                if (player.getInventory().offhand.get( 0 ).is(LEAD_INGOTS_ITEMTAG)) {
+                if (player.getInventory().offhand.get( 0 ).is(LEAD_INGOTS_ITEMTAG) || player.getInventory().items.get( 0 ).is(LEAD_SOURCE_ITEMTAG)) {
                     player.addEffect( new MobEffectInstance( ModPotions.STUNNED , 40 * 20 ) );
                     player.addEffect( new MobEffectInstance( MobEffects.POISON , 200 ) );
                 }
@@ -335,11 +329,11 @@ public class ModEvents {
      */
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void getFogDensity( EntityViewRenderEvent.FogDensity event ){
+    public static void getFogDensity (EntityViewRenderEvent.FogDensity event) {
         Camera info = event.getCamera();
         BlockState blockState = info.getBlockAtCamera();
 
-        if(blockState.getBlock().equals( RegistryHandler.MOLTEN_LEAD_BLOCK.get() )){
+        if (blockState.getBlock().equals( RegistryHandler.MOLTEN_LEAD_BLOCK.get() )) {
             RenderSystem.enableCull();
             event.setDensity( 1.4F );
             event.setCanceled( true );

@@ -2,7 +2,7 @@
   "parent": "minecraft:story/upgrade_tools",
   "display": {
     "icon": {
-      "item": "oreganized:raw_lead"
+      "item": "oreganized:lead_ingot"
     },
     "title": {
       "translate": "advancements.story.eat_with_lead.title"
@@ -16,6 +16,14 @@
     "hidden": false
   },
   "criteria": {
+    "have_effect": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "oreganized:stunned": {}
+        }
+      }
+    },
     "have_lead": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
@@ -42,6 +50,9 @@
     }
   },
   "requirements": [
+    [
+      "have_effect"
+    ],
     [
       "have_lead"
     ],

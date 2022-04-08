@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:adventure/root",
+  "display": {
+    "icon": {
+      "item": "oreganized:spotted_glance"
+    },
+    "title": {
+      "translate": "advancements.adventure.mirror_mirror.title"
+    },
+    "description": {
+      "translate": "advancements.adventure.mirror_mirror.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "bucket": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "bucket"
+    ]
+  ]
+}

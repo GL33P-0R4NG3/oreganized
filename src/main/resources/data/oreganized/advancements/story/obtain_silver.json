@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:story/iron_tools",
+  "display": {
+    "icon": {
+      "item": "oreganized:raw_silver"
+    },
+    "title": {
+      "translate": "advancements.story.obtain_silver.title"
+    },
+    "description": {
+      "translate": "advancements.story.obtain_silver.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "silver_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "oreganized:silver_ingot"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "silver_ingot"
+    ]
+  ]
+}

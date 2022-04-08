@@ -49,7 +49,7 @@ public class ModPotions{
 
 
     @SubscribeEvent
-    public static void registerEffects( RegistryEvent.Register <MobEffect> event ){
+    public static void registerEffects( RegistryEvent.Register <MobEffect> event ) {
         event.getRegistry().registerAll( STUNNED.setRegistryName( "stunned" ) );
     }
 
