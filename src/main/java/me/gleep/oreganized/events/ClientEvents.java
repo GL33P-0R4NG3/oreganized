@@ -18,11 +18,4 @@ public class ClientEvents {
         event.registerLayerDefinition(ElectrumArmorModel.ELECTRUM_ARMOR, ElectrumArmorModel::createBodyLayer);
     }
 
-    @SubscribeEvent
-    public static void gatherTooltipComponent(RenderTooltipEvent.GatherComponents event) {
-        ItemStack stack = event.getItemStack();
-        if (stack.getItem() instanceof ElectrumArmorItem) {
-        }
-    }
-
 }
