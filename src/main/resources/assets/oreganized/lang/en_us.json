@@ -55,6 +55,8 @@
   "block.oreganized.lead_coating": "Lead Coating",
   "block.oreganized.exposer": "Exposer",
 
+  "block.oreganized.cauldron": "Lead Cauldron",
+
   "block.oreganized.polished_glance": "Polished Glance",
   "block.oreganized.glance_bricks": "Glance Bricks",
   "block.oreganized.chiseled_glance": "Chiseled Glance",
@@ -126,6 +128,10 @@
   "item.oreganized.netherite_nugget": "Netherite Nugget",
   "item.oreganized.silver_ingot": "Silver Ingot",
   "item.oreganized.silver_mirror": "Silver Mirror",
-  "item.oreganized.silver_nugget": "Silver Nugget"
+  "item.oreganized.silver_nugget": "Silver Nugget",
+  "item.minecraft.potion.effect.stunning": "Potion of Stunning",
+  "item.minecraft.splash_potion.effect.stunning": "Splash Potion of Stunning",
+  "item.minecraft.lingering_potion.effect.stunning": "Lingering Potion of Stunning",
+  "item.minecraft.tipped_arrow.effect.stunning": "Arrow of Stunning"
 
 }

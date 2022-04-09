@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "oreganized:silver_block"
+    "oreganized:silver_block",
+    "oreganized:electrum_block"
   ]
 }
