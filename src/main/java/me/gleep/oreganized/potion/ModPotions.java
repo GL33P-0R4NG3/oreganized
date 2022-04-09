@@ -43,9 +43,9 @@ public class ModPotions{
         }
     };
 
-    public static Potion STUNNING_POTION = new Potion( "stunning_potion" , new MobEffectInstance( STUNNED , 40 * 20 ) );
-    public static Potion STUNNING_POTION_LONG = new Potion( "stunning_potion_long" , new MobEffectInstance( STUNNED , 80 * 20 ) );
-    public static Potion STUNNING_POTION_POTENT = new Potion( "stunning_potion_potent" , new MobEffectInstance( STUNNED , 40 * 20 , 1 ) );
+    public static Potion STUNNING_POTION = new Potion( "stunning" , new MobEffectInstance( STUNNED , 40 * 20 ) );
+    public static Potion STUNNING_POTION_LONG = new Potion( "stunning" , new MobEffectInstance( STUNNED , 80 * 20 ) );
+    public static Potion STUNNING_POTION_POTENT = new Potion( "stunning" , new MobEffectInstance( STUNNED , 40 * 20 , 1 ) );
 
 
     @SubscribeEvent
