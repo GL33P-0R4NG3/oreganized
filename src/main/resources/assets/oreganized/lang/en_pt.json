@@ -1,4 +1,9 @@
 {
+  "item.minecraft.potion.effect.stunning": "Potion of Stunning",
+  "item.minecraft.splash_potion.effect.stunning": "Splash Potion of Stunning",
+  "item.minecraft.lingering_potion.effect.stunning": "Lingering Potion of Stunning",
+  "item.minecraft.tipped_arrow.effect.stunning": "Arrow of Stunning",
+
   "advancements.story.melting_point.description": "Pick up Liquid Fire from yer pot",
   "advancements.story.melting_point.title": "Meltin' Point",
   "advancements.story.obtain_silver.description": "Blast yer rough silver",
@@ -54,6 +59,8 @@
   "block.oreganized.cut_lead_coating": "Sliced coat o' lead",
   "block.oreganized.lead_coating": "Coat o' lead",
   "block.oreganized.exposer": "Fiend Finder",
+
+  "block.oreganized.cauldron": "Lead Cauldron",
 
   "block.oreganized.polished_glance": "Pretty lookin' space rock",
   "block.oreganized.glance_bricks": "Bricks o' space rock",
@@ -126,6 +133,5 @@
   "item.oreganized.netherite_nugget": "Doubloon o' blackeard",
   "item.oreganized.silver_ingot": "Bullion o' silver",
   "item.oreganized.silver_mirror": "Reflectin' crystal",
-  "item.oreganized.silver_nugget": "Doubloon o' silver",
-
+  "item.oreganized.silver_nugget": "Doubloon o' silver"
 }

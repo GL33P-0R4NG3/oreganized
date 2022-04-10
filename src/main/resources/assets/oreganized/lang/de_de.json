@@ -1,4 +1,9 @@
 {
+  "item.minecraft.potion.effect.stunning": "Potion of Stunning",
+  "item.minecraft.splash_potion.effect.stunning": "Splash Potion of Stunning",
+  "item.minecraft.lingering_potion.effect.stunning": "Lingering Potion of Stunning",
+  "item.minecraft.tipped_arrow.effect.stunning": "Arrow of Stunning",
+
   "advancements.story.melting_point.description": "Pick up Molten Lead from a cauldron",
   "advancements.story.melting_point.title": "Melting Point",
   "advancements.story.obtain_silver.description": "Smelt Raw Silver",
@@ -54,6 +59,8 @@
   "block.oreganized.cut_lead_coating": "Cut Lead Coating",
   "block.oreganized.lead_coating": "Lead Coating",
   "block.oreganized.exposer": "Exposer",
+
+  "block.oreganized.cauldron": "Lead Cauldron",
 
   "block.oreganized.polished_glance": "Polished Glance",
   "block.oreganized.glance_bricks": "Glance Bricks",
@@ -127,7 +134,6 @@
   "item.oreganized.silver_ingot": "Silberbarren",
   "item.oreganized.silver_mirror": "Silberspiegel",
   "item.oreganized.silver_nugget": "Silberklumpen",
-
   "advancements.story.kill_undead_mob.description": "Töte ein Monster mit einem mit Silber beschichteten Schwert",
   "advancements.story.kill_undead_mob.title": "Reibe Silber in die Wunde",
   "advancements.story.mine_silver_ore.description": "Bau Silbererz ab",

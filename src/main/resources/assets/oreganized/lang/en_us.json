@@ -1,4 +1,9 @@
 {
+  "item.minecraft.potion.effect.stunning": "Potion of Stunning",
+  "item.minecraft.splash_potion.effect.stunning": "Splash Potion of Stunning",
+  "item.minecraft.lingering_potion.effect.stunning": "Lingering Potion of Stunning",
+  "item.minecraft.tipped_arrow.effect.stunning": "Arrow of Stunning",
+
   "advancements.story.melting_point.description": "Pick up Molten Lead from a cauldron",
   "advancements.story.melting_point.title": "Melting Point",
   "advancements.story.obtain_silver.description": "Smelt Raw Silver",
@@ -128,10 +133,5 @@
   "item.oreganized.netherite_nugget": "Netherite Nugget",
   "item.oreganized.silver_ingot": "Silver Ingot",
   "item.oreganized.silver_mirror": "Silver Mirror",
-  "item.oreganized.silver_nugget": "Silver Nugget",
-  "item.minecraft.potion.effect.stunning": "Potion of Stunning",
-  "item.minecraft.splash_potion.effect.stunning": "Splash Potion of Stunning",
-  "item.minecraft.lingering_potion.effect.stunning": "Lingering Potion of Stunning",
-  "item.minecraft.tipped_arrow.effect.stunning": "Arrow of Stunning"
-
+  "item.oreganized.silver_nugget": "Silver Nugget"
 }
