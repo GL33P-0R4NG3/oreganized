@@ -19,6 +19,7 @@ import me.gleep.oreganized.potion.ModPotions;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.util.messages.UpdateClientEngravedBlocks;
+import me.gleep.oreganized.world.gen.OreganizedPlacedFeatures;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementList;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -52,15 +53,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.piston.PistonStructureResolver;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.MovementInputUpdateEvent;
+import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -68,6 +72,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.PistonEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -467,5 +472,20 @@ public class ModEvents {
         IEngravedBlocks cap = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
         CHANNEL.send( PacketDistributor.PLAYER.with( () -> player ) ,
                 new UpdateClientEngravedBlocks( cap.getEngravedBlocks() , cap.getEngravedFaces() , cap.getEngravedColors() ) );
+    }
+
+    @SubscribeEvent
+    public static void registerBiomeModification(BiomeLoadingEvent event) {
+        BiomeGenerationSettingsBuilder generation = event.getGeneration();
+        if (event.getCategory().equals(Biome.BiomeCategory.SAVANNA)) {
+            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_LEAD_SAVANNA);
+        } else {
+            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_SILVER_DEEPSLATE_UP);
+            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_SILVER_DEEPSLATE_DOWN);
+            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_SILVER_UP);
+            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_SILVER_DOWN);
+            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_LEAD_DEEPSLATE_UP);
+            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_LEAD_DEEPSLATE_DOWN);
+        }
     }
 }

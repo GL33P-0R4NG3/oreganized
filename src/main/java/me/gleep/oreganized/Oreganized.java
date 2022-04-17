@@ -8,7 +8,6 @@ import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.util.SimpleNetwork;
 import me.gleep.oreganized.events.*;
 import me.gleep.oreganized.world.gen.OreganizedConfiguredFeatures;
-import me.gleep.oreganized.world.gen.OreganizedPlacedFeatures;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -37,11 +36,11 @@ public class Oreganized {
 
     public Oreganized() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        RegistryHandler.init();
         bus.addListener(this::setup);
         bus.addListener(this::doClientStuff);
         bus.addListener(this::registerRenderers);
 
-        RegistryHandler.init();
         MinecraftForge.EVENT_BUS.register( new CapabilityHandler() );
         //MinecraftForge.EVENT_BUS.register( new StunnedOverlayRenderer() );
     }
@@ -49,8 +48,7 @@ public class Oreganized {
     private void setup(final FMLCommonSetupEvent event) {
 
         event.enqueueWork(() -> {
-            OreganizedConfiguredFeatures.registerConfiguredFeatures();
-            OreganizedPlacedFeatures.registerPlacedFeatures();
+            OreganizedConfiguredFeatures.init();
             SimpleNetwork.register();
         });
 

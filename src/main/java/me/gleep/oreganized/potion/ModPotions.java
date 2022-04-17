@@ -3,6 +3,7 @@ package me.gleep.oreganized.potion;
 import me.gleep.oreganized.Oreganized;
 import me.gleep.oreganized.capabilities.stunning.CapabilityStunning;
 import me.gleep.oreganized.capabilities.stunning.IStunning;
+import me.gleep.oreganized.effect.StunnedEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,24 +25,7 @@ import static me.gleep.oreganized.util.RegistryHandler.LEAD_INGOTS_ITEMTAG;
 @Mod.EventBusSubscriber(modid = Oreganized.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModPotions{
 
-    public static MobEffect STUNNED = new MobEffect( MobEffectCategory.HARMFUL , 0x3B3B63 ){
-        @Override
-        public boolean isDurationEffectTick( int pDuration , int pAmplifier ){
-            int k = 300;
-            return pDuration % k == 0;
-        }
-
-        @Override
-        public void applyEffectTick( LivingEntity pLivingEntity , int pAmplifier ){
-            Level level = pLivingEntity.level;
-            IStunning stunningCap = pLivingEntity.getCapability(CapabilityStunning.STUNNING_CAPABILITY, null ).orElse(null);
-            if(stunningCap != null){
-                stunningCap.setPreviousPos( pLivingEntity.blockPosition() );
-                stunningCap.setRemainingStunTime((int) Math.floor((Math.max( 5, Math.floor(Math.random() * 12) ) * 20) * ((3f/4f)*(pAmplifier+1))));
-            }
-            super.applyEffectTick( pLivingEntity, pAmplifier );
-        }
-    };
+    public static MobEffect STUNNED = new StunnedEffect(MobEffectCategory.HARMFUL, 0x3B3B63);
 
     public static Potion STUNNING_POTION = new Potion( "stunning" , new MobEffectInstance( STUNNED , 40 * 20 ) );
     public static Potion STUNNING_POTION_LONG = new Potion( "stunning" , new MobEffectInstance( STUNNED , 80 * 20 ) );
