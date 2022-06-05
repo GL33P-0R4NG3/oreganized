@@ -1,20 +1,31 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "X#X",
-    "#X#",
-    "X#X"
-  ],
-  "key": {
-    "#": [
-      {
-        "item": "minecraft:gold_ingot"
-      }
-    ],
-    "X": {
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
       "item": "oreganized:silver_ingot"
+    },
+    {
+      "item": "oreganized:silver_ingot"
+    },
+    {
+      "item": "oreganized:silver_ingot"
+    },
+    {
+      "item": "oreganized:silver_ingot"
+    },
+    {
+      "item": "oreganized:silver_ingot"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:gold_ingot"
     }
-  },
+  ],
   "result": {
     "item": "oreganized:electrum_ingot"
   }
