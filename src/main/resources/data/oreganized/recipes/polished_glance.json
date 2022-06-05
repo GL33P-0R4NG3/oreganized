@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "M": {
+      "item": "oreganized:glance"
+    }
+  },
+  "result": {
+    "item": "oreganized:polished_glance",
+    "count": 4
+  }
+}
