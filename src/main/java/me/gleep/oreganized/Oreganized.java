@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import me.gleep.oreganized.blocks.client.ShrapnelBombRenderer;
 import me.gleep.oreganized.capabilities.CapabilityHandler;
+import me.gleep.oreganized.potion.ModPotions;
 import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.util.SimpleNetwork;
 import me.gleep.oreganized.events.*;
@@ -15,6 +16,10 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionBrewing;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -53,6 +58,11 @@ public class Oreganized {
             OreganizedFeatures.registerOreFeatures();
             SimpleNetwork.register();
         });
+
+        // Moved brewing recipes here
+        PotionBrewing.addMix(Potions.WATER, RegistryHandler.LEAD_INGOT.get(), ModPotions.STUNNING_POTION);
+        PotionBrewing.addMix(ModPotions.STUNNING_POTION, Items.REDSTONE, ModPotions.STUNNING_POTION_LONG);
+        PotionBrewing.addMix(ModPotions.STUNNING_POTION, Items.GLOWSTONE_DUST, ModPotions.STUNNING_POTION_POTENT);
 
         ModEvents.ENGRAVED_COPPER_BLOCKS = ImmutableList.of(RegistryHandler.ENGRAVED_CUT_COPPER.get(),
                 RegistryHandler.ENGRAVED_EXPOSED_CUT_COPPER.get(), RegistryHandler.ENGRAVED_WEATHERED_CUT_COPPER.get(),
