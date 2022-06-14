@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 
 public class SilverIngot extends ItemBase {
 
-    @Override
+    /*@Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean isSelected) {
         if (!(entity instanceof Player)) return;
         CompoundTag nbt = new CompoundTag();
@@ -22,7 +22,7 @@ public class SilverIngot extends ItemBase {
                 stack.setTag(nbt);
             }
         }
-    }
+    }*/
 
 
 }

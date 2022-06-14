@@ -19,7 +19,6 @@ import me.gleep.oreganized.potion.ModPotions;
 import me.gleep.oreganized.tools.STSBase;
 import me.gleep.oreganized.util.RegistryHandler;
 import me.gleep.oreganized.util.messages.UpdateClientEngravedBlocks;
-import me.gleep.oreganized.world.gen.OreganizedPlacedFeatures;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementList;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -472,20 +471,5 @@ public class ModEvents {
         IEngravedBlocks cap = level.getCapability( CapabilityEngravedBlocks.ENGRAVED_BLOCKS_CAPABILITY ).orElse( null );
         CHANNEL.send( PacketDistributor.PLAYER.with( () -> player ) ,
                 new UpdateClientEngravedBlocks( cap.getEngravedBlocks() , cap.getEngravedFaces() , cap.getEngravedColors() ) );
-    }
-
-    @SubscribeEvent
-    public static void registerBiomeModification(BiomeLoadingEvent event) {
-        BiomeGenerationSettingsBuilder generation = event.getGeneration();
-        if (event.getCategory().equals(Biome.BiomeCategory.SAVANNA)) {
-            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_LEAD_SAVANNA);
-        } else {
-            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_SILVER_DEEPSLATE_UP);
-            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_SILVER_DEEPSLATE_DOWN);
-            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_SILVER_UP);
-            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_SILVER_DOWN);
-            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_LEAD_DEEPSLATE_UP);
-            generation.getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES).add(OreganizedPlacedFeatures.ORE_LEAD_DEEPSLATE_DOWN);
-        }
     }
 }

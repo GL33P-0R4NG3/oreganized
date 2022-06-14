@@ -44,69 +44,6 @@ public class ModPotions{
                 STUNNING_POTION_LONG.setRegistryName( "stunning_potion_long" ) ,
                 STUNNING_POTION_POTENT.setRegistryName( "stunning_potion_potent" )
         );
-
-        BrewingRecipeRegistry.addRecipe( new IBrewingRecipe(){
-            @Override
-            public boolean isInput( ItemStack input ){
-                return PotionUtils.getPotion( input ) == Potions.WATER;
-            }
-
-            @Override
-            public boolean isIngredient( ItemStack ingredient ){
-                return ingredient.is(LEAD_INGOTS_ITEMTAG);
-            }
-
-            @Override
-            public ItemStack getOutput( ItemStack input , ItemStack ingredient ){
-                if(PotionUtils.getPotion( input ) == Potions.WATER && ingredient.is(LEAD_INGOTS_ITEMTAG) ){
-                    ItemStack out = new ItemStack( Items.POTION );
-                    PotionUtils.setPotion( out , STUNNING_POTION );
-                    return out;
-                }else return ItemStack.EMPTY;
-            }
-        } );
-
-        BrewingRecipeRegistry.addRecipe( new IBrewingRecipe(){
-            @Override
-            public boolean isInput( ItemStack input ){
-                return PotionUtils.getPotion( input ) == STUNNING_POTION;
-            }
-
-            @Override
-            public boolean isIngredient( ItemStack ingredient ){
-                return ingredient.getItem() == Items.REDSTONE;
-            }
-
-            @Override
-            public ItemStack getOutput( ItemStack input , ItemStack ingredient ){
-                if(PotionUtils.getPotion( input ) == STUNNING_POTION && ingredient.getItem() == Items.REDSTONE){
-                    ItemStack out = new ItemStack( Items.POTION );
-                    PotionUtils.setPotion( out , STUNNING_POTION_LONG );
-                    return out;
-                }else return ItemStack.EMPTY;
-            }
-        } );
-
-        BrewingRecipeRegistry.addRecipe( new IBrewingRecipe(){
-            @Override
-            public boolean isInput( ItemStack input ){
-                return PotionUtils.getPotion( input ) == STUNNING_POTION;
-            }
-
-            @Override
-            public boolean isIngredient( ItemStack ingredient ){
-                return ingredient.getItem() == Items.GLOWSTONE_DUST;
-            }
-
-            @Override
-            public ItemStack getOutput( ItemStack input , ItemStack ingredient ){
-                if(PotionUtils.getPotion( input ) == STUNNING_POTION && ingredient.getItem() == Items.GLOWSTONE_DUST){
-                    ItemStack out = new ItemStack( Items.POTION );
-                    PotionUtils.setPotion( out , STUNNING_POTION_POTENT );
-                    return out;
-                }else return ItemStack.EMPTY;
-            }
-        } );
     }
 
 
