@@ -1,12 +1,12 @@
 {
-  "item.minecraft.potion.effect.stunning": "Зілля Приголомшення",
-  "item.minecraft.splash_potion.effect.stunning": "Вибухове Зілля Приголомшення",
-  "item.minecraft.lingering_potion.effect.stunning": "Осідаюче Зілля Приголомшення",
-  "item.minecraft.tipped_arrow.effect.stunning": "Стріла Приголомшення",
+  "item.minecraft.potion.effect.stunning": "Зілля приголомшення",
+  "item.minecraft.splash_potion.effect.stunning": "Вибухове зілля приголомшення",
+  "item.minecraft.lingering_potion.effect.stunning": "Осідаюче зілля приголомшення",
+  "item.minecraft.tipped_arrow.effect.stunning": "Стріла приголомшення",
 
   "advancements.story.melting_point.description": "Наберіть розплавленого свинцю з казану",
-  "advancements.story.melting_point.title": "Точка Плавлення",
-  "advancements.story.obtain_silver.description": "Виплавте Необроблене срібло",
+  "advancements.story.melting_point.title": "Точка плавлення",
+  "advancements.story.obtain_silver.description": "Виплавте необроблене срібло",
   "advancements.story.obtain_silver.title": "Зі срібною ложкою в роті",
   "advancements.story.electrum_gear.description": "Отримайте повний комплект Електрумової Броні",
   "advancements.story.electrum_gear.title": "Нібито не літає... А крила має",
